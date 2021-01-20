@@ -16,6 +16,12 @@
     <Filter Include="src\glad\KHR">
       <UniqueIdentifier>{b54950ba-8c39-4671-84b8-2caa65c39add}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Core">
+      <UniqueIdentifier>{94ec7e9e-68ff-4faf-96b2-6072400e6dd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\View">
+      <UniqueIdentifier>{0374a951-cca2-444a-8a29-4a0474bfea6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp">
@@ -47,6 +53,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\glad\glad.c">
       <Filter>src\glad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\App.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\BaseView.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\ViewMgr.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\View\StatView.cpp">
+      <Filter>src\View</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\View\TestView.cpp">
+      <Filter>src\View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +103,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\glad\KHR\khrplatform.h">
       <Filter>src\glad\KHR</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\App.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\BaseView.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\ViewMgr.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\View\StatView.h">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\View\TestView.h">
+      <Filter>src\View</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

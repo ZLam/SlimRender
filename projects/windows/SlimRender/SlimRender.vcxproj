@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\..\..\3rdParty;..\..\..\3rdParty\SDL2\include;..\..\..\src\glad;..\..\..\src\imgui;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\3rdParty;..\..\..\3rdParty\SDL2\include;..\..\..\src;..\..\..\src\glad;..\..\..\src\imgui;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\3rdParty;..\..\..\3rdParty\SDL2\lib\windows\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -127,6 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\Core\App.cpp" />
+    <ClCompile Include="..\..\..\src\Core\BaseView.cpp" />
+    <ClCompile Include="..\..\..\src\Core\ViewMgr.cpp" />
     <ClCompile Include="..\..\..\src\glad\glad.c" />
     <ClCompile Include="..\..\..\src\imgui\imgui.cpp" />
     <ClCompile Include="..\..\..\src\imgui\imgui_demo.cpp" />
@@ -137,8 +140,13 @@
     <ClCompile Include="..\..\..\src\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\..\src\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\src\View\StatView.cpp" />
+    <ClCompile Include="..\..\..\src\View\TestView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\Core\App.h" />
+    <ClInclude Include="..\..\..\src\Core\BaseView.h" />
+    <ClInclude Include="..\..\..\src\Core\ViewMgr.h" />
     <ClInclude Include="..\..\..\src\glad\glad\glad.h" />
     <ClInclude Include="..\..\..\src\glad\KHR\khrplatform.h" />
     <ClInclude Include="..\..\..\src\imgui\imconfig.h" />
@@ -150,6 +158,8 @@
     <ClInclude Include="..\..\..\src\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\..\..\src\imgui\imstb_textedit.h" />
     <ClInclude Include="..\..\..\src\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\..\..\src\View\StatView.h" />
+    <ClInclude Include="..\..\..\src\View\TestView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
