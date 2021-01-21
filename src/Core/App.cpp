@@ -1,4 +1,4 @@
-﻿#include "App.h"
+#include "App.h"
 
 #include <iostream>
 #include <thread>
@@ -145,7 +145,7 @@ void App::Run()
 #ifdef _WIN32
 					IO.KeySuper = false;
 #else
-					io.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
+					IO.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
 #endif
 
 					if (IO.KeysDown[SDL_SCANCODE_ESCAPE])
