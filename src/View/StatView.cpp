@@ -2,8 +2,6 @@
 
 #include "Core/App.h"
 
-extern App* SlimRender;
-
 StatView::StatView(const std::string& InName) :
 BaseView(InName)
 {
@@ -37,8 +35,8 @@ void StatView::Draw()
 	{
 		ImGui::Text("Stat");
 		ImGui::Separator();
-		ImGui::Text("FPS : %d", SlimRender->GetFPS());
-		ImGui::Text("DeltaTime : %f", SlimRender->GetDeltaTime());
+		ImGui::Text("FPS : %d", App::GetInstance().GetFPS());
+		ImGui::Text("DeltaTime : %f", App::GetInstance().GetDeltaTime());
 	}
 	ImGui::End();
 }

@@ -2,21 +2,8 @@
 
 #include <iostream>
 #include <thread>
-
 #include "imgui.h"
 #include "imgui_sdl.h"
-
-App::App(const std::string& InName, const int& InScreenWidth, const int& InScreenHeight) :
-Name(InName),
-ScreenWidth(InScreenWidth),
-ScreenHeight(InScreenHeight)
-{
-	StartTimePoint = std::chrono::high_resolution_clock::now();
-	PrevTimePoint = StartTimePoint;
-	FixedFrameTime = 1000000 / MaxFps;
-	MyViewMgr = new ViewMgr();
-	MyViewMgr->RegisterViews();
-}
 
 App::~App()
 {
@@ -33,12 +20,27 @@ App::~App()
 	SDL_Quit();
 }
 
-bool App::Init()
+App& App::GetInstance()
 {
+	static App Instance;
+	return Instance;
+}
+
+bool App::Init(const std::string& InName, const uint32& InScreenWidth, const uint32& InScreenHeight)
+{
+	Name = InName;
+	ScreenWidth = InScreenWidth;
+	ScreenHeight = InScreenHeight;
+	StartTimePoint = std::chrono::high_resolution_clock::now();
+	PrevTimePoint = StartTimePoint;
+	FixedFrameTime = 1000000 / MaxFps;
+	MyViewMgr = new ViewMgr();
+	MyViewMgr->RegisterViews();
+	
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		std::cout << "[SDL] init fail" << std::endl;
-		return  false;
+		return false;
 	}
 
 	Window = SDL_CreateWindow(
@@ -178,7 +180,7 @@ void App::Run()
 			ImGui::Render();
 			ImGuiSDL::Render(ImGui::GetDrawData());
 
-			// 暂时在（1，1）画一个黑点，唔画的画，拖imgui的窗口会留有残影，目前唔知点解，应该和imguiSDL的处理有关。（https://github.com/Tyyppi77/imgui_sdl）
+			// 暂时在（1，1）画一个黑点，唔画的话，拖imgui的窗口会留有残影，目前唔知点解，应该和imguiSDL的处理有关。（https://github.com/Tyyppi77/imgui_sdl）
 			SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
 			SDL_RenderDrawPoint(Renderer, 1, 1);
 

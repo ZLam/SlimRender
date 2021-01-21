@@ -1,15 +1,11 @@
 ﻿#include "Core/App.h"
 
-App* SlimRender;
-
 int main(int argc, char** argv)
 {
-	SlimRender = new App("SlimRender", 1280, 720);
-	if (SlimRender->Init())
+	auto& MyApp = App::GetInstance();
+	if (MyApp.Init("SlimRender", 1280, 720))
 	{
-		SlimRender->Run();
+		MyApp.Run();
 	}
-	delete SlimRender;
-	SlimRender = nullptr;
 	return 0;
 }

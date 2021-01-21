@@ -69,6 +69,12 @@
     <ClCompile Include="..\..\..\src\View\TestView.cpp">
       <Filter>src\View</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Render.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Types.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\imgui\imconfig.h">
@@ -118,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\View\TestView.h">
       <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Types.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Render.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Functions.h">
+      <Filter>src\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -129,6 +129,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\App.cpp" />
     <ClCompile Include="..\..\..\src\Core\BaseView.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Render.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Types.cpp" />
     <ClCompile Include="..\..\..\src\Core\ViewMgr.cpp" />
     <ClCompile Include="..\..\..\src\glad\glad.c" />
     <ClCompile Include="..\..\..\src\imgui\imgui.cpp" />
@@ -146,6 +148,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\App.h" />
     <ClInclude Include="..\..\..\src\Core\BaseView.h" />
+    <ClInclude Include="..\..\..\src\Core\Functions.h" />
+    <ClInclude Include="..\..\..\src\Core\Render.h" />
+    <ClInclude Include="..\..\..\src\Core\Types.h" />
     <ClInclude Include="..\..\..\src\Core\ViewMgr.h" />
     <ClInclude Include="..\..\..\src\glad\glad\glad.h" />
     <ClInclude Include="..\..\..\src\glad\KHR\khrplatform.h" />

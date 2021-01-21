@@ -5,14 +5,15 @@
 
 #include "SDL.h"
 #undef main
+#include "Types.h"
 #include "ViewMgr.h"
 
 class App
 {
 private:
 	std::string Name;
-	int ScreenWidth;
-	int ScreenHeight;
+	uint32 ScreenWidth;
+	uint32 ScreenHeight;
 	
 	SDL_Window* Window;
 	SDL_Renderer* Renderer;
@@ -20,25 +21,31 @@ private:
 	bool bRunning = false;
 	std::chrono::time_point<std::chrono::steady_clock> StartTimePoint;
 	std::chrono::time_point<std::chrono::steady_clock> PrevTimePoint;
-	int MaxFps = 60;
+	uint32 MaxFps = 60;
 	long long FixedFrameTime;
-	long long ElapsedTime = 0;
-	float DeltaTime = 0;
+	long long ElapsedTime;
+	float DeltaTime;
 
 	ViewMgr* MyViewMgr;
 
-public:
-	App(const std::string& InName, const int& InScreenWidth, const int& InScreenHeight);
+private:
+	App() = default;
 	~App();
+
+public:
 	App(const App&) = delete;
 	App(App&&) = delete;
+
+	static App& GetInstance();
 	
-	bool Init();
+	bool Init(const std::string& InName, const uint32& InScreenWidth, const uint32& InScreenHeight);
 	void Run();
 
 	float GetDeltaTime() { return DeltaTime; }
-	int GetFPS() { return static_cast<int>(1.0f / DeltaTime); }
+	uint32 GetFPS() { return static_cast<uint32>(1.0f / DeltaTime); }
+	uint32 GetScreenWidth() { return ScreenWidth; }
+	uint32 GetScreenHeight() { return ScreenHeight; }
 
-	SDL_Window* GetWindow() { return Window; }
-	SDL_Renderer* GetRenderer() { return Renderer; }
+	SDL_Window* Get_SDL_Window() { return Window; }
+	SDL_Renderer* Get_SDL_Renderer() { return Renderer; }
 };
