@@ -350,7 +350,7 @@
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = (
 					../../../3rdParty,
-					../../../3rdParty/SDL2/include/mac,
+					../../../3rdParty/SDL2/include,
 					../../../src,
 					../../../src/glad,
 					../../../src/imgui,
@@ -412,7 +412,7 @@
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = (
 					../../../3rdParty,
-					../../../3rdParty/SDL2/include/mac,
+					../../../3rdParty/SDL2/include,
 					../../../src,
 					../../../src/glad,
 					../../../src/imgui,
