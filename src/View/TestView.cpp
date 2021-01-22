@@ -1,4 +1,4 @@
-﻿#include "TestView.h"
+#include "TestView.h"
 
 #include <iostream>
 #include "Core/Functions.h"
@@ -87,7 +87,13 @@ void TestView::Draw()
 
 	if (ImGui::Begin("Test Soft Render", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
 	{
-		ImGui::Image(Tex_Try, ImVec2(Render_Try->GetWidth(), Render_Try->GetHeight()));
+		ImGui::Image(
+			Tex_Try,
+			ImVec2(
+				static_cast<float>(Render_Try->GetWidth()),
+				static_cast<float>(Render_Try->GetHeight())
+			)
+		);
 	}
 	ImGui::End();
 }

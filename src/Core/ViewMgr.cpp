@@ -1,4 +1,4 @@
-﻿#include "ViewMgr.h"
+#include "ViewMgr.h"
 
 #include <iostream>
 #include "View/StatView.h"

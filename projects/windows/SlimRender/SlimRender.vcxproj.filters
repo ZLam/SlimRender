@@ -54,9 +54,6 @@
     <ClCompile Include="..\..\..\src\glad\glad.c">
       <Filter>src\glad</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\App.cpp">
-      <Filter>src\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\Core\BaseView.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
@@ -73,6 +70,9 @@
       <Filter>src\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Types.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\App.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
   </ItemGroup>

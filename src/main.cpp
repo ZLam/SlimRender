@@ -1,4 +1,4 @@
-﻿#include "Core/App.h"
+#include "Core/App.h"
 
 int main(int argc, char** argv)
 {

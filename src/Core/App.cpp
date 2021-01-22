@@ -180,7 +180,7 @@ void App::Run()
 			ImGui::Render();
 			ImGuiSDL::Render(ImGui::GetDrawData());
 
-			// 暂时在（1，1）画一个黑点，唔画的话，拖imgui的窗口会留有残影，目前唔知点解，应该和imguiSDL的处理有关。（https://github.com/Tyyppi77/imgui_sdl）
+			// now draw a point in (1, 1), because drag imgui window could lag, problem may be in imguiSDL(https://github.com/Tyyppi77/imgui_sdl)
 			SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
 			SDL_RenderDrawPoint(Renderer, 1, 1);
 

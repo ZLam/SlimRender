@@ -1,4 +1,4 @@
-﻿#include "StatView.h"
+#include "StatView.h"
 
 #include "Core/App.h"
 

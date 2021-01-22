@@ -1,4 +1,4 @@
-﻿#include "Types.h"
+#include "Types.h"
 
 Color Color::White	= Color(1.0f, 1.0f, 1.0f);
 Color Color::Black	= Color(0.0f, 0.0f, 0.0f);

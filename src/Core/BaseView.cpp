@@ -1,4 +1,4 @@
-﻿#include "BaseView.h"
+#include "BaseView.h"
 
 BaseView::BaseView(const std::string& InName) :
 Name(InName)
