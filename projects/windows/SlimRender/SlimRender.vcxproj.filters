@@ -75,6 +75,9 @@
     <ClCompile Include="..\..\..\src\Core\App.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\RandomHelper.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\imgui\imconfig.h">
@@ -132,6 +135,9 @@
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Functions.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\RandomHelper.h">
       <Filter>src\Core</Filter>
     </ClInclude>
   </ItemGroup>

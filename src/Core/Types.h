@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <sstream>
 
 typedef int8_t		int8;
 typedef int16_t		int16;
@@ -40,6 +41,19 @@ struct Color
 		a8 = static_cast<uint8>(a * 255.0f);
 	}
 
+	Color(const Color& InColor) :
+	r(InColor.r),
+	g(InColor.g),
+	b(InColor.b),
+	a(InColor.a),
+	r8(InColor.r8),
+	g8(InColor.g8),
+	b8(InColor.b8),
+	a8(InColor.a8)
+	{
+		
+	}
+
 	uint32 GetRGBA32() const
 	{
 		return r8 << 24 | g8 << 16 | b8 << 8 | a8;
@@ -48,5 +62,20 @@ struct Color
 	uint32 GetARGB32() const
 	{
 		return a8 << 24 | r8 << 16 | g8 << 8 | b8;
+	}
+
+	std::string ToString() const
+	{
+		std::stringstream ss;
+		ss << "(" << r << ", " << g << ", " << b << ")";
+		return ss.str();
+	}
+
+	static Color RandomColor();
+
+	friend std::ostream& operator << (std::ostream& Out, const Color& InColor)
+	{
+		Out << InColor.ToString();
+		return Out;
 	}
 };

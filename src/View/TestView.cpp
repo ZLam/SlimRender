@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "Core/Functions.h"
+#include "Core/RandomHelper.h"
 #include "Core/App.h"
 
 TestView::TestView(const std::string& InName) :
@@ -81,6 +82,10 @@ void TestView::Draw()
 		if (ImGui::Button("Test"))
 		{
 			std::cout << "haha" << std::endl;
+			std::cout << Random(0u, 10u) << std::endl;
+			std::cout << Random(0.0f, 10.0f) << std::endl;
+			auto c1 = Color::RandomColor();
+			std::cout << c1 << std::endl;
 		}
 	}
 	ImGui::End();
