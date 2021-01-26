@@ -1,6 +1,7 @@
 #include "TestView.h"
 
 #include <iostream>
+#include "Core/Math.h"
 #include "Core/Functions.h"
 #include "Core/RandomHelper.h"
 #include "Core/App.h"
@@ -70,6 +71,23 @@ void TestView::Draw()
 	Render_Try->DrawPixel(0, 0, Color::Red);
 	Render_Try->DrawPixel(Render_Try->GetWidth() / 2, Render_Try->GetHeight() / 2, Color::Green);
 	Render_Try->DrawPixel(Render_Try->GetWidth() - 1, Render_Try->GetHeight() - 1, Color::Blue);
+	// Render_Try->DrawLine(50, 50, 200, 100, Color::Red);
+	// Render_Try->DrawLine(50, 50, 200, 200, Color::Red);
+	// Render_Try->DrawLine(50, 50, 200, 300, Color::Red);
+	// Render_Try->DrawLine(50, 50, 200, 400, Color::Red);
+	// Render_Try->DrawLine(50, 50, 100, 400, Color::Red);
+	uint32 OriginX = 150;
+	uint32 OriginY = 150;
+	uint32 r = 100;
+	for (uint32 a = 0; a < 360; a+=10)
+	{
+		// std::cout << ANGLE_TO_RADIAN(a) << std::endl;
+		auto ToX = OriginX + cos(ANGLE_TO_RADIAN(a)) * r;
+		auto ToY = OriginY + sin(ANGLE_TO_RADIAN(a)) * r;
+		// std::cout << OriginX << " " << OriginY << " " << ToX << " " << ToY << std::endl;
+		Render_Try->DrawLine(OriginX, OriginY, ToX, ToY, Color::Red);
+	}
+	
 	void* Pixels = nullptr;
 	int Pitch;
 	SDL_LockTexture(Tex_Try, nullptr, &Pixels, &Pitch);

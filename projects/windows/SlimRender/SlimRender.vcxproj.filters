@@ -140,5 +140,8 @@
     <ClInclude Include="..\..\..\src\Core\RandomHelper.h">
       <Filter>src\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Math.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

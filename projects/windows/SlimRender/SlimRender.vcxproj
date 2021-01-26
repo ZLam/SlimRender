@@ -150,6 +150,7 @@
     <ClInclude Include="..\..\..\src\Core\App.h" />
     <ClInclude Include="..\..\..\src\Core\BaseView.h" />
     <ClInclude Include="..\..\..\src\Core\Functions.h" />
+    <ClInclude Include="..\..\..\src\Core\Math.h" />
     <ClInclude Include="..\..\..\src\Core\RandomHelper.h" />
     <ClInclude Include="..\..\..\src\Core\Render.h" />
     <ClInclude Include="..\..\..\src\Core\Types.h" />

@@ -24,4 +24,5 @@ public:
 	void CleanColorBuffer();
 
 	void DrawPixel(const uint32& InX, const uint32& InY, const Color& InColor);
+	void DrawLine(uint32 InX1, uint32 InY1, uint32 InX2, uint32 InY2, const Color& InColor);
 };
