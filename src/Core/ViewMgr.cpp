@@ -3,6 +3,7 @@
 #include <iostream>
 #include "View/StatView.h"
 #include "View/TestView.h"
+#include "View/DrawLinesView.h"
 
 ViewMgr::ViewMgr()
 {
@@ -25,7 +26,8 @@ ViewMgr::~ViewMgr()
 void ViewMgr::RegisterViews()
 {
 	ViewArr.push_back(new StatView("StatView"));
-	ViewArr.push_back(new TestView("TestView"));
+	// ViewArr.push_back(new TestView("TestView"));
+	ViewArr.push_back(new DrawLinesView("DrawLinesView"));
 }
 
 bool ViewMgr::InitViews()

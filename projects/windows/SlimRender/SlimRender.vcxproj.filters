@@ -78,6 +78,9 @@
     <ClCompile Include="..\..\..\src\Core\RandomHelper.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\View\DrawLinesView.cpp">
+      <Filter>src\View</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\imgui\imconfig.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Math.h">
       <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\View\DrawLinesView.h">
+      <Filter>src\View</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
