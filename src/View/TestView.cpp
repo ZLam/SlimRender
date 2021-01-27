@@ -76,16 +76,20 @@ void TestView::Draw()
 	// Render_Try->DrawLine(50, 50, 200, 300, Color::Red);
 	// Render_Try->DrawLine(50, 50, 200, 400, Color::Red);
 	// Render_Try->DrawLine(50, 50, 100, 400, Color::Red);
+	// Render_Try->DrawLine(150, 150, 50, 250, Color::Red);
+	// Render_Try->DrawLine(150, 150, 79, 220, Color::Red);
 	uint32 OriginX = 150;
 	uint32 OriginY = 150;
-	uint32 r = 100;
-	for (uint32 a = 0; a < 360; a+=10)
+	float r = 100;
+	float a = 0;
+	while (a < 360)
 	{
 		// std::cout << ANGLE_TO_RADIAN(a) << std::endl;
-		auto ToX = OriginX + cos(ANGLE_TO_RADIAN(a)) * r;
-		auto ToY = OriginY + sin(ANGLE_TO_RADIAN(a)) * r;
+		auto ToX = static_cast<uint32>(OriginX + cos(ANGLE_TO_RADIAN(a)) * r);
+		auto ToY = static_cast<uint32>(OriginY + sin(ANGLE_TO_RADIAN(a)) * r);
 		// std::cout << OriginX << " " << OriginY << " " << ToX << " " << ToY << std::endl;
 		Render_Try->DrawLine(OriginX, OriginY, ToX, ToY, Color::Red);
+		a += 10;
 	}
 	
 	void* Pixels = nullptr;
