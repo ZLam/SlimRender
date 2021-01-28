@@ -155,6 +155,7 @@
     <ClInclude Include="..\..\..\src\Core\RandomHelper.h" />
     <ClInclude Include="..\..\..\src\Core\Render.h" />
     <ClInclude Include="..\..\..\src\Core\Types.h" />
+    <ClInclude Include="..\..\..\src\Core\Vector.h" />
     <ClInclude Include="..\..\..\src\Core\ViewMgr.h" />
     <ClInclude Include="..\..\..\src\glad\glad\glad.h" />
     <ClInclude Include="..\..\..\src\glad\KHR\khrplatform.h" />

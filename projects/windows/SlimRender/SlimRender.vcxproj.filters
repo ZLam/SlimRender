@@ -149,5 +149,8 @@
     <ClInclude Include="..\..\..\src\View\DrawLinesView.h">
       <Filter>src\View</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Vector.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

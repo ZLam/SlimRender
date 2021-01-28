@@ -14,14 +14,14 @@ typedef uint64_t	uint64;
 
 struct Color
 {
-	float r;
-	float g;
-	float b;
-	float a;
-	uint8 r8;
-	uint8 g8;
-	uint8 b8;
-	uint8 a8;
+	float R;
+	float G;
+	float B;
+	float A;
+	uint8 R8;
+	uint8 G8;
+	uint8 B8;
+	uint8 A8;
 
 	static Color White;
 	static Color Black;
@@ -30,44 +30,44 @@ struct Color
 	static Color Blue;
 
 	Color(float InR, float InG, float InB, float InA = 1.0f) :
-	r(InR),
-	g(InG),
-	b(InB),
-	a(InA)
+	R(InR),
+	G(InG),
+	B(InB),
+	A(InA)
 	{
-		r8 = static_cast<uint8>(r * 255.0f);
-		g8 = static_cast<uint8>(g * 255.0f);
-		b8 = static_cast<uint8>(b * 255.0f);
-		a8 = static_cast<uint8>(a * 255.0f);
+		R8 = static_cast<uint8>(R * 255.0f);
+		G8 = static_cast<uint8>(G * 255.0f);
+		B8 = static_cast<uint8>(B * 255.0f);
+		A8 = static_cast<uint8>(A * 255.0f);
 	}
 
 	Color(const Color& InColor) :
-	r(InColor.r),
-	g(InColor.g),
-	b(InColor.b),
-	a(InColor.a),
-	r8(InColor.r8),
-	g8(InColor.g8),
-	b8(InColor.b8),
-	a8(InColor.a8)
+	R(InColor.R),
+	G(InColor.G),
+	B(InColor.B),
+	A(InColor.A),
+	R8(InColor.R8),
+	G8(InColor.G8),
+	B8(InColor.B8),
+	A8(InColor.A8)
 	{
 		
 	}
 
 	uint32 GetRGBA32() const
 	{
-		return r8 << 24 | g8 << 16 | b8 << 8 | a8;
+		return R8 << 24 | G8 << 16 | B8 << 8 | A8;
 	}
 
 	uint32 GetARGB32() const
 	{
-		return a8 << 24 | r8 << 16 | g8 << 8 | b8;
+		return A8 << 24 | R8 << 16 | G8 << 8 | B8;
 	}
 
 	std::string ToString() const
 	{
 		std::stringstream ss;
-		ss << "(" << r << ", " << g << ", " << b << ")";
+		ss << "(" << R << ", " << G << ", " << B << ")";
 		return ss.str();
 	}
 

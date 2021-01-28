@@ -4,6 +4,7 @@
 #include "Core/Math.h"
 #include "Core/Functions.h"
 #include "Core/RandomHelper.h"
+#include "Core/Vector.h"
 #include "Core/App.h"
 
 TestView::TestView(const std::string& InName) :
@@ -108,6 +109,12 @@ void TestView::Draw()
 			std::cout << Random(0.0f, 10.0f) << std::endl;
 			auto c1 = Color::RandomColor();
 			std::cout << c1 << std::endl;
+
+			Vec2f v1;
+			std::cout << static_cast<void*>(&v1) << std::endl;
+			v1 += Vec2f(1.0f, 5.0f);
+			std::cout << static_cast<void*>(&v1) << std::endl;
+			std::cout << v1 << std::endl;
 		}
 	}
 	ImGui::End();
