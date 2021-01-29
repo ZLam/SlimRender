@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Types.h"
+#include "Vector.h"
 
 class Render
 {
@@ -24,5 +25,6 @@ public:
 	void CleanColorBuffer();
 
 	void DrawPixel(const uint32& InX, const uint32& InY, const Color& InColor);
-	void DrawLine(uint32 InX1, uint32 InY1, uint32 InX2, uint32 InY2, const Color& InColor);
+	void DrawLine(int32 InX1, int32 InY1, int32 InX2, int32 InY2, const Color& InColor);
+	void DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3);
 };

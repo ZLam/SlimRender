@@ -32,8 +32,7 @@ void Render::DrawPixel(const uint32& InX, const uint32& InY, const Color& InColo
 	ColorBuffer[InY * Width + InX] = InColor.GetRGBA32();
 }
 
-void Render::DrawLine(uint32 InX1, uint32 InY1, uint32 InX2, uint32 InY2,
-	const Color& InColor)
+void Render::DrawLine(int32 InX1, int32 InY1, int32 InX2, int32 InY2, const Color& InColor)
 {
 	if (InX1 == InX2 && InY1 == InY2)
 	{
@@ -45,9 +44,9 @@ void Render::DrawLine(uint32 InX1, uint32 InY1, uint32 InX2, uint32 InY2,
 		{
 			std::swap(InY1, InY2);
 		}
-		for (auto y = InY1; y <= InY2; y++)
+		for (auto Y = InY1; Y <= InY2; Y++)
 		{
-			DrawPixel(InX1, y, InColor);
+			DrawPixel(InX1, Y, InColor);
 		}
 	}
 	else if (InY1 == InY2)
@@ -56,18 +55,16 @@ void Render::DrawLine(uint32 InX1, uint32 InY1, uint32 InX2, uint32 InY2,
 		{
 			std::swap(InX1, InX2);
 		}
-		for (auto x = InX1; x <= InX2; x++)
+		for (auto X = InX1; X <= InX2; X++)
 		{
-			DrawPixel(x, InY1, InColor);
+			DrawPixel(X, InY1, InColor);
 		}
 	}
 	else
 	{
 		bool bSteep = false;
-		float dX = static_cast<float>(InX1) - static_cast<float>(InX2);
-		float dY = static_cast<float>(InY1) - static_cast<float>(InY2);
 		
-		if (std::abs(dX) < std::abs(dY))
+		if (std::abs(InX1 - InX2) < std::abs(InY1 - InY2))
 		{
 			/**
 			 * 这一步的作用是，因为当斜率大于1的线段直接用公式算出x，y渲染出来会由于斜率大所以点与点之间会有空洞。
@@ -90,35 +87,35 @@ void Render::DrawLine(uint32 InX1, uint32 InY1, uint32 InX2, uint32 InY2,
 			std::swap(InX1, InX2);
 			std::swap(InY1, InY2);
 		}
-
-		dX = static_cast<float>(InX1) - static_cast<float>(InX2);
-		dY = static_cast<float>(InY1) - static_cast<float>(InY2);
+		
+		float DiffX = static_cast<float>(InX1 - InX2);
+		float DiffY = static_cast<float>(InY1 - InY2);
 		/**
 		 * [2]，优化，根据斜率，因为处理过线段，斜率在(0-1]
 		 * 所以实际上x+1并不一定y也会+1，也就是不用每次都要算y，y可能保持当前的值
 		 */
-		float k = std::abs(dY / dX);
-		uint32 y = InY1;
-		float sumK = 0;
+		float K = std::abs(DiffY / DiffX);
+		int32 Y = InY1;
+		float SumK = 0;
 		//
 		//
 		// [1]，直接用公式算出x，y（效率会比较低）
 		// float k = dY / dX;
 		//
 
-		for (uint32 x = InX1; x <= InX2; x++)
+		for (int32 X = InX1; X <= InX2; X++)
 		{
 			// [1]
-			// uint32 y = (x - InX1) * k + InY1;
+			// int32 y = (x - InX1) * k + InY1;
 			//
 			
 			if (bSteep)
 			{
-				DrawPixel(y, x, InColor);
+				DrawPixel(Y, X, InColor);
 			}
 			else
 			{
-				DrawPixel(x, y, InColor);
+				DrawPixel(X, Y, InColor);
 			}
 
 			/**
@@ -143,13 +140,152 @@ void Render::DrawLine(uint32 InX1, uint32 InY1, uint32 InX2, uint32 InY2,
 			 * 所以sumK -= 1.0f，就意味sumK离1.0f还有多少，需要补回来的那段就是y保持当前值的情况，
 			 * 当sumK把那段补回后，其实就又重新开始累计。
 			 */
-			sumK += k;
-			if (sumK > 0.5f)
+			SumK += K;
+			if (SumK > 0.5f)
 			{
-				sumK -= 1.0f;
-				InY2 > InY1 ? y++ : y--;
+				SumK -= 1.0f;
+				InY2 > InY1 ? Y++ : Y--;
 			}
 			//
+		}
+	}
+}
+
+void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
+{
+	if (V1.Y == V2.Y == V3.Y || V1.X == V2.X == V3.X)
+	{
+		return;
+	}
+	
+	if (V1.Y > V2.Y)
+	{
+		std::swap(V1, V2);
+	}
+	if (V2.Y > V3.Y)
+	{
+		std::swap(V2, V3);
+	}
+	if (V1.Y > V2.Y)
+	{
+		std::swap(V1, V2);
+	}
+
+	// std::cout << V1 << " " << V2 << " " << V3 << std::endl;
+
+	float CurX1 = 0.0f;
+	float CurX2 = 0.0f;
+	float K1 = 0.0f;
+	float K2 = 0.0f;
+	
+	if (V2.Y - V1.Y == 0)
+	{
+		CurX1 = static_cast<float>(V3.X);
+		CurX2 = static_cast<float>(V3.X);
+		K1 = -static_cast<float>(V1.X - V3.X) / static_cast<float>(V1.Y - V3.Y);
+		K2 = -static_cast<float>(V2.X - V3.X) / static_cast<float>(V2.Y - V3.Y);
+		for (int32 CurY = V3.Y; CurY >= V2.Y; CurY--)
+		{
+			DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
+			DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
+			// DrawLine(
+			// 	static_cast<int32>(std::round(CurX1)),
+			// 	CurY,
+			// 	static_cast<int32>(std::round(CurX2)),
+			// 	CurY,
+			// 	Color::White
+			// );
+			CurX1 += K1;
+			CurX2 += K2;
+		}
+		DrawLine(
+			static_cast<int32>(std::round(CurX1)),
+			V2.Y,
+			static_cast<int32>(std::round(CurX2)),
+			V2.Y,
+			Color::White
+		);
+	}
+	else if (V2.Y - V3.Y == 0)
+	{
+		CurX1 = static_cast<float>(V1.X);
+		CurX2 = static_cast<float>(V1.X);
+		K1 = static_cast<float>(V3.X - V1.X) / static_cast<float>(V3.Y - V1.Y);
+		K2 = static_cast<float>(V2.X - V1.X) / static_cast<float>(V2.Y - V1.Y);
+		for (int32 CurY = V1.Y; CurY <= V2.Y; CurY++)
+		{
+			DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
+			DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
+			// DrawLine(
+			// 	static_cast<int32>(std::round(CurX1)),
+			// 	CurY,
+			// 	static_cast<int32>(std::round(CurX2)),
+			// 	CurY,
+			// 	Color::White
+			// );
+			CurX1 += K1;
+			CurX2 += K2;
+		}
+		DrawLine(
+			static_cast<int32>(std::round(CurX1)),
+			V2.Y,
+			static_cast<int32>(std::round(CurX2)),
+			V2.Y,
+			Color::White
+		);
+	}
+	else
+	{
+		CurX1 = static_cast<float>(V1.X);
+		CurX2 = static_cast<float>(V1.X);
+		K1 = static_cast<float>(V3.X - V1.X) / static_cast<float>(V3.Y - V1.Y);
+		K2 = static_cast<float>(V2.X - V1.X) / static_cast<float>(V2.Y - V1.Y);
+
+		// std::cout << K1 << std::endl;
+		// std::cout << K2 << std::endl;
+
+		for (int32 CurY = V1.Y; CurY <= V2.Y; CurY++)
+		{
+			DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
+			DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
+			// DrawLine(
+			// 	static_cast<int32>(std::round(CurX1)),
+			// 	CurY,
+			// 	static_cast<int32>(std::round(CurX2)),
+			// 	CurY,
+			// 	Color::White
+			// );
+
+			CurX1 += K1;
+			CurX2 += K2;
+		}
+
+		// DrawLine(
+		// 	static_cast<int32>(std::round(CurX1)),
+		// 	V2.Y,
+		// 	static_cast<int32>(std::round(CurX2)),
+		// 	V2.Y,
+		// 	Color::White
+		// );
+
+		CurX1 = static_cast<float>(V3.X);
+		CurX2 = static_cast<float>(V3.X);
+		K1 = -static_cast<float>(V1.X - V3.X) / static_cast<float>(V1.Y - V3.Y);
+		K2 = -static_cast<float>(V2.X - V3.X) / static_cast<float>(V2.Y - V3.Y);
+		for (int32 CurY = V3.Y; CurY > V2.Y; CurY--)
+		{
+			DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
+			DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
+			// DrawLine(
+			// 	static_cast<int32>(std::round(CurX1)),
+			// 	CurY,
+			// 	static_cast<int32>(std::round(CurX2)),
+			// 	CurY,
+			// 	Color::White
+			// );
+
+			CurX1 += K1;
+			CurX2 += K2;
 		}
 	}
 }

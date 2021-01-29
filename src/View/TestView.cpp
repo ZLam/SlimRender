@@ -69,9 +69,11 @@ void TestView::Draw()
 	SDL_SetRenderTarget(Renderer, nullptr);
 
 	Render_Try->CleanColorBuffer();
+	// pixels
 	Render_Try->DrawPixel(0, 0, Color::Red);
 	Render_Try->DrawPixel(Render_Try->GetWidth() / 2, Render_Try->GetHeight() / 2, Color::Green);
 	Render_Try->DrawPixel(Render_Try->GetWidth() - 1, Render_Try->GetHeight() - 1, Color::Blue);
+	// lines
 	// Render_Try->DrawLine(50, 50, 200, 100, Color::Red);
 	// Render_Try->DrawLine(50, 50, 200, 200, Color::Red);
 	// Render_Try->DrawLine(50, 50, 200, 300, Color::Red);
@@ -79,19 +81,47 @@ void TestView::Draw()
 	// Render_Try->DrawLine(50, 50, 100, 400, Color::Red);
 	// Render_Try->DrawLine(150, 150, 50, 250, Color::Red);
 	// Render_Try->DrawLine(150, 150, 79, 220, Color::Red);
-	uint32 OriginX = 150;
-	uint32 OriginY = 150;
-	float r = 100;
-	float a = 0;
-	while (a < 360)
+	// uint32 OriginX = 150;
+	// uint32 OriginY = 150;
+	// float r = 100;
+	// float a = 0;
+	// while (a < 360)
+	// {
+	// 	// std::cout << ANGLE_TO_RADIAN(a) << std::endl;
+	// 	auto ToX = static_cast<uint32>(OriginX + cos(ANGLE_TO_RADIAN(a)) * r);
+	// 	auto ToY = static_cast<uint32>(OriginY + sin(ANGLE_TO_RADIAN(a)) * r);
+	// 	// std::cout << OriginX << " " << OriginY << " " << ToX << " " << ToY << std::endl;
+	// 	Render_Try->DrawLine(OriginX, OriginY, ToX, ToY, Color::Red);
+	// 	a += 10;
+	// }
+	// triangles
+	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 100), Vec2i(250, 500), Vec2i(350, 300));
+	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 100), Vec2i(300, 300), Vec2i(350, 150));
+	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 200), Vec2i(400, 100), Vec2i(300, 400));
+	// static float MaxTime = 3.0f;
+	static float SumTime = 0.0f;
+	static float CurAngle = 0.0f;
+	static float PreAngle = 30.0f;
+	static float R = 200.0f;
+	static Vec2i Center(250, 250);
+	static Vec2i A1(250, 200);
+	static Vec2i A2(250, 250);
+	static Vec2i A3(250, 300);
+	SumTime += App::GetInstance().GetDeltaTime();
+	if (SumTime >= 3.0f)
 	{
-		// std::cout << ANGLE_TO_RADIAN(a) << std::endl;
-		auto ToX = static_cast<uint32>(OriginX + cos(ANGLE_TO_RADIAN(a)) * r);
-		auto ToY = static_cast<uint32>(OriginY + sin(ANGLE_TO_RADIAN(a)) * r);
-		// std::cout << OriginX << " " << OriginY << " " << ToX << " " << ToY << std::endl;
-		Render_Try->DrawLine(OriginX, OriginY, ToX, ToY, Color::Red);
-		a += 10;
+		// std::cout << SumTime << std::endl;
+		SumTime -= 3.0f;
+		A2.X = Center.X + static_cast<int32>(cos(ANGLE_TO_RADIAN(CurAngle)) * R);
+		A2.Y = Center.Y + static_cast<int32>(sin(ANGLE_TO_RADIAN(CurAngle)) * R);
+		CurAngle += PreAngle;
+		if (CurAngle >= 360.0f)
+		{
+			CurAngle -= 360.0f;
+		}
 	}
+	Render_Try->DrawTriangle_OldSchool(A1, A2, A3);
+	
 	
 	void* Pixels = nullptr;
 	int Pitch;
@@ -115,6 +145,16 @@ void TestView::Draw()
 			v1 += Vec2f(1.0f, 5.0f);
 			std::cout << static_cast<void*>(&v1) << std::endl;
 			std::cout << v1 << std::endl;
+
+			std::cout << static_cast<int32>(1.2f) << std::endl;
+			std::cout << static_cast<int32>(1.7f) << std::endl;
+
+			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 1), Vec2i(1, 2), Vec2i(1, 3));
+			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 1), Vec2i(1, 3), Vec2i(1, 2));
+			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 1), Vec2i(1, 3));
+			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 3), Vec2i(1, 1));
+			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 1), Vec2i(1, 2));
+			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 2), Vec2i(1, 1));
 		}
 	}
 	ImGui::End();
