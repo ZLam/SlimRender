@@ -1,6 +1,7 @@
 #include "TestView.h"
 
 #include <iostream>
+#include <thread>
 #include "Core/Math.h"
 #include "Core/Functions.h"
 #include "Core/RandomHelper.h"
@@ -98,30 +99,35 @@ void TestView::Draw()
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 100), Vec2i(250, 500), Vec2i(350, 300));
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 100), Vec2i(300, 300), Vec2i(350, 150));
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 200), Vec2i(400, 100), Vec2i(300, 400));
-	// static float MaxTime = 3.0f;
-	static float SumTime = 0.0f;
+	// Render_Try->DrawTriangle_OldSchool(Vec2i(250, 200), Vec2i(250, 250), Vec2i(250, 300));
+	static float MaxTime = 1.0f;
+	static float SumTime = MaxTime;
 	static float CurAngle = 0.0f;
 	static float PreAngle = 30.0f;
 	static float R = 200.0f;
+	static uint32 Index_A = 0;
 	static Vec2i Center(250, 250);
-	static Vec2i A1(250, 200);
+	// static Vec2i A1(250, 200);
 	static Vec2i A2(250, 250);
-	static Vec2i A3(250, 300);
+	// static Vec2i A3(250, 300);
+	static std::vector<Vec2i> A1Arr = { Vec2i(250, 200), Vec2i(300, 200), Vec2i(300, 250), Vec2i(300, 300), Vec2i(250, 300), };
+	static std::vector<Vec2i> A3Arr = { Vec2i(250, 300), Vec2i(200, 300), Vec2i(200, 250), Vec2i(200, 200), Vec2i(250, 200), };
+	Render_Try->DrawTriangle_OldSchool(A1Arr[Index_A], A2, A3Arr[Index_A]);
 	SumTime += App::GetInstance().GetDeltaTime();
-	if (SumTime >= 3.0f)
+	if (SumTime >= MaxTime)
 	{
 		// std::cout << SumTime << std::endl;
-		SumTime -= 3.0f;
+		SumTime -= MaxTime;
 		A2.X = Center.X + static_cast<int32>(cos(ANGLE_TO_RADIAN(CurAngle)) * R);
 		A2.Y = Center.Y + static_cast<int32>(sin(ANGLE_TO_RADIAN(CurAngle)) * R);
 		CurAngle += PreAngle;
 		if (CurAngle >= 360.0f)
 		{
 			CurAngle -= 360.0f;
+			Index_A++;
+			Index_A %= 5;
 		}
 	}
-	Render_Try->DrawTriangle_OldSchool(A1, A2, A3);
-	
 	
 	void* Pixels = nullptr;
 	int Pitch;
@@ -155,6 +161,13 @@ void TestView::Draw()
 			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 3), Vec2i(1, 1));
 			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 1), Vec2i(1, 2));
 			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 2), Vec2i(1, 1));
+
+			// auto a = std::chrono::steady_clock::now();
+			// std::this_thread::sleep_for(std::chrono::microseconds(3000000));
+			// auto b = std::chrono::steady_clock::now() - a;
+			// auto c = std::chrono::duration_cast<std::chrono::microseconds>(b);
+			// std::cout << b.count() << std::endl;
+			// std::cout << c.count() << std::endl;
 		}
 	}
 	ImGui::End();

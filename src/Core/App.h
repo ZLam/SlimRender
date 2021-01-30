@@ -19,8 +19,8 @@ private:
 	SDL_Renderer* Renderer;
 	
 	bool bRunning = false;
-	std::chrono::time_point<std::chrono::steady_clock> StartTimePoint;
-	std::chrono::time_point<std::chrono::steady_clock> PrevTimePoint;
+	std::chrono::steady_clock::time_point StartTimePoint;
+	std::chrono::steady_clock::time_point PrevTimePoint;
 	uint32 MaxFps = 60;
 	long long FixedFrameTime;
 	long long ElapsedTime;

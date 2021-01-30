@@ -31,8 +31,6 @@ bool App::Init(const std::string& InName, const uint32& InScreenWidth, const uin
 	Name = InName;
 	ScreenWidth = InScreenWidth;
 	ScreenHeight = InScreenHeight;
-	StartTimePoint = std::chrono::high_resolution_clock::now();
-	PrevTimePoint = StartTimePoint;
 	FixedFrameTime = 1000000 / MaxFps;
 	MyViewMgr = new ViewMgr();
 	MyViewMgr->RegisterViews();
@@ -84,16 +82,19 @@ void App::Run()
 		return;
 	}
 
+	StartTimePoint = std::chrono::steady_clock::now();
+	PrevTimePoint = StartTimePoint;
 	bRunning = true;
 
 	while (bRunning)
 	{
-		auto CurTimePoint = std::chrono::high_resolution_clock::now();
-		auto DiffTime = std::chrono::duration_cast<std::chrono::milliseconds>(CurTimePoint - PrevTimePoint).count();
+		auto CurTimePoint = std::chrono::steady_clock::now();
+		auto DiffTime = std::chrono::duration_cast<std::chrono::microseconds>(CurTimePoint - PrevTimePoint).count();
+		PrevTimePoint = CurTimePoint;
 		
 		if (DiffTime <= 0)
 		{
-			std::this_thread::sleep_for(std::chrono::microseconds(5000));
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
 			continue;
 		}
 		
@@ -102,7 +103,6 @@ void App::Run()
 		if (ElapsedTime >= FixedFrameTime)
 		{
 			DeltaTime = static_cast<float>(ElapsedTime) / 1000000.0f;
-			PrevTimePoint = CurTimePoint;
 			ElapsedTime -= FixedFrameTime;
 
 			ImGuiIO& IO = ImGui::GetIO();

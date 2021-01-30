@@ -153,7 +153,7 @@ void Render::DrawLine(int32 InX1, int32 InY1, int32 InX2, int32 InY2, const Colo
 
 void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 {
-	if (V1.Y == V2.Y == V3.Y || V1.X == V2.X == V3.X)
+	if ((V1.Y == V2.Y && V1.Y == V3.Y) || (V1.X == V2.X && V1.X == V3.X))
 	{
 		return;
 	}
@@ -171,8 +171,6 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 		std::swap(V1, V2);
 	}
 
-	// std::cout << V1 << " " << V2 << " " << V3 << std::endl;
-
 	float CurX1 = 0.0f;
 	float CurX2 = 0.0f;
 	float K1 = 0.0f;
@@ -186,25 +184,25 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 		K2 = -static_cast<float>(V2.X - V3.X) / static_cast<float>(V2.Y - V3.Y);
 		for (int32 CurY = V3.Y; CurY >= V2.Y; CurY--)
 		{
-			DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
-			DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
-			// DrawLine(
-			// 	static_cast<int32>(std::round(CurX1)),
-			// 	CurY,
-			// 	static_cast<int32>(std::round(CurX2)),
-			// 	CurY,
-			// 	Color::White
-			// );
+			// DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
+			// DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
+			DrawLine(
+				static_cast<int32>(std::round(CurX1)),
+				CurY,
+				static_cast<int32>(std::round(CurX2)),
+				CurY,
+				Color::White
+			);
 			CurX1 += K1;
 			CurX2 += K2;
 		}
-		DrawLine(
-			static_cast<int32>(std::round(CurX1)),
-			V2.Y,
-			static_cast<int32>(std::round(CurX2)),
-			V2.Y,
-			Color::White
-		);
+		// DrawLine(
+		// 	static_cast<int32>(std::round(CurX1)),
+		// 	V2.Y,
+		// 	static_cast<int32>(std::round(CurX2)),
+		// 	V2.Y,
+		// 	Color::White
+		// );
 	}
 	else if (V2.Y - V3.Y == 0)
 	{
@@ -214,25 +212,25 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 		K2 = static_cast<float>(V2.X - V1.X) / static_cast<float>(V2.Y - V1.Y);
 		for (int32 CurY = V1.Y; CurY <= V2.Y; CurY++)
 		{
-			DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
-			DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
-			// DrawLine(
-			// 	static_cast<int32>(std::round(CurX1)),
-			// 	CurY,
-			// 	static_cast<int32>(std::round(CurX2)),
-			// 	CurY,
-			// 	Color::White
-			// );
+			// DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
+			// DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
+			DrawLine(
+				static_cast<int32>(std::round(CurX1)),
+				CurY,
+				static_cast<int32>(std::round(CurX2)),
+				CurY,
+				Color::White
+			);
 			CurX1 += K1;
 			CurX2 += K2;
 		}
-		DrawLine(
-			static_cast<int32>(std::round(CurX1)),
-			V2.Y,
-			static_cast<int32>(std::round(CurX2)),
-			V2.Y,
-			Color::White
-		);
+		// DrawLine(
+		// 	static_cast<int32>(std::round(CurX1)),
+		// 	V2.Y,
+		// 	static_cast<int32>(std::round(CurX2)),
+		// 	V2.Y,
+		// 	Color::White
+		// );
 	}
 	else
 	{
@@ -246,16 +244,15 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 
 		for (int32 CurY = V1.Y; CurY <= V2.Y; CurY++)
 		{
-			DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
-			DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
-			// DrawLine(
-			// 	static_cast<int32>(std::round(CurX1)),
-			// 	CurY,
-			// 	static_cast<int32>(std::round(CurX2)),
-			// 	CurY,
-			// 	Color::White
-			// );
-
+			// DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
+			// DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
+			DrawLine(
+				static_cast<int32>(std::round(CurX1)),
+				CurY,
+				static_cast<int32>(std::round(CurX2)),
+				CurY,
+				Color::White
+			);
 			CurX1 += K1;
 			CurX2 += K2;
 		}
@@ -274,16 +271,15 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 		K2 = -static_cast<float>(V2.X - V3.X) / static_cast<float>(V2.Y - V3.Y);
 		for (int32 CurY = V3.Y; CurY > V2.Y; CurY--)
 		{
-			DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
-			DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
-			// DrawLine(
-			// 	static_cast<int32>(std::round(CurX1)),
-			// 	CurY,
-			// 	static_cast<int32>(std::round(CurX2)),
-			// 	CurY,
-			// 	Color::White
-			// );
-
+			// DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
+			// DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
+			DrawLine(
+				static_cast<int32>(std::round(CurX1)),
+				CurY,
+				static_cast<int32>(std::round(CurX2)),
+				CurY,
+				Color::White
+			);
 			CurX1 += K1;
 			CurX2 += K2;
 		}
