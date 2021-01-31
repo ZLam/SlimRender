@@ -36,7 +36,7 @@ void StatView::Draw()
 		ImGui::Text("Stat");
 		ImGui::Separator();
 		ImGui::Text("FPS : %d", App::GetInstance().GetFPS());
-		ImGui::Text("DeltaTime : %f", App::GetInstance().GetDeltaTime());
+		ImGui::Text("DeltaTime : %fms", App::GetInstance().GetDeltaTime() * 1000.0f);
 	}
 	ImGui::End();
 }

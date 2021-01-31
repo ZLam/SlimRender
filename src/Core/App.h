@@ -22,9 +22,9 @@ private:
 	std::chrono::steady_clock::time_point StartTimePoint;
 	std::chrono::steady_clock::time_point PrevTimePoint;
 	uint32 MaxFps = 60;
-	long long FixedFrameTime;
-	long long ElapsedTime;
-	float DeltaTime;
+	long long FixedFrameTime = 0;
+	long long ElapsedTime = 0;
+	float DeltaTime = 0.0f;
 
 	ViewMgr* MyViewMgr;
 

@@ -31,7 +31,7 @@ bool App::Init(const std::string& InName, const uint32& InScreenWidth, const uin
 	Name = InName;
 	ScreenWidth = InScreenWidth;
 	ScreenHeight = InScreenHeight;
-	FixedFrameTime = 1000000 / MaxFps;
+	FixedFrameTime = 1000000000 / MaxFps;
 	MyViewMgr = new ViewMgr();
 	MyViewMgr->RegisterViews();
 	
@@ -89,12 +89,12 @@ void App::Run()
 	while (bRunning)
 	{
 		auto CurTimePoint = std::chrono::steady_clock::now();
-		auto DiffTime = std::chrono::duration_cast<std::chrono::microseconds>(CurTimePoint - PrevTimePoint).count();
+		auto DiffTime = std::chrono::duration_cast<std::chrono::nanoseconds>(CurTimePoint - PrevTimePoint).count();
 		PrevTimePoint = CurTimePoint;
 		
 		if (DiffTime <= 0)
 		{
-			std::this_thread::sleep_for(std::chrono::microseconds(1));
+			std::this_thread::sleep_for(std::chrono::nanoseconds(1));
 			continue;
 		}
 		
@@ -102,7 +102,7 @@ void App::Run()
 
 		if (ElapsedTime >= FixedFrameTime)
 		{
-			DeltaTime = static_cast<float>(ElapsedTime) / 1000000.0f;
+			DeltaTime = static_cast<float>(ElapsedTime) / 1000000000.0f;
 			ElapsedTime -= FixedFrameTime;
 
 			ImGuiIO& IO = ImGui::GetIO();

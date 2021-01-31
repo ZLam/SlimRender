@@ -66,7 +66,7 @@ void TestView::Draw()
 	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 	SDL_RenderClear(Renderer);
 	SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
-	SDL_RenderDrawLine(Renderer, 10, 10, 490, 490);
+	SDL_RenderDrawLine(Renderer, 10, 10, 90, 90);
 	SDL_SetRenderTarget(Renderer, nullptr);
 
 	Render_Try->CleanColorBuffer();
