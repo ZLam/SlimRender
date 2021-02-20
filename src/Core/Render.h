@@ -26,5 +26,9 @@ public:
 
 	void DrawPixel(const uint32& InX, const uint32& InY, const Color& InColor);
 	void DrawLine(int32 InX1, int32 InY1, int32 InX2, int32 InY2, const Color& InColor);
-	void DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3);
+	void DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3, const Color& InColor = Color::White);
+	void DrawTriangle(const Vec2i& V1, const Vec2i& V2, const Vec2i& V3);
+
+	void GetTriangleAABB(const Vec2i& A, const Vec2i& B, const Vec2i& C, Vec2i& BoxMin, Vec2i& BoxMax);
+	Vec3f GetBarycentric(const Vec2i& A, const Vec2i& B, const Vec2i& C, const Vec2i& P);
 };

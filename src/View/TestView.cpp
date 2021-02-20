@@ -62,6 +62,7 @@ bool TestView::Init()
 void TestView::Draw()
 {
 	auto Renderer = App::GetInstance().Get_SDL_Renderer();
+	
 	SDL_SetRenderTarget(Renderer, Tex);
 	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 	SDL_RenderClear(Renderer);
@@ -112,7 +113,8 @@ void TestView::Draw()
 	// static Vec2i A3(250, 300);
 	static std::vector<Vec2i> A1Arr = { Vec2i(250, 200), Vec2i(300, 200), Vec2i(300, 250), Vec2i(300, 300), Vec2i(250, 300), };
 	static std::vector<Vec2i> A3Arr = { Vec2i(250, 300), Vec2i(200, 300), Vec2i(200, 250), Vec2i(200, 200), Vec2i(250, 200), };
-	Render_Try->DrawTriangle_OldSchool(A1Arr[Index_A], A2, A3Arr[Index_A]);
+	// Render_Try->DrawTriangle_OldSchool(A1Arr[Index_A], A2, A3Arr[Index_A], Color::Green);
+	Render_Try->DrawTriangle(A1Arr[Index_A], A2, A3Arr[Index_A]);
 	SumTime += App::GetInstance().GetDeltaTime();
 	if (SumTime >= MaxTime)
 	{
@@ -155,12 +157,12 @@ void TestView::Draw()
 			std::cout << static_cast<int32>(1.2f) << std::endl;
 			std::cout << static_cast<int32>(1.7f) << std::endl;
 
-			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 1), Vec2i(1, 2), Vec2i(1, 3));
-			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 1), Vec2i(1, 3), Vec2i(1, 2));
-			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 1), Vec2i(1, 3));
-			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 3), Vec2i(1, 1));
-			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 1), Vec2i(1, 2));
-			Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 2), Vec2i(1, 1));
+			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 1), Vec2i(1, 2), Vec2i(1, 3));
+			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 1), Vec2i(1, 3), Vec2i(1, 2));
+			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 1), Vec2i(1, 3));
+			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 3), Vec2i(1, 1));
+			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 1), Vec2i(1, 2));
+			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 2), Vec2i(1, 1));
 
 			// auto a = std::chrono::steady_clock::now();
 			// std::this_thread::sleep_for(std::chrono::microseconds(3000000));

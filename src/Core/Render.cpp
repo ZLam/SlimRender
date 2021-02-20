@@ -32,6 +32,9 @@ void Render::DrawPixel(const uint32& InX, const uint32& InY, const Color& InColo
 	ColorBuffer[InY * Width + InX] = InColor.GetRGBA32();
 }
 
+/**
+ * https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
+ */
 void Render::DrawLine(int32 InX1, int32 InY1, int32 InX2, int32 InY2, const Color& InColor)
 {
 	if (InX1 == InX2 && InY1 == InY2)
@@ -151,7 +154,12 @@ void Render::DrawLine(int32 InX1, int32 InY1, int32 InX2, int32 InY2, const Colo
 	}
 }
 
-void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
+/**
+ * 旧式的渲染三角形方法
+ * 主要就是以行扫描（scanline）的方式绘制
+ * 把一个三角形打横切开上下2半，然后根据斜率一行一行填满一个三角形
+ */
+void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3, const Color& InColor)
 {
 	if ((V1.Y == V2.Y && V1.Y == V3.Y) || (V1.X == V2.X && V1.X == V3.X))
 	{
@@ -184,25 +192,16 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 		K2 = -static_cast<float>(V2.X - V3.X) / static_cast<float>(V2.Y - V3.Y);
 		for (int32 CurY = V3.Y; CurY >= V2.Y; CurY--)
 		{
-			// DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
-			// DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
 			DrawLine(
 				static_cast<int32>(std::round(CurX1)),
 				CurY,
 				static_cast<int32>(std::round(CurX2)),
 				CurY,
-				Color::White
+				InColor
 			);
 			CurX1 += K1;
 			CurX2 += K2;
 		}
-		// DrawLine(
-		// 	static_cast<int32>(std::round(CurX1)),
-		// 	V2.Y,
-		// 	static_cast<int32>(std::round(CurX2)),
-		// 	V2.Y,
-		// 	Color::White
-		// );
 	}
 	else if (V2.Y - V3.Y == 0)
 	{
@@ -212,25 +211,16 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 		K2 = static_cast<float>(V2.X - V1.X) / static_cast<float>(V2.Y - V1.Y);
 		for (int32 CurY = V1.Y; CurY <= V2.Y; CurY++)
 		{
-			// DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
-			// DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
 			DrawLine(
 				static_cast<int32>(std::round(CurX1)),
 				CurY,
 				static_cast<int32>(std::round(CurX2)),
 				CurY,
-				Color::White
+				InColor
 			);
 			CurX1 += K1;
 			CurX2 += K2;
 		}
-		// DrawLine(
-		// 	static_cast<int32>(std::round(CurX1)),
-		// 	V2.Y,
-		// 	static_cast<int32>(std::round(CurX2)),
-		// 	V2.Y,
-		// 	Color::White
-		// );
 	}
 	else
 	{
@@ -239,31 +229,18 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 		K1 = static_cast<float>(V3.X - V1.X) / static_cast<float>(V3.Y - V1.Y);
 		K2 = static_cast<float>(V2.X - V1.X) / static_cast<float>(V2.Y - V1.Y);
 
-		// std::cout << K1 << std::endl;
-		// std::cout << K2 << std::endl;
-
 		for (int32 CurY = V1.Y; CurY <= V2.Y; CurY++)
 		{
-			// DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
-			// DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
 			DrawLine(
 				static_cast<int32>(std::round(CurX1)),
 				CurY,
 				static_cast<int32>(std::round(CurX2)),
 				CurY,
-				Color::White
+				InColor
 			);
 			CurX1 += K1;
 			CurX2 += K2;
 		}
-
-		// DrawLine(
-		// 	static_cast<int32>(std::round(CurX1)),
-		// 	V2.Y,
-		// 	static_cast<int32>(std::round(CurX2)),
-		// 	V2.Y,
-		// 	Color::White
-		// );
 
 		CurX1 = static_cast<float>(V3.X);
 		CurX2 = static_cast<float>(V3.X);
@@ -271,17 +248,90 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3)
 		K2 = -static_cast<float>(V2.X - V3.X) / static_cast<float>(V2.Y - V3.Y);
 		for (int32 CurY = V3.Y; CurY > V2.Y; CurY--)
 		{
-			// DrawPixel(static_cast<int32>(std::round(CurX1)), CurY, Color::Red);
-			// DrawPixel(static_cast<int32>(std::round(CurX2)), CurY, Color::Green);
 			DrawLine(
 				static_cast<int32>(std::round(CurX1)),
 				CurY,
 				static_cast<int32>(std::round(CurX2)),
 				CurY,
-				Color::White
+				InColor
 			);
 			CurX1 += K1;
 			CurX2 += K2;
 		}
 	}
+}
+
+/**
+ * 现代GPU渲染三角形的方式
+ * 先求一个三角形的包围盒（bounding box），然后基于重心坐标的方法插值填满三角形区域
+ */
+void Render::DrawTriangle(const Vec2i& V1, const Vec2i& V2, const Vec2i& V3)
+{
+	if ((V1.Y == V2.Y && V1.Y == V3.Y) || (V1.X == V2.X && V1.X == V3.X))
+	{
+		return;
+	}
+
+	Vec2i BoxMin, BoxMax;
+	GetTriangleAABB(V1, V2, V3, BoxMin, BoxMax);
+
+	for (int32 Y = BoxMin.Y; Y <= BoxMax.Y; Y++)
+	{
+		for (int32 X = BoxMin.X; X <= BoxMax.X; X++)
+		{
+			Vec2i CurPoint(X, Y);
+			Vec3f BarycentricCoord = GetBarycentric(V1, V2, V3, CurPoint);
+			if (BarycentricCoord.X < 0 || BarycentricCoord.Y < 0 || BarycentricCoord.Z < 0)
+			{
+				continue;
+			}
+			Color TmpColor(BarycentricCoord.X, BarycentricCoord.Y, BarycentricCoord.Z);
+			DrawPixel(X, Y, TmpColor);
+		}
+	}
+}
+
+void Render::GetTriangleAABB(const Vec2i& A, const Vec2i& B, const Vec2i& C, Vec2i& BoxMin, Vec2i& BoxMax)
+{
+	int32 minX = A.X, minY = A.Y, maxX = A.X, maxY = A.Y;
+	if (B.X < minX)
+		minX = B.X;
+	if (B.Y < minY)
+		minY = B.Y;
+	if (B.X > maxX)
+		maxX = B.X;
+	if (B.Y > maxY)
+		maxY = B.Y;
+	if (C.X < minX)
+		minX = C.X;
+	if (C.Y < minY)
+		minY = C.Y;
+	if (C.X > maxX)
+		maxX = C.X;
+	if (C.Y > maxY)
+		maxY = C.Y;
+	BoxMin.X = minX;
+	BoxMin.Y = minY;
+	BoxMax.X = maxX;
+	BoxMax.Y = maxY;
+}
+
+/**
+ * 计算重心坐标
+ * 目前只知道用面积比例怎么求，下面的是一个优化版本，但不太理解原理。。
+ * https://gamedev.stackexchange.com/questions/23743/whats-the-most-efficient-way-to-find-barycentric-coordinates
+ */
+Vec3f Render::GetBarycentric(const Vec2i& A, const Vec2i& B, const Vec2i& C, const Vec2i& P)
+{
+	Vec2i V0 = B - A, V1 = C - A, V2 = P - A;
+	float D00 = Vec2i::DotProduct(V0, V0);
+	float D01 = Vec2i::DotProduct(V0, V1);
+	float D11 = Vec2i::DotProduct(V1, V1);
+	float D20 = Vec2i::DotProduct(V2, V0);
+	float D21 = Vec2i::DotProduct(V2, V1);
+	float Denom = D00 * D11 - D01 * D01;
+	float V = (D11 * D20 - D01 * D21) / Denom;
+	float W = (D00 * D21 - D01 * D20) / Denom;
+	float U = 1.0f - V - W;
+	return Vec3f(U, V, W);
 }

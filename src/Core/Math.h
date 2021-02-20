@@ -1,6 +1,6 @@
 #pragma once
 
-#define PI 3.14159265358979f
+#define PI (3.1415926535897932f)
 
 #define RADIAN_TO_ANGLE(a) (180.0f / PI * (a))
 
