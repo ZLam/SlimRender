@@ -8,6 +8,9 @@
 #include "Core/Vector.h"
 #include "Core/App.h"
 
+#define TINYOBJLOADER_IMPLEMENTATION
+#include "tinyobjloader/tiny_obj_loader.h"
+
 TestView::TestView(const std::string& InName) :
 BaseView(InName),
 TexSize(100, 100)
@@ -142,34 +145,82 @@ void TestView::Draw()
 		ImGui::Image(Tex, TexSize);
 		if (ImGui::Button("Test"))
 		{
-			std::cout << "haha" << std::endl;
+			std::cout << "===test random begin===" << std::endl;
 			std::cout << Random(0u, 10u) << std::endl;
 			std::cout << Random(0.0f, 10.0f) << std::endl;
 			auto c1 = Color::RandomColor();
 			std::cout << c1 << std::endl;
+			std::cout << "===test random end===" << std::endl;
 
+			
+
+			std::cout << "===test load obj begin===" << std::endl;
+			tinyobj::attrib_t ObjAttrib;
+			std::vector<tinyobj::shape_t> ObjShapeArr;
+			std::vector<tinyobj::material_t> ObjMatArr;
+			std::string StrWarn;
+			std::string StrErr;
+			std::string ObjFilePath = "D:/Workspace_HDD/Cpp/SlimRender/res/cube.obj";
+			bool bLoadObj = tinyobj::LoadObj(&ObjAttrib, &ObjShapeArr, &ObjMatArr, &StrWarn, &StrErr, ObjFilePath.c_str());
+			if (!StrWarn.empty())
+			{
+				std::cout << "[WARN] : " << StrWarn << std::endl;
+			}
+			if (!StrErr.empty())
+			{
+				std::cout << "[ERR] : " << StrErr << std::endl;
+			}
+			if (bLoadObj)
+			{
+				std::cout << "vertices num : " << ObjAttrib.vertices.size() << std::endl;
+				// for (auto Vertex : ObjAttrib.vertices)
+				// {
+				// 	std::cout << Vertex << std::endl;
+				// }
+				std::cout << "ObjShapeArr num : " << ObjShapeArr.size() << std::endl;
+				for (auto& Shape : ObjShapeArr)
+				{
+					size_t Offset = 0;
+					std::cout << "shape name : " << Shape.name << std::endl;
+					std::cout << "num_face_vertices num : " << Shape.mesh.num_face_vertices.size() << std::endl;
+					std::cout << "indices num : " << Shape.mesh.indices.size() << std::endl;
+					for (size_t i = 0; i < Shape.mesh.num_face_vertices.size(); i++)
+					{
+						size_t Num_FV = Shape.mesh.num_face_vertices[i];	// 当前面的顶点数量
+						for (size_t j = 0; j < Num_FV; j++)
+						{
+							auto& IndexInfo = Shape.mesh.indices[Offset + j];
+							std::cout << ObjAttrib.vertices[IndexInfo.vertex_index * 3] << ", " << ObjAttrib.vertices[IndexInfo.vertex_index * 3 + 1] << ", " << ObjAttrib.vertices[IndexInfo.vertex_index * 3 + 2] << " ";
+						}
+						std::cout << std::endl;
+						Offset += Num_FV;
+					}
+				}
+			}
+			std::cout << "===test load obj end===" << std::endl;
+
+
+			std::cout << "===test misc begin===" << std::endl;
 			Vec2f v1;
 			std::cout << static_cast<void*>(&v1) << std::endl;
 			v1 += Vec2f(1.0f, 5.0f);
 			std::cout << static_cast<void*>(&v1) << std::endl;
 			std::cout << v1 << std::endl;
-
 			std::cout << static_cast<int32>(1.2f) << std::endl;
 			std::cout << static_cast<int32>(1.7f) << std::endl;
-
 			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 1), Vec2i(1, 2), Vec2i(1, 3));
 			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 1), Vec2i(1, 3), Vec2i(1, 2));
 			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 1), Vec2i(1, 3));
 			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 2), Vec2i(1, 3), Vec2i(1, 1));
 			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 1), Vec2i(1, 2));
 			// Render_Try->DrawTriangle_OldSchool(Vec2i(1, 3), Vec2i(1, 2), Vec2i(1, 1));
-
 			// auto a = std::chrono::steady_clock::now();
 			// std::this_thread::sleep_for(std::chrono::microseconds(3000000));
 			// auto b = std::chrono::steady_clock::now() - a;
 			// auto c = std::chrono::duration_cast<std::chrono::microseconds>(b);
 			// std::cout << b.count() << std::endl;
 			// std::cout << c.count() << std::endl;
+			std::cout << "===test misc end===" << std::endl;
 		}
 	}
 	ImGui::End();

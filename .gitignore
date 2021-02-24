@@ -498,4 +498,5 @@ DerivedData/
 
 # Custom Begin
 imgui.ini
+!/res/*
 # Custom End
