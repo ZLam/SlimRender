@@ -97,13 +97,22 @@ void App::Run()
 			std::this_thread::sleep_for(std::chrono::nanoseconds(1));
 			continue;
 		}
-		
-		ElapsedTime += DiffTime;
 
-		if (ElapsedTime >= FixedFrameTime)
+		if (ElapsedTime < FixedFrameTime)
 		{
-			DeltaTime = static_cast<float>(ElapsedTime) / 1000000000.0f;
+			ElapsedTime += DiffTime;
+			SumDiffTime += DiffTime;
+		}
+		else
+		{
+			// std::cout << ElapsedTime << "  " << DiffTime << "  " << FixedFrameTime << std::endl;
+			
+			DeltaTime = static_cast<float>(SumDiffTime) / 1000000000.0f;
 			ElapsedTime -= FixedFrameTime;
+			if (ElapsedTime < FixedFrameTime)
+			{
+				SumDiffTime = 0;
+			}
 
 			ImGuiIO& IO = ImGui::GetIO();
 

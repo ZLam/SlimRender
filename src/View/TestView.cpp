@@ -72,7 +72,7 @@ void TestView::Draw()
 	SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
 	SDL_RenderDrawLine(Renderer, 10, 10, 90, 90);
 	SDL_SetRenderTarget(Renderer, nullptr);
-
+	
 	Render_Try->CleanColorBuffer();
 	// pixels
 	Render_Try->DrawPixel(0, 0, Color::Red);
@@ -139,7 +139,7 @@ void TestView::Draw()
 	SDL_LockTexture(Tex_Try, nullptr, &Pixels, &Pitch);
 	memcpy(Pixels, Render_Try->GetColorBuffer(), Render_Try->GetColorBufferSize());
 	SDL_UnlockTexture(Tex_Try);
-
+	
 	if (ImGui::Begin(Name.c_str()))
 	{
 		ImGui::Image(Tex, TexSize);
@@ -151,9 +151,9 @@ void TestView::Draw()
 			auto c1 = Color::RandomColor();
 			std::cout << c1 << std::endl;
 			std::cout << "===test random end===" << std::endl;
-
+	
 			
-
+	
 			std::cout << "===test load obj begin===" << std::endl;
 			tinyobj::attrib_t ObjAttrib;
 			std::vector<tinyobj::shape_t> ObjShapeArr;
@@ -198,8 +198,8 @@ void TestView::Draw()
 				}
 			}
 			std::cout << "===test load obj end===" << std::endl;
-
-
+	
+	
 			std::cout << "===test misc begin===" << std::endl;
 			Vec2f v1;
 			std::cout << static_cast<void*>(&v1) << std::endl;
@@ -224,7 +224,7 @@ void TestView::Draw()
 		}
 	}
 	ImGui::End();
-
+	
 	if (ImGui::Begin("Test Soft Render", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
 	{
 		ImGui::Image(
@@ -236,4 +236,9 @@ void TestView::Draw()
 		);
 	}
 	ImGui::End();
+
+	// for (long i = 0; i < 50000000; i++)
+	// {
+	// 	
+	// }
 }

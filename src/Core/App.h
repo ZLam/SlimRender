@@ -25,6 +25,7 @@ private:
 	long long FixedFrameTime = 0;
 	long long ElapsedTime = 0;
 	float DeltaTime = 0.0f;
+	long long SumDiffTime = 0;
 
 	ViewMgr* MyViewMgr;
 
