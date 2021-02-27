@@ -7,13 +7,13 @@
 #include "Core/RandomHelper.h"
 #include "Core/Vector.h"
 #include "Core/App.h"
+#include "Core/Matrix.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tinyobjloader/tiny_obj_loader.h"
 
 TestView::TestView(const std::string& InName) :
-BaseView(InName),
-TexSize(100, 100)
+BaseView(InName)
 {
 	
 }
@@ -35,6 +35,16 @@ TestView::~TestView()
 		delete Render_Try;
 		Render_Try = nullptr;
 	}
+	if (Cam_Try)
+	{
+		delete Cam_Try;
+		Cam_Try = nullptr;
+	}
+	if (ViewPort_Try)
+	{
+		delete ViewPort_Try;
+		ViewPort_Try = nullptr;
+	}
 }
 
 bool TestView::Init()
@@ -49,14 +59,16 @@ bool TestView::Init()
 		static_cast<int>(TexSize.y)
 	);
 
-	Render_Try = new Render(500, 500);
+	Render_Try = new Render(Size_Try.X, Size_Try.Y);
+	Cam_Try = new Camera();
+	ViewPort_Try = new Viewport(Size_Try.X, Size_Try.Y);
 
 	Tex_Try = SDL_CreateTexture(
 		Renderer,
 		SDL_PIXELFORMAT_RGBA8888,
 		SDL_TEXTUREACCESS_STREAMING,
-		static_cast<int>(Render_Try->GetWidth()),
-		static_cast<int>(Render_Try->GetHeight())
+		Size_Try.X,
+		Size_Try.Y
 	);
 
 	return true;
@@ -74,11 +86,14 @@ void TestView::Draw()
 	SDL_SetRenderTarget(Renderer, nullptr);
 	
 	Render_Try->CleanColorBuffer();
-	// pixels
-	Render_Try->DrawPixel(0, 0, Color::Red);
-	Render_Try->DrawPixel(Render_Try->GetWidth() / 2, Render_Try->GetHeight() / 2, Color::Green);
-	Render_Try->DrawPixel(Render_Try->GetWidth() - 1, Render_Try->GetHeight() - 1, Color::Blue);
-	// lines
+	
+	// pixels begin
+	// Render_Try->DrawPixel(0, 0, Color::Red);
+	// Render_Try->DrawPixel(Render_Try->GetWidth() / 2, Render_Try->GetHeight() / 2, Color::Green);
+	// Render_Try->DrawPixel(Render_Try->GetWidth() - 1, Render_Try->GetHeight() - 1, Color::Blue);
+	// pixels end
+	
+	// lines begin
 	// Render_Try->DrawLine(50, 50, 200, 100, Color::Red);
 	// Render_Try->DrawLine(50, 50, 200, 200, Color::Red);
 	// Render_Try->DrawLine(50, 50, 200, 300, Color::Red);
@@ -99,46 +114,103 @@ void TestView::Draw()
 	// 	Render_Try->DrawLine(OriginX, OriginY, ToX, ToY, Color::Red);
 	// 	a += 10;
 	// }
-	// triangles
+	// lines end
+
+	// triangles begin
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 100), Vec2i(250, 500), Vec2i(350, 300));
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 100), Vec2i(300, 300), Vec2i(350, 150));
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 200), Vec2i(400, 100), Vec2i(300, 400));
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(250, 200), Vec2i(250, 250), Vec2i(250, 300));
-	static float MaxTime = 1.0f;
-	static float SumTime = MaxTime;
-	static float CurAngle = 0.0f;
-	static float PreAngle = 30.0f;
-	static float R = 200.0f;
-	static uint32 Index_A = 0;
-	static Vec2i Center(250, 250);
-	// static Vec2i A1(250, 200);
-	static Vec2i A2(250, 250);
-	// static Vec2i A3(250, 300);
-	static std::vector<Vec2i> A1Arr = { Vec2i(250, 200), Vec2i(300, 200), Vec2i(300, 250), Vec2i(300, 300), Vec2i(250, 300), };
-	static std::vector<Vec2i> A3Arr = { Vec2i(250, 300), Vec2i(200, 300), Vec2i(200, 250), Vec2i(200, 200), Vec2i(250, 200), };
-	// Render_Try->DrawTriangle_OldSchool(A1Arr[Index_A], A2, A3Arr[Index_A], Color::Green);
-	Render_Try->DrawTriangle(A1Arr[Index_A], A2, A3Arr[Index_A]);
-	SumTime += App::GetInstance().GetDeltaTime();
-	if (SumTime >= MaxTime)
+	// static float MaxTime = 1.0f;
+	// static float SumTime = MaxTime;
+	// static float CurAngle = 0.0f;
+	// static float PreAngle = 30.0f;
+	// static float R = 200.0f;
+	// static uint32 Index_A = 0;
+	// static Vec2i Center(250, 250);
+	// // static Vec2i A1(250, 200);
+	// static Vec2i A2(250, 250);
+	// // static Vec2i A3(250, 300);
+	// static std::vector<Vec2i> A1Arr = { Vec2i(250, 200), Vec2i(300, 200), Vec2i(300, 250), Vec2i(300, 300), Vec2i(250, 300), };
+	// static std::vector<Vec2i> A3Arr = { Vec2i(250, 300), Vec2i(200, 300), Vec2i(200, 250), Vec2i(200, 200), Vec2i(250, 200), };
+	// // Render_Try->DrawTriangle_OldSchool(A1Arr[Index_A], A2, A3Arr[Index_A], Color::Green);
+	// Render_Try->DrawTriangle(A1Arr[Index_A], A2, A3Arr[Index_A]);
+	// SumTime += App::GetInstance().GetDeltaTime();
+	// if (SumTime >= MaxTime)
+	// {
+	// 	// std::cout << SumTime << std::endl;
+	// 	SumTime -= MaxTime;
+	// 	A2.X = Center.X + static_cast<int32>(cos(ANGLE_TO_RADIAN(CurAngle)) * R);
+	// 	A2.Y = Center.Y + static_cast<int32>(sin(ANGLE_TO_RADIAN(CurAngle)) * R);
+	// 	CurAngle += PreAngle;
+	// 	if (CurAngle >= 360.0f)
+	// 	{
+	// 		CurAngle -= 360.0f;
+	// 		Index_A++;
+	// 		Index_A %= 5;
+	// 	}
+	// }
+	// triangles end
+
+
+
+	// std::cout << "===test mvp begin===" << std::endl;
+	static float SumTime = 0;
+	std::vector<Vec3f> VexArr{
+		Vec3f(2.0f, 0.0f, -2.0f),
+		Vec3f(0.0f, 2.0f, -2.0f),
+		Vec3f(-2.0f, 0.0f, -2.0f),
+	};
+	std::vector<uint32> IndiceArr{ 0, 1, 2 };
+	std::vector<Vec4f> ResultArr;
+	static Matrix4 ModelMat;
+	Matrix4 MatMVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat() * ModelMat;		// MVP变换
+	// std::cout << Cam_Try->GetViewMat() << std::endl;
+	// std::cout << Cam_Try->GetProjMat() << std::endl;
+	// std::cout << MatMVP << std::endl;
+	for (auto& i : IndiceArr)
 	{
-		// std::cout << SumTime << std::endl;
-		SumTime -= MaxTime;
-		A2.X = Center.X + static_cast<int32>(cos(ANGLE_TO_RADIAN(CurAngle)) * R);
-		A2.Y = Center.Y + static_cast<int32>(sin(ANGLE_TO_RADIAN(CurAngle)) * R);
-		CurAngle += PreAngle;
-		if (CurAngle >= 360.0f)
-		{
-			CurAngle -= 360.0f;
-			Index_A++;
-			Index_A %= 5;
-		}
+		auto& V = VexArr[i];
+		auto P = MatMVP * Vec4f(V, 1.0f);
+		// std::cout << P << std::endl;
+		/**
+		 * Homogeneous division
+		 * @TODO
+		 * 做完MVP变换后W并不是等于1的，这里本质的意义是什么？
+		 * 因为用了齐次坐标，这里要用W=1来表示一个点？
+		 * 除以W后，才表示在NDC空间中？
+		 */
+		P *= (1.0f / P.W);
+		// std::cout << P << std::endl;
+		P = ViewPort_Try->GetViewportMat() * P;		// 视口变换
+		ResultArr.push_back(P);
 	}
+	for (auto& i : IndiceArr)
+	{
+		// std::cout << ResultArr[i] << std::endl;
+		auto& P1 = ResultArr[i];
+		auto& P2 = ResultArr[(i + 1) % 3];
+		Render_Try->DrawLine(P1.X, P1.Y, P2.X, P2.Y);
+	}
+	SumTime += App::GetInstance().GetDeltaTime();
+	if (SumTime >= 0.5f)
+	{
+		ModelMat.RotateZ(10.0f);
+		SumTime = 0.0f;
+	}
+	// std::cout << "===test mvp end===" << std::endl;
+
+
+
 	
 	void* Pixels = nullptr;
 	int Pitch;
 	SDL_LockTexture(Tex_Try, nullptr, &Pixels, &Pitch);
 	memcpy(Pixels, Render_Try->GetColorBuffer(), Render_Try->GetColorBufferSize());
 	SDL_UnlockTexture(Tex_Try);
+
+
+
 	
 	if (ImGui::Begin(Name.c_str()))
 	{
@@ -198,6 +270,9 @@ void TestView::Draw()
 				}
 			}
 			std::cout << "===test load obj end===" << std::endl;
+
+			
+			
 	
 	
 			std::cout << "===test misc begin===" << std::endl;
@@ -230,8 +305,8 @@ void TestView::Draw()
 		ImGui::Image(
 			Tex_Try,
 			ImVec2(
-				static_cast<float>(Render_Try->GetWidth()),
-				static_cast<float>(Render_Try->GetHeight())
+				static_cast<float>(Size_Try.X),
+				static_cast<float>(Size_Try.Y)
 			)
 		);
 	}

@@ -3,7 +3,7 @@
 int main(int argc, char** argv)
 {
 	auto& MyApp = App::GetInstance();
-	if (MyApp.Init("SlimRender", 1280, 720))
+	if (MyApp.Init("SlimRender", 1600, 900))
 	{
 		MyApp.Run();
 	}

@@ -129,10 +129,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\App.cpp" />
     <ClCompile Include="..\..\..\src\Core\BaseView.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Color.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Matrix.cpp" />
     <ClCompile Include="..\..\..\src\Core\RandomHelper.cpp" />
     <ClCompile Include="..\..\..\src\Core\Render.cpp" />
     <ClCompile Include="..\..\..\src\Core\Types.cpp" />
     <ClCompile Include="..\..\..\src\Core\ViewMgr.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Viewport.cpp" />
     <ClCompile Include="..\..\..\src\glad\glad.c" />
     <ClCompile Include="..\..\..\src\imgui\imgui.cpp" />
     <ClCompile Include="..\..\..\src\imgui\imgui_demo.cpp" />
@@ -150,13 +154,17 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\App.h" />
     <ClInclude Include="..\..\..\src\Core\BaseView.h" />
+    <ClInclude Include="..\..\..\src\Core\Camera.h" />
+    <ClInclude Include="..\..\..\src\Core\Color.h" />
     <ClInclude Include="..\..\..\src\Core\Functions.h" />
     <ClInclude Include="..\..\..\src\Core\Math.h" />
+    <ClInclude Include="..\..\..\src\Core\Matrix.h" />
     <ClInclude Include="..\..\..\src\Core\RandomHelper.h" />
     <ClInclude Include="..\..\..\src\Core\Render.h" />
     <ClInclude Include="..\..\..\src\Core\Types.h" />
     <ClInclude Include="..\..\..\src\Core\Vector.h" />
     <ClInclude Include="..\..\..\src\Core\ViewMgr.h" />
+    <ClInclude Include="..\..\..\src\Core\Viewport.h" />
     <ClInclude Include="..\..\..\src\glad\glad\glad.h" />
     <ClInclude Include="..\..\..\src\glad\KHR\khrplatform.h" />
     <ClInclude Include="..\..\..\src\imgui\imconfig.h" />

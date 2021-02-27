@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "App.h"
+#include "Math.h"
 
 Render::Render(const uint32& InWidth, const uint32& InHeight) :
 Width(InWidth),
