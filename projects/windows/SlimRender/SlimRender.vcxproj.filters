@@ -22,6 +22,9 @@
     <Filter Include="src\View">
       <UniqueIdentifier>{0374a951-cca2-444a-8a29-4a0474bfea6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\tinyobjloader">
+      <UniqueIdentifier>{b24d4a5c-93c5-4665-a27c-a9b22c1a733e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Viewport.h">
       <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\tinyobjloader\tiny_obj_loader.h">
+      <Filter>src\tinyobjloader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

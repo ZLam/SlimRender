@@ -10,6 +10,7 @@ Height(InHeight)
 {
 	ColorBuffer = new uint32[Width * Height];
 	ColorBufferSize = Width * Height * sizeof(uint32);
+	DepthBuffer = new float[Width * Height];
 }
 
 Render::~Render()
@@ -18,6 +19,11 @@ Render::~Render()
 	{
 		delete[] ColorBuffer;
 		ColorBuffer = nullptr;
+	}
+	if (DepthBuffer)
+	{
+		delete[] DepthBuffer;
+		DepthBuffer = nullptr;
 	}
 }
 
@@ -28,7 +34,12 @@ void Render::CleanColorBuffer()
 	std::memset(ColorBuffer, 0, ColorBufferSize);		//暂时默认强制设为黑色背景
 }
 
-void Render::DrawPixel(const uint32& InX, const uint32& InY, const Color& InColor)
+void Render::CleanDepthBuffer()
+{
+	std::fill(DepthBuffer, DepthBuffer + Width * Height, std::numeric_limits<float>::infinity());
+}
+
+void Render::DrawPixel(const int32& InX, const int32& InY, const Color& InColor)
 {
 	ColorBuffer[InY * Width + InX] = InColor.GetRGBA32();
 }
@@ -266,55 +277,61 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3, const Color& I
  * 现代GPU渲染三角形的方式
  * 先求一个三角形的包围盒（bounding box），然后基于重心坐标的方法插值填满三角形区域
  */
-void Render::DrawTriangle(const Vec2i& V1, const Vec2i& V2, const Vec2i& V3)
+void Render::DrawTriangle(const Vec3f& V1, const Vec3f& V2, const Vec3f& V3)
 {
-	if ((V1.Y == V2.Y && V1.Y == V3.Y) || (V1.X == V2.X && V1.X == V3.X))
-	{
-		return;
-	}
+	// if ((V1.Y == V2.Y && V1.Y == V3.Y) || (V1.X == V2.X && V1.X == V3.X))
+	// {
+	// 	return;
+	// }
 
-	Vec2i BoxMin, BoxMax;
-	GetTriangleAABB(V1, V2, V3, BoxMin, BoxMax);
+	Vec2f BoxMin, BoxMax;
+	GetTriangleAABB(V1, V2, V3, BoxMin, BoxMax);		// 计算三角形 bounding box
 
-	for (int32 Y = BoxMin.Y; Y <= BoxMax.Y; Y++)
+	int32 PixelMinX = static_cast<int32>(BoxMin.X);
+	int32 PixelMinY = static_cast<int32>(BoxMin.Y);
+	int32 PixelMaxX = static_cast<int32>(BoxMax.X);
+	int32 PixelMaxY = static_cast<int32>(BoxMax.Y);
+
+	for (int32 CurY = PixelMinY; CurY <= PixelMaxY; CurY++)
 	{
-		for (int32 X = BoxMin.X; X <= BoxMax.X; X++)
+		for (int32 CurX = PixelMinX; CurX <= PixelMaxX; CurX++)
 		{
-			Vec2i CurPoint(X, Y);
-			Vec3f BarycentricCoord = GetBarycentric(V1, V2, V3, CurPoint);
-			if (BarycentricCoord.X < 0 || BarycentricCoord.Y < 0 || BarycentricCoord.Z < 0)
+			float Alpha, Beta, Gamma;
+			GetBarycentric2D(		// 计算重心坐标
+				V1.X, V1.Y,
+				V2.X, V2.Y,
+				V3.X, V3.Y,
+				CurX + 0.5f, CurY + 0.5f,
+				Alpha, Beta, Gamma
+			);
+			if (Alpha < 0 || Beta < 0 || Gamma < 0)		// 判断是否在三角形内
 			{
 				continue;
 			}
-			Color TmpColor(BarycentricCoord.X, BarycentricCoord.Y, BarycentricCoord.Z);
-			DrawPixel(X, Y, TmpColor);
+			
+			//auto[alpha, beta, gamma] = computeBarycentric2D(x, y, t.v);
+			//float w_reciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
+			//float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
+			//z_interpolated *= w_reciprocal;
+			float z_interpolated = Alpha * V1.Z + Beta * V2.Z + Gamma * V3.Z;		// Z的插值，为什么上面做这么多一堆东西？@TODO
+
+			int32 Index = CurY * Width + CurX;
+			if (z_interpolated < DepthBuffer[Index])		// ZBuffer处理
+			{
+				Color TmpColor(Alpha, Beta, Gamma);
+				DrawPixel(CurX, CurY, TmpColor);
+				DepthBuffer[Index] = z_interpolated;
+			}
 		}
 	}
 }
 
-void Render::GetTriangleAABB(const Vec2i& A, const Vec2i& B, const Vec2i& C, Vec2i& BoxMin, Vec2i& BoxMax)
+void Render::GetTriangleAABB(const Vec3f& A, const Vec3f& B, const Vec3f& C, Vec2f& BoxMin, Vec2f& BoxMax)
 {
-	int32 minX = A.X, minY = A.Y, maxX = A.X, maxY = A.Y;
-	if (B.X < minX)
-		minX = B.X;
-	if (B.Y < minY)
-		minY = B.Y;
-	if (B.X > maxX)
-		maxX = B.X;
-	if (B.Y > maxY)
-		maxY = B.Y;
-	if (C.X < minX)
-		minX = C.X;
-	if (C.Y < minY)
-		minY = C.Y;
-	if (C.X > maxX)
-		maxX = C.X;
-	if (C.Y > maxY)
-		maxY = C.Y;
-	BoxMin.X = minX;
-	BoxMin.Y = minY;
-	BoxMax.X = maxX;
-	BoxMax.Y = maxY;
+	BoxMin.X = std::min(A.X, std::min(B.X, C.X));
+	BoxMin.Y = std::min(A.Y, std::min(B.Y, C.Y));
+	BoxMax.X = std::max(A.X, std::max(B.X, C.X));
+	BoxMax.Y = std::max(A.Y, std::max(B.Y, C.Y));
 }
 
 /**
@@ -322,17 +339,37 @@ void Render::GetTriangleAABB(const Vec2i& A, const Vec2i& B, const Vec2i& C, Vec
  * 目前只知道用面积比例怎么求，下面的是一个优化版本，但不太理解原理。。
  * https://gamedev.stackexchange.com/questions/23743/whats-the-most-efficient-way-to-find-barycentric-coordinates
  */
-Vec3f Render::GetBarycentric(const Vec2i& A, const Vec2i& B, const Vec2i& C, const Vec2i& P)
+Vec3f Render::GetBarycentric2D(const Vec2f& A, const Vec2f& B, const Vec2f& C, const Vec2f& P)
 {
-	Vec2i V0 = B - A, V1 = C - A, V2 = P - A;
-	float D00 = Vec2i::DotProduct(V0, V0);
-	float D01 = Vec2i::DotProduct(V0, V1);
-	float D11 = Vec2i::DotProduct(V1, V1);
-	float D20 = Vec2i::DotProduct(V2, V0);
-	float D21 = Vec2i::DotProduct(V2, V1);
+	Vec2f V0 = B - A, V1 = C - A, V2 = P - A;
+	float D00 = Vec2f::DotProduct(V0, V0);
+	float D01 = Vec2f::DotProduct(V0, V1);
+	float D11 = Vec2f::DotProduct(V1, V1);
+	float D20 = Vec2f::DotProduct(V2, V0);
+	float D21 = Vec2f::DotProduct(V2, V1);
 	float Denom = D00 * D11 - D01 * D01;
 	float V = (D11 * D20 - D01 * D21) / Denom;
 	float W = (D00 * D21 - D01 * D20) / Denom;
 	float U = 1.0f - V - W;
 	return Vec3f(U, V, W);
+}
+
+void Render::GetBarycentric2D(const float& XA, const float& YA, const float& XB, const float& YB, const float& XC, const float& YC,
+	const float& XP, const float& YP, float& Alpha, float& Beta, float& Gamma)
+{
+	float AB_X = XB - XA;
+	float AB_Y = YB - YA;
+	float AC_X = XC - XA;
+	float AC_Y = YC - YA;
+	float AP_X = XP - XA;
+	float AP_Y = YP - YA;
+	float D00 = AB_X * AB_X + AB_Y * AB_Y;
+	float D01 = AB_X * AC_X + AB_Y * AC_Y;
+	float D11 = AC_X * AC_X + AC_Y * AC_Y;
+	float D20 = AP_X * AB_X + AP_Y * AB_Y;
+	float D21 = AP_X * AC_X + AP_Y * AC_Y;
+	float Denom = D00 * D11 - D01 * D01;
+	Beta = (D11 * D20 - D01 * D21) / Denom;
+	Gamma = (D00 * D21 - D01 * D20) / Denom;
+	Alpha = 1.0f - Beta - Gamma;
 }

@@ -86,6 +86,7 @@ void TestView::Draw()
 	SDL_SetRenderTarget(Renderer, nullptr);
 	
 	Render_Try->CleanColorBuffer();
+	Render_Try->CleanDepthBuffer();
 	
 	// pixels begin
 	// Render_Try->DrawPixel(0, 0, Color::Red);
@@ -121,18 +122,31 @@ void TestView::Draw()
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 100), Vec2i(300, 300), Vec2i(350, 150));
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(200, 200), Vec2i(400, 100), Vec2i(300, 400));
 	// Render_Try->DrawTriangle_OldSchool(Vec2i(250, 200), Vec2i(250, 250), Vec2i(250, 300));
+	// Render_Try->DrawTriangle(Vec3f(200, 200, 0), Vec3f(400, 100, 0), Vec3f(300, 400, 0));
 	// static float MaxTime = 1.0f;
 	// static float SumTime = MaxTime;
 	// static float CurAngle = 0.0f;
 	// static float PreAngle = 30.0f;
 	// static float R = 200.0f;
 	// static uint32 Index_A = 0;
-	// static Vec2i Center(250, 250);
+	// static Vec2f Center(250, 250);
 	// // static Vec2i A1(250, 200);
-	// static Vec2i A2(250, 250);
+	// static Vec3f A2(250, 250, 0);
 	// // static Vec2i A3(250, 300);
-	// static std::vector<Vec2i> A1Arr = { Vec2i(250, 200), Vec2i(300, 200), Vec2i(300, 250), Vec2i(300, 300), Vec2i(250, 300), };
-	// static std::vector<Vec2i> A3Arr = { Vec2i(250, 300), Vec2i(200, 300), Vec2i(200, 250), Vec2i(200, 200), Vec2i(250, 200), };
+	// static std::vector<Vec3f> A1Arr = {
+	// 	Vec3f(250, 200, 0),
+	// 	Vec3f(300, 200, 0),
+	// 	Vec3f(300, 250, 0),
+	// 	Vec3f(300, 300, 0),
+	// 	Vec3f(250, 300, 0),
+	// };
+	// static std::vector<Vec3f> A3Arr = {
+	// 	Vec3f(250, 300, 0),
+	// 	Vec3f(200, 300, 0),
+	// 	Vec3f(200, 250, 0),
+	// 	Vec3f(200, 200, 0),
+	// 	Vec3f(250, 200, 0),
+	// };
 	// // Render_Try->DrawTriangle_OldSchool(A1Arr[Index_A], A2, A3Arr[Index_A], Color::Green);
 	// Render_Try->DrawTriangle(A1Arr[Index_A], A2, A3Arr[Index_A]);
 	// SumTime += App::GetInstance().GetDeltaTime();
@@ -140,8 +154,8 @@ void TestView::Draw()
 	// {
 	// 	// std::cout << SumTime << std::endl;
 	// 	SumTime -= MaxTime;
-	// 	A2.X = Center.X + static_cast<int32>(cos(ANGLE_TO_RADIAN(CurAngle)) * R);
-	// 	A2.Y = Center.Y + static_cast<int32>(sin(ANGLE_TO_RADIAN(CurAngle)) * R);
+	// 	A2.X = Center.X + cos(ANGLE_TO_RADIAN(CurAngle)) * R;
+	// 	A2.Y = Center.Y + sin(ANGLE_TO_RADIAN(CurAngle)) * R;
 	// 	CurAngle += PreAngle;
 	// 	if (CurAngle >= 360.0f)
 	// 	{
@@ -160,18 +174,35 @@ void TestView::Draw()
 		Vec3f(2.0f, 0.0f, -2.0f),
 		Vec3f(0.0f, 2.0f, -2.0f),
 		Vec3f(-2.0f, 0.0f, -2.0f),
+		// Vec3f(2.0f, 0.0f, 0.0f),
+		// Vec3f(0.0f, 2.0f, 0.0f),
+		// Vec3f(-2.0f, 0.0f, 0.0f),
+	};
+	std::vector<Vec3f> VexArr_TestZ{
+		Vec3f(2.0f, 0.0f, -2.0f),
+		Vec3f(0.0f, 2.0f, -2.0f),
+		Vec3f(-2.0f, 0.0f, -2.0f),
+		Vec3f(3.5f, -1.0f, -5.0f),
+		Vec3f(2.5f, 1.5f, -5.0f),
+		Vec3f(-1.0f, 0.5f, -5.0f),
+		Vec3f(-1.0f, 0.0f, -1.9f),
+		Vec3f(-2.0f, 2.0f, -4.0f),
+		Vec3f(-3.0f, 0.0f, -2.0f),
 	};
 	std::vector<uint32> IndiceArr{ 0, 1, 2 };
+	std::vector<uint32> IndiceArr_TestZ{ 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 	std::vector<Vec4f> ResultArr;
+	std::vector<Vec3f>* CurVexArr = &VexArr_TestZ;
+	std::vector<uint32>* CurIndicArr = &IndiceArr_TestZ;
 	static Matrix4 ModelMat;
-	Matrix4 MatMVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat() * ModelMat;		// MVP变换
+	Matrix4 MatMVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat() * ModelMat;
 	// std::cout << Cam_Try->GetViewMat() << std::endl;
 	// std::cout << Cam_Try->GetProjMat() << std::endl;
 	// std::cout << MatMVP << std::endl;
-	for (auto& i : IndiceArr)
+	for (auto& i : *CurIndicArr)
 	{
-		auto& V = VexArr[i];
-		auto P = MatMVP * Vec4f(V, 1.0f);
+		auto& V = (*CurVexArr)[i];
+		auto P = MatMVP * Vec4f(V, 1.0f);		// MVP变换
 		// std::cout << P << std::endl;
 		/**
 		 * Homogeneous division
@@ -185,18 +216,30 @@ void TestView::Draw()
 		P = ViewPort_Try->GetViewportMat() * P;		// 视口变换
 		ResultArr.push_back(P);
 	}
-	for (auto& i : IndiceArr)
+	// for (auto& i : *CurIndicArr)
+	// {
+	// 	// std::cout << ResultArr[i] << std::endl;
+	// 	auto& P1 = ResultArr[i];
+	// 	auto& P2 = ResultArr[(i + 1) % 3];
+	// 	Render_Try->DrawLine(P1.X, P1.Y, P2.X, P2.Y);
+	// }
+	// SumTime += App::GetInstance().GetDeltaTime();
+	// if (SumTime >= 0.2f)
+	// {
+	// 	ModelMat.RotateZ(10.0f);
+	// 	// ModelMat.RotateY(10.0f);
+	// 	SumTime = 0.0f;
+	// }
+	for (uint32 i = 0; i < CurIndicArr->size(); i+=3)
 	{
-		// std::cout << ResultArr[i] << std::endl;
-		auto& P1 = ResultArr[i];
-		auto& P2 = ResultArr[(i + 1) % 3];
-		Render_Try->DrawLine(P1.X, P1.Y, P2.X, P2.Y);
-	}
-	SumTime += App::GetInstance().GetDeltaTime();
-	if (SumTime >= 0.5f)
-	{
-		ModelMat.RotateZ(10.0f);
-		SumTime = 0.0f;
+		auto& P1 = ResultArr[(*CurIndicArr)[i]];
+		auto& P2 = ResultArr[(*CurIndicArr)[i + 1]];
+		auto& P3 = ResultArr[(*CurIndicArr)[i + 2]];
+		Render_Try->DrawTriangle(
+			Vec3f(P1.X, P1.Y, P1.Z),
+			Vec3f(P2.X, P2.Y, P2.Z),
+			Vec3f(P3.X, P3.Y, P3.Z)
+		);
 	}
 	// std::cout << "===test mvp end===" << std::endl;
 
@@ -295,6 +338,8 @@ void TestView::Draw()
 			// auto c = std::chrono::duration_cast<std::chrono::microseconds>(b);
 			// std::cout << b.count() << std::endl;
 			// std::cout << c.count() << std::endl;
+			std::cout << std::numeric_limits<float>::infinity() << std::endl;
+			std::cout << (0.1f > (std::numeric_limits<float>::infinity())) << std::endl;
 			std::cout << "===test misc end===" << std::endl;
 		}
 	}
