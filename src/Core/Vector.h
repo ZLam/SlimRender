@@ -152,6 +152,8 @@ typedef Vec2<float> Vec2f;
 
 struct Vec3f
 {
+    static Vec3f Up;
+    
 	float X = 0;
 	float Y = 0;
 	float Z = 0;

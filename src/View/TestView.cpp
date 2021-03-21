@@ -60,7 +60,7 @@ bool TestView::Init()
 	);
 
 	Render_Try = new Render(Size_Try.X, Size_Try.Y);
-	Cam_Try = new Camera();
+    Cam_Try = new Camera(Vec3f(0.0f, 0.0f, 5.0f), Vec3f(0.0f, 0.0f, 0.0f));
 	ViewPort_Try = new Viewport(Size_Try.X, Size_Try.Y);
 
 	Tex_Try = SDL_CreateTexture(

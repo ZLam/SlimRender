@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E56871026079CB80058C5B2 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56870726079CB80058C5B2 /* Camera.cpp */; };
+		7E56871126079CB80058C5B2 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56870926079CB80058C5B2 /* Color.cpp */; };
+		7E56871226079CB80058C5B2 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56870A26079CB80058C5B2 /* Viewport.cpp */; };
+		7E56871326079CB80058C5B2 /* RandomHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56870C26079CB80058C5B2 /* RandomHelper.cpp */; };
+		7E56871426079CB80058C5B2 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56870E26079CB80058C5B2 /* Matrix.cpp */; };
+		7E56871726079CC30058C5B2 /* DrawLinesView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56871526079CC30058C5B2 /* DrawLinesView.cpp */; };
+		7E5687192607A0C00058C5B2 /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5687182607A0C00058C5B2 /* Vector.cpp */; };
 		7EA4DD2625B9D25700D1440E /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4DCFD25B9D25700D1440E /* Render.cpp */; };
 		7EA4DD2725B9D25700D1440E /* Types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4DCFE25B9D25700D1440E /* Types.cpp */; };
 		7EA4DD2825B9D25700D1440E /* ViewMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4DD0025B9D25700D1440E /* ViewMgr.cpp */; };
@@ -40,6 +47,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7E56870426079CB80058C5B2 /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Viewport.h; sourceTree = "<group>"; };
+		7E56870526079CB80058C5B2 /* RandomHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomHelper.h; sourceTree = "<group>"; };
+		7E56870626079CB80058C5B2 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
+		7E56870726079CB80058C5B2 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		7E56870826079CB80058C5B2 /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math.h; sourceTree = "<group>"; };
+		7E56870926079CB80058C5B2 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
+		7E56870A26079CB80058C5B2 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
+		7E56870B26079CB80058C5B2 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		7E56870C26079CB80058C5B2 /* RandomHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomHelper.cpp; sourceTree = "<group>"; };
+		7E56870D26079CB80058C5B2 /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
+		7E56870E26079CB80058C5B2 /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
+		7E56870F26079CB80058C5B2 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		7E56871526079CC30058C5B2 /* DrawLinesView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawLinesView.cpp; sourceTree = "<group>"; };
+		7E56871626079CC30058C5B2 /* DrawLinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawLinesView.h; sourceTree = "<group>"; };
+		7E5687182607A0C00058C5B2 /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
 		7EA4DCF125B9D22800D1440E /* SlimRender */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SlimRender; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA4DCFD25B9D25700D1440E /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
 		7EA4DCFE25B9D25700D1440E /* Types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Types.cpp; sourceTree = "<group>"; };
@@ -125,6 +147,19 @@
 		7EA4DCFC25B9D25700D1440E /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7E56870726079CB80058C5B2 /* Camera.cpp */,
+				7E56870F26079CB80058C5B2 /* Camera.h */,
+				7E56870926079CB80058C5B2 /* Color.cpp */,
+				7E56870626079CB80058C5B2 /* Color.h */,
+				7E56870826079CB80058C5B2 /* Math.h */,
+				7E56870E26079CB80058C5B2 /* Matrix.cpp */,
+				7E56870D26079CB80058C5B2 /* Matrix.h */,
+				7E56870C26079CB80058C5B2 /* RandomHelper.cpp */,
+				7E56870526079CB80058C5B2 /* RandomHelper.h */,
+				7E5687182607A0C00058C5B2 /* Vector.cpp */,
+				7E56870B26079CB80058C5B2 /* Vector.h */,
+				7E56870A26079CB80058C5B2 /* Viewport.cpp */,
+				7E56870426079CB80058C5B2 /* Viewport.h */,
 				7EA4DCFD25B9D25700D1440E /* Render.cpp */,
 				7EA4DCFE25B9D25700D1440E /* Types.cpp */,
 				7EA4DCFF25B9D25700D1440E /* Types.h */,
@@ -193,6 +228,8 @@
 		7EA4DD2025B9D25700D1440E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7E56871526079CC30058C5B2 /* DrawLinesView.cpp */,
+				7E56871626079CC30058C5B2 /* DrawLinesView.h */,
 				7EA4DD2125B9D25700D1440E /* StatView.cpp */,
 				7EA4DD2225B9D25700D1440E /* TestView.h */,
 				7EA4DD2325B9D25700D1440E /* TestView.cpp */,
@@ -268,13 +305,19 @@
 			files = (
 				7EA4DD3225B9D25700D1440E /* imgui_draw.cpp in Sources */,
 				7EA4DD2825B9D25700D1440E /* ViewMgr.cpp in Sources */,
+				7E56871426079CB80058C5B2 /* Matrix.cpp in Sources */,
 				7EA4DD2F25B9D25700D1440E /* imgui_sdl.cpp in Sources */,
 				7EA4DD2B25B9D25700D1440E /* imgui_widgets.cpp in Sources */,
+				7E56871026079CB80058C5B2 /* Camera.cpp in Sources */,
+				7E56871226079CB80058C5B2 /* Viewport.cpp in Sources */,
+				7E56871726079CC30058C5B2 /* DrawLinesView.cpp in Sources */,
 				7EA4DD3425B9D25700D1440E /* StatView.cpp in Sources */,
 				7EA4DD3625B9D25700D1440E /* main.cpp in Sources */,
 				7EA4DD2D25B9D25700D1440E /* imgui_impl_opengl3.cpp in Sources */,
+				7E56871326079CB80058C5B2 /* RandomHelper.cpp in Sources */,
 				7EA4DD2625B9D25700D1440E /* Render.cpp in Sources */,
 				7EA4DD3125B9D25700D1440E /* imgui_impl_sdl.cpp in Sources */,
+				7E5687192607A0C00058C5B2 /* Vector.cpp in Sources */,
 				7EA4DD3525B9D25700D1440E /* TestView.cpp in Sources */,
 				7EA4DD3025B9D25700D1440E /* imgui_demo.cpp in Sources */,
 				7EA4DD2E25B9D25700D1440E /* imgui_tables.cpp in Sources */,
@@ -283,6 +326,7 @@
 				7EA4DD2C25B9D25700D1440E /* imgui.cpp in Sources */,
 				7EA4DD2A25B9D25700D1440E /* App.cpp in Sources */,
 				7EA4DD3325B9D25700D1440E /* glad.c in Sources */,
+				7E56871126079CB80058C5B2 /* Color.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
