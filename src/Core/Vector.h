@@ -150,6 +150,8 @@ struct Vec2
 typedef Vec2<int32> Vec2i;
 typedef Vec2<float> Vec2f;
 
+struct Vec4f;
+
 struct Vec3f
 {
     static Vec3f Up;
@@ -173,6 +175,7 @@ struct Vec3f
 	{
 
 	}
+	Vec3f(const Vec4f& Value);
 
 	void Set(const float& InX, const float& InY, const float& InZ)
 	{
@@ -203,7 +206,17 @@ struct Vec3f
 
 	Vec3f operator * (const float& Value) const
 	{
-		return Vec3f(X * Value, Y* Value, Z * Value);
+		return Vec3f(X * Value, Y * Value, Z * Value);
+	}
+
+	Vec3f operator / (const Vec3f& Value) const
+	{
+		return Vec3f(X / Value.X, Y / Value.Y, Z / Value.Z);
+	}
+
+	Vec3f operator / (const float& Value) const
+	{
+		return Vec3f(X / Value, Y / Value, Z / Value);
 	}
 
 	Vec3f operator += (const Vec3f& Value)
@@ -235,6 +248,14 @@ struct Vec3f
 		X *= Value;
 		Y *= Value;
 		Z *= Value;
+		return *this;
+	}
+
+	Vec3f operator /= (const float& Value)
+	{
+		X /= Value;
+		Y /= Value;
+		Z /= Value;
 		return *this;
 	}
 

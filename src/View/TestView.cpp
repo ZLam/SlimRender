@@ -61,6 +61,7 @@ bool TestView::Init()
 
 	Render_Try = new Render(Size_Try.X, Size_Try.Y);
     Cam_Try = new Camera(Vec3f(0.0f, 0.0f, 5.0f), Vec3f(0.0f, 0.0f, 0.0f));
+	Cam_Try->SetupProjection(ANGLE_TO_RADIAN(60.0f), (float)(Size_Try.X) / (float)(Size_Try.Y), 0.1f, 10000.0f);
 	ViewPort_Try = new Viewport(Size_Try.X, Size_Try.Y);
 
 	Tex_Try = SDL_CreateTexture(
@@ -169,79 +170,106 @@ void TestView::Draw()
 
 
 	// std::cout << "===test mvp begin===" << std::endl;
-	static float SumTime = 0;
-	std::vector<Vec3f> VexArr{
-		Vec3f(2.0f, 0.0f, -2.0f),
-		Vec3f(0.0f, 2.0f, -2.0f),
-		Vec3f(-2.0f, 0.0f, -2.0f),
-		// Vec3f(2.0f, 0.0f, 0.0f),
-		// Vec3f(0.0f, 2.0f, 0.0f),
-		// Vec3f(-2.0f, 0.0f, 0.0f),
-	};
-	std::vector<Vec3f> VexArr_TestZ{
-		Vec3f(2.0f, 0.0f, -2.0f),
-		Vec3f(0.0f, 2.0f, -2.0f),
-		Vec3f(-2.0f, 0.0f, -2.0f),
-		Vec3f(3.5f, -1.0f, -5.0f),
-		Vec3f(2.5f, 1.5f, -5.0f),
-		Vec3f(-1.0f, 0.5f, -5.0f),
-		Vec3f(-1.0f, 0.0f, -1.9f),
-		Vec3f(-2.0f, 2.0f, -4.0f),
-		Vec3f(-3.0f, 0.0f, -2.0f),
-	};
-	std::vector<uint32> IndiceArr{ 0, 1, 2 };
-	std::vector<uint32> IndiceArr_TestZ{ 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-	std::vector<Vec4f> ResultArr;
-	std::vector<Vec3f>* CurVexArr = &VexArr_TestZ;
-	std::vector<uint32>* CurIndicArr = &IndiceArr_TestZ;
-	static Matrix4 ModelMat;
-	Matrix4 MatMVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat() * ModelMat;
-	// std::cout << Cam_Try->GetViewMat() << std::endl;
-	// std::cout << Cam_Try->GetProjMat() << std::endl;
-	// std::cout << MatMVP << std::endl;
-	for (auto& i : *CurIndicArr)
-	{
-		auto& V = (*CurVexArr)[i];
-		auto P = MatMVP * Vec4f(V, 1.0f);		// MVP变换
-		// std::cout << P << std::endl;
-		/**
-		 * Homogeneous division
-		 * @TODO
-		 * 做完MVP变换后W并不是等于1的，这里本质的意义是什么？
-		 * 因为用了齐次坐标，这里要用W=1来表示一个点？
-		 * 除以W后，才表示在NDC空间中？
-		 */
-		P *= (1.0f / P.W);
-		// std::cout << P << std::endl;
-		P = ViewPort_Try->GetViewportMat() * P;		// 视口变换
-		ResultArr.push_back(P);
-	}
+	// static float SumTime = 0;
+	// std::vector<Vec3f> VexArr{
+	// 	Vec3f(2.0f, 0.0f, 0.0f),
+	// 	Vec3f(0.0f, 2.0f, 0.0f),
+	// 	Vec3f(-2.0f, 0.0f, 0.0f),
+	// };
+	// std::vector<Vec3f> VexArr_TestZ{
+	// 	Vec3f(2.0f, 0.0f, -1.0f),
+	// 	Vec3f(0.0f, 2.0f, -1.0f),
+	// 	Vec3f(-2.0f, 0.0f, -1.0f),
+	// 	// Vec3f(3.5f, -1.0f, -3.0f),
+	// 	// Vec3f(2.5f, 1.5f, -3.0f),
+	// 	// Vec3f(-1.0f, 0.5f, -3.0f),
+	// 	// Vec3f(-1.0f, 0.0f, 0.1f),
+	// 	// Vec3f(-2.0f, 2.0f, -2.0f),
+	// 	// Vec3f(-3.0f, 0.0f, 0.0f),
+	// 	Vec3f(0.0f, -2.5f, -1.1f),
+	// 	Vec3f(1.8f, 1.8f, -1.1f),
+	// 	Vec3f(-1.0f, 1.0f, 0.0f),
+	// };
+	// std::vector<uint32> IndiceArr{ 0, 1, 2 };
+	// std::vector<uint32> IndiceArr_TestZ{ 0, 1, 2, 3, 4, 5,  };
+	// std::vector<Vec4f> ResultArr;
+	// std::vector<Vec3f>* CurVexArr = &VexArr_TestZ;
+	// std::vector<uint32>* CurIndicArr = &IndiceArr_TestZ;
+	// static Matrix4 ModelMat;
+	// Matrix4 MatMVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat() * ModelMat;
+	// // std::cout << Cam_Try->GetViewMat() << std::endl;
+	// // std::cout << Cam_Try->GetProjMat() << std::endl;
+	// // std::cout << MatMVP << std::endl;
 	// for (auto& i : *CurIndicArr)
 	// {
-	// 	// std::cout << ResultArr[i] << std::endl;
-	// 	auto& P1 = ResultArr[i];
-	// 	auto& P2 = ResultArr[(i + 1) % 3];
-	// 	Render_Try->DrawLine(P1.X, P1.Y, P2.X, P2.Y);
+	// 	auto& V = (*CurVexArr)[i];
+	// 	auto P = MatMVP * Vec4f(V, 1.0f);		// MVP变换
+	// 	// std::cout << P << std::endl;
+	// 	/**
+	// 	 * Homogeneous division
+	// 	 * @TODO
+	// 	 * 做完MVP变换后W并不是等于1的，这里本质的意义是什么？
+	// 	 * 因为用了齐次坐标，这里要用W=1来表示一个点？
+	// 	 * 除以W后，才表示在NDC空间中？
+	// 	 */
+	// 	P *= (1.0f / P.W);
+	// 	// std::cout << P << std::endl;
+	// 	P = ViewPort_Try->GetViewportMat() * P;		// 视口变换
+	// 	ResultArr.push_back(P);
 	// }
-	// SumTime += App::GetInstance().GetDeltaTime();
-	// if (SumTime >= 0.2f)
+	// // for (auto& i : *CurIndicArr)
+	// // {
+	// // 	// std::cout << ResultArr[i] << std::endl;
+	// // 	auto& P1 = ResultArr[i];
+	// // 	auto& P2 = ResultArr[(i + 1) % 3];
+	// // 	Render_Try->DrawLine(P1.X, P1.Y, P2.X, P2.Y);
+	// // }
+	// // SumTime += App::GetInstance().GetDeltaTime();
+	// // if (SumTime >= 0.2f)
+	// // {
+	// // 	ModelMat.RotateZ(10.0f);
+	// // 	// ModelMat.RotateY(10.0f);
+	// // 	SumTime = 0.0f;
+	// // }
+	// for (uint32 i = 0; i < CurIndicArr->size(); i+=3)
 	// {
-	// 	ModelMat.RotateZ(10.0f);
-	// 	// ModelMat.RotateY(10.0f);
-	// 	SumTime = 0.0f;
+	// 	auto& P1 = ResultArr[(*CurIndicArr)[i]];
+	// 	auto& P2 = ResultArr[(*CurIndicArr)[i + 1]];
+	// 	auto& P3 = ResultArr[(*CurIndicArr)[i + 2]];
+	// 	Render_Try->DrawTriangle(
+	// 		Vec3f(P1.X, P1.Y, P1.Z),
+	// 		Vec3f(P2.X, P2.Y, P2.Z),
+	// 		Vec3f(P3.X, P3.Y, P3.Z)
+	// 	);
 	// }
-	for (uint32 i = 0; i < CurIndicArr->size(); i+=3)
-	{
-		auto& P1 = ResultArr[(*CurIndicArr)[i]];
-		auto& P2 = ResultArr[(*CurIndicArr)[i + 1]];
-		auto& P3 = ResultArr[(*CurIndicArr)[i + 2]];
-		Render_Try->DrawTriangle(
-			Vec3f(P1.X, P1.Y, P1.Z),
-			Vec3f(P2.X, P2.Y, P2.Z),
-			Vec3f(P3.X, P3.Y, P3.Z)
-		);
-	}
 	// std::cout << "===test mvp end===" << std::endl;
+
+
+	
+	// std::cout << "===test draw cube begin===" << std::endl;
+	CubeScaleMat.Scale(1.0f);
+	CubeRotateMat.RotateX(1.0f);
+	CubeRotateMat.RotateY(5.0f);
+	CubeRotateMat.RotateZ(3.0f);
+	// CubeModelMat.Identity();
+	CubeModelMat = CubeRotateMat * CubeScaleMat;
+	Matrix4 MatMVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat() * CubeModelMat;
+	int faceNum = CubeVertexArr.size() / 3;
+	for (int i = 0; i < faceNum; i++)
+	{
+		Vertex* CurVertexArr[3];
+		for (int j = 0; j < 3; j++)
+		{
+			auto& CurVertex = CubeVertexArr[i * 3 + j];
+			Vec4f ClipCoord = MatMVP * Vec4f(CurVertex.Position, 1.0f);
+			CurVertex.VSOutputData.Clip_Coord = Vec3f(ClipCoord);
+			CurVertex.VSOutputData.NDC_Coord = CurVertex.VSOutputData.Clip_Coord / ClipCoord.W;
+			CurVertex.VSOutputData.Screen_Coord = ViewPort_Try->GetViewportMat() * Vec4f(CurVertex.VSOutputData.NDC_Coord);
+			CurVertexArr[j] = &CurVertex;
+		}
+		Render_Try->DrawTriangle(CurVertexArr);
+	}
+	// std::cout << "===test draw cube end===" << std::endl;
 
 
 
@@ -340,6 +368,7 @@ void TestView::Draw()
 			// std::cout << c.count() << std::endl;
 			std::cout << std::numeric_limits<float>::infinity() << std::endl;
 			std::cout << (0.1f > (std::numeric_limits<float>::infinity())) << std::endl;
+			std::cout << std::tan(45) << std::endl;
 			std::cout << "===test misc end===" << std::endl;
 		}
 	}

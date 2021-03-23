@@ -277,20 +277,19 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3, const Color& I
  * 现代GPU渲染三角形的方式
  * 先求一个三角形的包围盒（bounding box），然后基于重心坐标的方法插值填满三角形区域
  */
-void Render::DrawTriangle(const Vec3f& V1, const Vec3f& V2, const Vec3f& V3)
+void Render::DrawTriangle(Vertex** VertexArr)
 {
-	// if ((V1.Y == V2.Y && V1.Y == V3.Y) || (V1.X == V2.X && V1.X == V3.X))
-	// {
-	// 	return;
-	// }
+	auto& V0 = (*VertexArr)[0].VSOutputData.Screen_Coord;
+	auto& V1 = (*VertexArr)[1].VSOutputData.Screen_Coord;
+	auto& V2 = (*VertexArr)[2].VSOutputData.Screen_Coord;
 
 	Vec2f BoxMin, BoxMax;
-	GetTriangleAABB(V1, V2, V3, BoxMin, BoxMax);		// 计算三角形 bounding box
+	GetTriangleAABB(V0, V1, V2, BoxMin, BoxMax);		// 计算三角形 bounding box
 
-	int32 PixelMinX = static_cast<int32>(BoxMin.X);
-	int32 PixelMinY = static_cast<int32>(BoxMin.Y);
-	int32 PixelMaxX = static_cast<int32>(BoxMax.X);
-	int32 PixelMaxY = static_cast<int32>(BoxMax.Y);
+	int32 PixelMinX = BoxMin.X;
+	int32 PixelMinY = BoxMin.Y;
+	int32 PixelMaxX = BoxMax.X;
+	int32 PixelMaxY = BoxMax.Y;
 
 	for (int32 CurY = PixelMinY; CurY <= PixelMaxY; CurY++)
 	{
@@ -298,9 +297,9 @@ void Render::DrawTriangle(const Vec3f& V1, const Vec3f& V2, const Vec3f& V3)
 		{
 			float Alpha, Beta, Gamma;
 			GetBarycentric2D(		// 计算重心坐标
+				V0.X, V0.Y,
 				V1.X, V1.Y,
 				V2.X, V2.Y,
-				V3.X, V3.Y,
 				CurX + 0.5f, CurY + 0.5f,
 				Alpha, Beta, Gamma
 			);
@@ -313,13 +312,13 @@ void Render::DrawTriangle(const Vec3f& V1, const Vec3f& V2, const Vec3f& V3)
 			//float w_reciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
 			//float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
 			//z_interpolated *= w_reciprocal;
-			float z_interpolated = Alpha * V1.Z + Beta * V2.Z + Gamma * V3.Z;		// Z的插值，为什么上面做这么多一堆东西？@TODO
+			float z_interpolated = Alpha * V0.Z + Beta * V1.Z + Gamma * V2.Z;		// Z的插值，为什么上面做这么多一堆东西？@TODO
+			Color InterpColor = (*VertexArr)[0].Colour * Alpha + (*VertexArr)[1].Colour * Beta + (*VertexArr)[2].Colour * Gamma;
 
 			int32 Index = CurY * Width + CurX;
 			if (z_interpolated < DepthBuffer[Index])		// ZBuffer处理
 			{
-				Color TmpColor(Alpha, Beta, Gamma);
-				DrawPixel(CurX, CurY, TmpColor);
+				DrawPixel(CurX, CurY, InterpColor);
 				DepthBuffer[Index] = z_interpolated;
 			}
 		}

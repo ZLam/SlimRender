@@ -3,6 +3,7 @@
 #include "Types.h"
 #include "Color.h"
 #include "Vector.h"
+#include "Vertex.h"
 
 class Render
 {
@@ -30,7 +31,7 @@ public:
 	void DrawPixel(const int32& InX, const int32& InY, const Color& InColor = Color::White);
 	void DrawLine(int32 InX1, int32 InY1, int32 InX2, int32 InY2, const Color& InColor = Color::White);
 	void DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3, const Color& InColor = Color::White);
-	void DrawTriangle(const Vec3f& V1, const Vec3f& V2, const Vec3f& V3);
+	void DrawTriangle(Vertex** VertexArr);
 
 	void GetTriangleAABB(const Vec3f& A, const Vec3f& B, const Vec3f& C, Vec2f& BoxMin, Vec2f& BoxMax);
 	Vec3f GetBarycentric2D(const Vec2f& A, const Vec2f& B, const Vec2f& C, const Vec2f& P);

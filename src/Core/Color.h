@@ -2,17 +2,18 @@
 
 #include <sstream>
 #include "Types.h"
+#include "Math.h"
 
 struct Color
 {
-	float R;
-	float G;
-	float B;
-	float A;
-	uint8 R8;
-	uint8 G8;
-	uint8 B8;
-	uint8 A8;
+	float R = 0.0f;
+	float G = 0.0f;
+	float B = 0.0f;
+	float A = 0.0f;
+	uint8 R8 = 0.0f;
+	uint8 G8 = 0.0f;
+	uint8 B8 = 0.0f;
+	uint8 A8 = 0.0f;
 
 	static Color White;
 	static Color Black;
@@ -26,10 +27,7 @@ struct Color
 		B(InB),
 		A(InA)
 	{
-		R8 = static_cast<uint8>(R * 255.0f);
-		G8 = static_cast<uint8>(G * 255.0f);
-		B8 = static_cast<uint8>(B * 255.0f);
-		A8 = static_cast<uint8>(A * 255.0f);
+		_setupR8G8B8A8();
 	}
 
 	Color(const Color& InColor) :
@@ -45,6 +43,14 @@ struct Color
 
 	}
 
+	void _setupR8G8B8A8()
+	{
+		R8 = (uint8)(R * 255.0f);
+		G8 = (uint8)(G * 255.0f);
+		B8 = (uint8)(B * 255.0f);
+		A8 = (uint8)(A * 255.0f);
+	}
+
 	uint32 GetRGBA32() const
 	{
 		return R8 << 24 | G8 << 16 | B8 << 8 | A8;
@@ -55,10 +61,50 @@ struct Color
 		return A8 << 24 | R8 << 16 | G8 << 8 | B8;
 	}
 
+	Color operator + (const Color& Value) const
+	{
+		return Color(
+			std::min(R + Value.R, 1.0f),
+			std::min(G + Value.G, 1.0f),
+			std::min(B + Value.B, 1.0f),
+			std::min(A + Value.A, 1.0f)
+		);
+	}
+
+	Color& operator += (const Color& Value)
+	{
+		R = std::min(R + Value.R, 1.0f);
+		G = std::min(G + Value.G, 1.0f);
+		B = std::min(B + Value.B, 1.0f);
+		A = std::min(A + Value.A, 1.0f);
+		_setupR8G8B8A8();
+		return *this;
+	}
+
+	Color operator * (const float& Value) const
+	{
+		return Color(
+			std::min(R * Value, 1.0f),
+			std::min(G * Value, 1.0f),
+			std::min(B * Value, 1.0f),
+			std::min(A * Value, 1.0f)
+		);
+	}
+
+	Color& operator *= (const float& Value)
+	{
+		R = std::min(R * Value, 1.0f);
+		G = std::min(G * Value, 1.0f);
+		B = std::min(B * Value, 1.0f);
+		A = std::min(A * Value, 1.0f);
+		_setupR8G8B8A8();
+		return *this;
+	}
+
 	std::string ToString() const
 	{
 		std::stringstream ss;
-		ss << "(" << R << ", " << G << ", " << B << ")";
+		ss << "(" << R << ", " << G << ", " << B << ", " << A << ")";
 		return ss.str();
 	}
 
