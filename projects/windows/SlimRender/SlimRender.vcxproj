@@ -178,6 +178,7 @@
     <ClInclude Include="..\..\..\src\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\..\..\src\imgui\imstb_textedit.h" />
     <ClInclude Include="..\..\..\src\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\..\..\src\stb\stb_image.h" />
     <ClInclude Include="..\..\..\src\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="..\..\..\src\View\DrawLinesView.h" />
     <ClInclude Include="..\..\..\src\View\StatView.h" />

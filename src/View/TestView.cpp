@@ -9,6 +9,9 @@
 #include "Core/App.h"
 #include "Core/Matrix.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
+
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tinyobjloader/tiny_obj_loader.h"
 
@@ -342,10 +345,39 @@ void TestView::Draw()
 			}
 			std::cout << "===test load obj end===" << std::endl;
 
+
+
+			std::cout << "===test load img begin===" << std::endl;
+			std::string ImgFilePath = "D:/Workspace_HDD/Cpp/SlimRender/res/test.png";
+			int ImgWidth = 0;
+			int ImgHeight = 0;
+			int NumChannels = 0;
+			uint8* ImgData = stbi_load(ImgFilePath.c_str(), &ImgWidth, &ImgHeight, &NumChannels, 0);
+			if (ImgData)
+			{
+				std::vector<int> PixelIndexArr = {
+					0,
+					ImgWidth / 2 * NumChannels,
+					ImgWidth * (ImgHeight / 2) * NumChannels,
+					(ImgWidth * ImgHeight - 1) * NumChannels,
+				};
+				std::cout << ImgWidth << ", " << ImgHeight << ", " << NumChannels << std::endl;
+				for (const auto& PixelIndex : PixelIndexArr)
+				{
+					uint8 r, g, b, a = 255;
+					r = ImgData[PixelIndex];
+					g = ImgData[PixelIndex + 1];
+					b = ImgData[PixelIndex + 2];
+					a = NumChannels >= 4 ? ImgData[PixelIndex + 3] : 255;
+					std::cout << PixelIndex << ", " << (int32)r << ", " << (int32)g << ", " << (int32)b << ", " << (int32)a << std::endl;
+				}
+				stbi_image_free(ImgData);
+				ImgData = nullptr;
+			}
+			std::cout << "===test load img end===" << std::endl;
+
+
 			
-			
-	
-	
 			std::cout << "===test misc begin===" << std::endl;
 			Vec2f v1;
 			std::cout << static_cast<void*>(&v1) << std::endl;

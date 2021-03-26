@@ -25,6 +25,9 @@
     <Filter Include="src\tinyobjloader">
       <UniqueIdentifier>{b24d4a5c-93c5-4665-a27c-a9b22c1a733e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\stb">
+      <UniqueIdentifier>{c549f18f-5194-48a5-8ee3-e5fef6557a79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main.cpp">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Vertex.h">
       <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\stb\stb_image.h">
+      <Filter>src\stb</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
