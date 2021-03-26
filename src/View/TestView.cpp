@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <thread>
+#include <filesystem>
 #include "Core/Math.h"
 #include "Core/Functions.h"
 #include "Core/RandomHelper.h"
@@ -376,6 +377,12 @@ void TestView::Draw()
 			}
 			std::cout << "===test load img end===" << std::endl;
 
+
+
+			std::cout << "===test filesystem begin===" << std::endl;
+			auto p = std::filesystem::current_path();
+			std::cout << p << std::endl;
+			std::cout << "===test filesystem end===" << std::endl;
 
 			
 			std::cout << "===test misc begin===" << std::endl;
