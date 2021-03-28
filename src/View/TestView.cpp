@@ -9,8 +9,9 @@
 #include "Core/Vector.h"
 #include "Core/App.h"
 #include "Core/Matrix.h"
+#include "Core/Texture.h"
 
-#define STB_IMAGE_IMPLEMENTATION
+// #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
@@ -383,6 +384,14 @@ void TestView::Draw()
 			auto p = std::filesystem::current_path();
 			std::cout << p << std::endl;
 			std::cout << "===test filesystem end===" << std::endl;
+
+
+
+			std::cout << "===test texture begin===" << std::endl;
+			std::string TexFilePath = "";
+			auto Tex = Texture(TexFilePath);
+			std::cout << "===test texture end===" << std::endl;
+			
 
 			
 			std::cout << "===test misc begin===" << std::endl;

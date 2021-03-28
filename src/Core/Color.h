@@ -10,10 +10,10 @@ struct Color
 	float G = 0.0f;
 	float B = 0.0f;
 	float A = 0.0f;
-	uint8 R8 = 0.0f;
-	uint8 G8 = 0.0f;
-	uint8 B8 = 0.0f;
-	uint8 A8 = 0.0f;
+	uint8 R8 = 0;
+	uint8 G8 = 0;
+	uint8 B8 = 0;
+	uint8 A8 = 0;
 
 	static Color White;
 	static Color Black;
@@ -21,24 +21,38 @@ struct Color
 	static Color Green;
 	static Color Blue;
 
-	Color(float InR, float InG, float InB, float InA = 1.0f) :
-		R(InR),
-		G(InG),
-		B(InB),
-		A(InA)
+	Color()
 	{
 		_setupR8G8B8A8();
 	}
 
+	Color(const float& InR, const float& InG, const float& InB, const float& InA = 1.0f) :
+	R(InR),
+	G(InG),
+	B(InB),
+	A(InA)
+	{
+		_setupR8G8B8A8();
+	}
+
+	Color(const uint8& InR, const uint8& InG, const uint8& InB, const uint8& InA = 255):
+	R8(InR),
+	G8(InG),
+	B8(InB),
+	A8(InA)
+	{
+		_setupRGBA();
+	}
+
 	Color(const Color& InColor) :
-		R(InColor.R),
-		G(InColor.G),
-		B(InColor.B),
-		A(InColor.A),
-		R8(InColor.R8),
-		G8(InColor.G8),
-		B8(InColor.B8),
-		A8(InColor.A8)
+	R(InColor.R),
+	G(InColor.G),
+	B(InColor.B),
+	A(InColor.A),
+	R8(InColor.R8),
+	G8(InColor.G8),
+	B8(InColor.B8),
+	A8(InColor.A8)
 	{
 
 	}
@@ -49,6 +63,14 @@ struct Color
 		G8 = (uint8)(G * 255.0f);
 		B8 = (uint8)(B * 255.0f);
 		A8 = (uint8)(A * 255.0f);
+	}
+
+	void _setupRGBA()
+	{
+		R = ((float)R8) / 255.0f;
+		G = ((float)G8) / 255.0f;
+		B = ((float)B8) / 255.0f;
+		A = ((float)A8) / 255.0f;
 	}
 
 	uint32 GetRGBA32() const

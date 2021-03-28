@@ -18,7 +18,7 @@ private:
 
 	SDL_Texture* Tex_Try;
 	Render* Render_Try;
-	Vec2i Size_Try = Vec2i(700, 700);
+	Vec2i Size_Try = Vec2i(500, 500);
 	Camera* Cam_Try;
 	Viewport* ViewPort_Try;
 
