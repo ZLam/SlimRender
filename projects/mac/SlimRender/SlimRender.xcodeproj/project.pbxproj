@@ -32,6 +32,7 @@
 		7EA4DD3525B9D25700D1440E /* TestView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4DD2325B9D25700D1440E /* TestView.cpp */; };
 		7EA4DD3625B9D25700D1440E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EA4DD2525B9D25700D1440E /* main.cpp */; };
 		7EA4DD3925B9D29200D1440E /* libSDL2-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA4DD3825B9D29200D1440E /* libSDL2-2.0.0.dylib */; };
+		7EF51C052610C77D00444D63 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EF51C022610C77D00444D63 /* Texture.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -100,6 +101,10 @@
 		7EA4DD2425B9D25700D1440E /* StatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatView.h; sourceTree = "<group>"; };
 		7EA4DD2525B9D25700D1440E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7EA4DD3825B9D29200D1440E /* libSDL2-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL2-2.0.0.dylib"; path = "../../../3rdParty/SDL2/lib/mac/libSDL2-2.0.0.dylib"; sourceTree = "<group>"; };
+		7EF51C022610C77D00444D63 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		7EF51C032610C77D00444D63 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		7EF51C042610C77D00444D63 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
+		7EF51C072610C79100444D63 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +139,7 @@
 		7EA4DCFB25B9D25700D1440E /* src */ = {
 			isa = PBXGroup;
 			children = (
+				7EF51C062610C79100444D63 /* stb */,
 				7EA4DCFC25B9D25700D1440E /* Core */,
 				7EA4DD0825B9D25700D1440E /* imgui */,
 				7EA4DD1A25B9D25700D1440E /* glad */,
@@ -147,6 +153,9 @@
 		7EA4DCFC25B9D25700D1440E /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7EF51C022610C77D00444D63 /* Texture.cpp */,
+				7EF51C032610C77D00444D63 /* Texture.h */,
+				7EF51C042610C77D00444D63 /* Vertex.h */,
 				7E56870726079CB80058C5B2 /* Camera.cpp */,
 				7E56870F26079CB80058C5B2 /* Camera.h */,
 				7E56870926079CB80058C5B2 /* Color.cpp */,
@@ -246,6 +255,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7EF51C062610C79100444D63 /* stb */ = {
+			isa = PBXGroup;
+			children = (
+				7EF51C072610C79100444D63 /* stb_image.h */,
+			);
+			path = stb;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -318,6 +335,7 @@
 				7EA4DD2625B9D25700D1440E /* Render.cpp in Sources */,
 				7EA4DD3125B9D25700D1440E /* imgui_impl_sdl.cpp in Sources */,
 				7E5687192607A0C00058C5B2 /* Vector.cpp in Sources */,
+				7EF51C052610C77D00444D63 /* Texture.cpp in Sources */,
 				7EA4DD3525B9D25700D1440E /* TestView.cpp in Sources */,
 				7EA4DD3025B9D25700D1440E /* imgui_demo.cpp in Sources */,
 				7EA4DD2E25B9D25700D1440E /* imgui_tables.cpp in Sources */,
@@ -339,7 +357,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -408,7 +426,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;

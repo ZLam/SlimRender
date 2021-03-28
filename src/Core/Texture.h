@@ -20,4 +20,14 @@ public:
 	bool LoadFromFile(const std::string& InFilePath);
 
 	Color Sample(const Vec2f& InUV);
+    
+    int32 GetWidth() const
+    {
+        return Width;
+    }
+    
+    int32 GetHeight() const
+    {
+        return Height;
+    }
 };

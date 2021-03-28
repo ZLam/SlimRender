@@ -4,6 +4,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
+#include "Math.h"
+
 Texture::Texture(const std::string& InFilePath)
 {
 	LoadFromFile(InFilePath);
@@ -17,7 +19,7 @@ bool Texture::LoadFromFile(const std::string& InFilePath)
 		std::cout << "load img fail!" << "(" << InFilePath << ")" << std::endl;
 		return false;
 	}
-	Data.resize(Width * Height);
+    Data.reserve(Width * Height);
 	for (int Row = 0; Row < Height; Row++)
 	{
 		for (int Col = 0; Col < Width; Col++)
