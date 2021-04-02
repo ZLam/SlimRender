@@ -387,23 +387,28 @@ void TestView::Draw()
 			std::cout << p << std::endl;
             std::cout << p2 << std::endl;
             std::cout << p3 << std::endl;
+			std::cout << p.string() << std::endl;
+			std::cout << p.generic_string() << std::endl;
+			std::cout << GetProjectDir() << std::endl;
+			std::cout << GetResDir() << std::endl;
+			std::cout << ResFullPath("/test.png") << std::endl;
 			std::cout << "===test filesystem end===" << std::endl;
 
 
 
 			std::cout << "===test texture begin===" << std::endl;
-			std::string TexFilePath = "/Users/zlam/Workspace/LearnCPP/SlimRender/res/test.png";
-			auto Tex = Texture(TexFilePath);
-            auto C1 = Tex.Sample(Vec2f(0.0f, 0.0f));
-            auto C2 = Tex.Sample(Vec2f(0.51f, 0.0f));
-            auto C3 = Tex.Sample(Vec2f(0.0f, 0.51f));
-            auto C4 = Tex.Sample(Vec2f(0.51f, 0.51f));
-            auto C5 = Tex.Sample(Vec2f(1.0f, 1.0f));
-            std::cout << C1 << std::endl;
-            std::cout << C2 << std::endl;
-            std::cout << C3 << std::endl;
-            std::cout << C4 << std::endl;
-            std::cout << C5 << std::endl;
+			std::string TexFilePath = ResFullPath("/test.png");
+			auto Tex01 = Texture(TexFilePath);
+			auto C1 = Tex01.Sample(Vec2f(0.0f, 0.0f));
+			auto C2 = Tex01.Sample(Vec2f(0.51f, 0.0f));
+			auto C3 = Tex01.Sample(Vec2f(0.0f, 0.51f));
+			auto C4 = Tex01.Sample(Vec2f(0.51f, 0.51f));
+			auto C5 = Tex01.Sample(Vec2f(1.0f, 1.0f));
+			std::cout << C1 << std::endl;
+			std::cout << C2 << std::endl;
+			std::cout << C3 << std::endl;
+			std::cout << C4 << std::endl;
+			std::cout << C5 << std::endl;
 			std::cout << "===test texture end===" << std::endl;
 			
 
