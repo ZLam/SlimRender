@@ -22,14 +22,14 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{7C3C9B32-5FA5-4A11-9A9A-D1D75E6F6E8F}</ProjectGuid>
     <RootNamespace>SlimRender</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\App.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Attribute.cpp" />
     <ClCompile Include="..\..\..\src\Core\BaseView.cpp" />
     <ClCompile Include="..\..\..\src\Core\Camera.cpp" />
     <ClCompile Include="..\..\..\src\Core\Color.cpp" />
@@ -136,8 +137,10 @@
     <ClCompile Include="..\..\..\src\Core\RandomHelper.cpp" />
     <ClCompile Include="..\..\..\src\Core\Render.cpp" />
     <ClCompile Include="..\..\..\src\Core\Shader.cpp" />
+    <ClCompile Include="..\..\..\src\Core\ShaderProgram.cpp" />
     <ClCompile Include="..\..\..\src\Core\Texture.cpp" />
     <ClCompile Include="..\..\..\src\Core\Types.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Uniform.cpp" />
     <ClCompile Include="..\..\..\src\Core\Vector.cpp" />
     <ClCompile Include="..\..\..\src\Core\ViewMgr.cpp" />
     <ClCompile Include="..\..\..\src\Core\Viewport.cpp" />
@@ -157,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\App.h" />
+    <ClInclude Include="..\..\..\src\Core\Attribute.h" />
     <ClInclude Include="..\..\..\src\Core\BaseView.h" />
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
     <ClInclude Include="..\..\..\src\Core\Color.h" />
@@ -166,8 +170,10 @@
     <ClInclude Include="..\..\..\src\Core\RandomHelper.h" />
     <ClInclude Include="..\..\..\src\Core\Render.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />
+    <ClInclude Include="..\..\..\src\Core\ShaderProgram.h" />
     <ClInclude Include="..\..\..\src\Core\Texture.h" />
     <ClInclude Include="..\..\..\src\Core\Types.h" />
+    <ClInclude Include="..\..\..\src\Core\Uniform.h" />
     <ClInclude Include="..\..\..\src\Core\Vector.h" />
     <ClInclude Include="..\..\..\src\Core\Vertex.h" />
     <ClInclude Include="..\..\..\src\Core\ViewMgr.h" />
