@@ -15,7 +15,7 @@ public:
 	Shader(ShaderProgram* InProgram);
 	virtual ~Shader() = default;
 	
-	virtual Vec4f VertexShader(const Vertex& InVertex) = 0;
+	virtual void VertexShader(const Vertex& InVertex) = 0;
 	virtual Color FragmentShader() = 0;
 };
 
@@ -25,6 +25,6 @@ public:
 	BlinnShader(ShaderProgram* InProgram);
 	virtual ~BlinnShader() = default;
 
-	Vec4f VertexShader(const Vertex& InVertex) override;
+	void VertexShader(const Vertex& InVertex) override;
 	Color FragmentShader() override;
 };

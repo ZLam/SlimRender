@@ -117,6 +117,12 @@
     <ClCompile Include="..\..\..\src\Core\Uniform.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Material.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\BoundingBox.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\imgui\imconfig.h">
@@ -222,6 +228,12 @@
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Uniform.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Material.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\BoundingBox.h">
       <Filter>src\Core</Filter>
     </ClInclude>
   </ItemGroup>

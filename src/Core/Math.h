@@ -3,6 +3,8 @@
 #include <cmath>
 #include <algorithm>
 
+#define EPSILON_EX (1e-5f)
+
 #define PI (3.1415926535897932f)
 
 #define RADIAN_TO_ANGLE(a) (180.0f / PI * (a))

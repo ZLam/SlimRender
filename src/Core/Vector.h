@@ -391,6 +391,16 @@ struct Vec4f
 		return Vec4f(X * Value, Y* Value, Z * Value, W * Value);
 	}
 
+	Vec4f operator / (const Vec4f& Value) const
+	{
+		return Vec4f(X / Value.X, Y / Value.Y, Z / Value.Z, W / Value.W);
+	}
+
+	Vec4f operator / (const float& Value) const
+	{
+		return Vec4f(X / Value, Y / Value, Z / Value, W / Value);
+	}
+
 	Vec4f operator += (const Vec4f& Value)
 	{
 		X += Value.X;

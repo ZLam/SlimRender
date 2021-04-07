@@ -4,13 +4,14 @@
 #include "App.h"
 #include "Math.h"
 
-Render::Render(const uint32& InWidth, const uint32& InHeight) :
+Render::Render(const int32& InWidth, const int32& InHeight) :
 Width(InWidth),
 Height(InHeight)
 {
 	ColorBuffer = new uint32[Width * Height];
 	ColorBufferSize = Width * Height * sizeof(uint32);
 	DepthBuffer = new float[Width * Height];
+	CurViewport = new Viewport(Width, Height);
 }
 
 Render::~Render()
@@ -24,6 +25,11 @@ Render::~Render()
 	{
 		delete[] DepthBuffer;
 		DepthBuffer = nullptr;
+	}
+	if (CurViewport)
+	{
+		delete CurViewport;
+		CurViewport = nullptr;
 	}
 }
 
@@ -277,60 +283,97 @@ void Render::DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3, const Color& I
  * 现代GPU渲染三角形的方式
  * 先求一个三角形的包围盒（bounding box），然后基于重心坐标的方法插值填满三角形区域
  */
-void Render::DrawTriangle(Vertex** VertexArr)
+void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 {
-	auto& V0 = (*VertexArr)[0].VSOutputData.Screen_Coord;
-	auto& V1 = (*VertexArr)[1].VSOutputData.Screen_Coord;
-	auto& V2 = (*VertexArr)[2].VSOutputData.Screen_Coord;
-
-	Vec2f BoxMin, BoxMax;
-	GetTriangleAABB(V0, V1, V2, BoxMin, BoxMax);		// 计算三角形 bounding box
-
-	int32 PixelMinX = BoxMin.X;
-	int32 PixelMinY = BoxMin.Y;
-	int32 PixelMaxX = BoxMax.X;
-	int32 PixelMaxY = BoxMax.Y;
-
-	for (int32 CurY = PixelMinY; CurY <= PixelMaxY; CurY++)
+	InShaderProgram->Resume();
+	
+	// vertex shader
+	for (int32 i = 0; i < 3; i++)
 	{
-		for (int32 CurX = PixelMinX; CurX <= PixelMaxX; CurX++)
-		{
-			float Alpha, Beta, Gamma;
-			GetBarycentric2D(		// 计算重心坐标
-				V0.X, V0.Y,
-				V1.X, V1.Y,
-				V2.X, V2.Y,
-				CurX + 0.5f, CurY + 0.5f,
-				Alpha, Beta, Gamma
-			);
-			if (Alpha < 0 || Beta < 0 || Gamma < 0)		// 判断是否在三角形内
-			{
-				continue;
-			}
-			
-			//auto[alpha, beta, gamma] = computeBarycentric2D(x, y, t.v);
-			//float w_reciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
-			//float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
-			//z_interpolated *= w_reciprocal;
-			float z_interpolated = Alpha * V0.Z + Beta * V1.Z + Gamma * V2.Z;		// Z的插值，为什么上面做这么多一堆东西？@TODO
-			Color InterpColor = (*VertexArr)[0].Colour * Alpha + (*VertexArr)[1].Colour * Beta + (*VertexArr)[2].Colour * Gamma;
+		InShaderProgram->CurShader->VertexShader((*VertexArr)[i]);
+	}
+	
+	// clipping @TODO
 
-			int32 Index = CurY * Width + CurX;
-			if (z_interpolated < DepthBuffer[Index])		// ZBuffer处理
+	// assembly
+	int32 CurAttribNum = InShaderProgram->CurAttribNum;
+	auto& CurAttribArr = InShaderProgram->CurAttribArr;
+	for (int32 i = 0; i < CurAttribNum - 2; i++)
+	{
+		Attribute* TriangleAttribArr[3];
+		Vec4f NDC_Coord[3];
+		Vec4f Screen_Coord[3];
+		float RecipW[3];
+		TriangleAttribArr[0] = CurAttribArr[i];
+		TriangleAttribArr[1] = CurAttribArr[i + 1];
+		TriangleAttribArr[2] = CurAttribArr[i + 2];
+
+		// perspective division
+		for (int32 j = 0; j < 3; j++)
+		{
+			NDC_Coord[j] = TriangleAttribArr[j]->Clip_OutCoord / TriangleAttribArr[j]->Clip_OutCoord.W;
+		}
+		
+		// culling @TODO
+
+		// reciprocals of w
+		for (int32 j = 0; j < 3; j++)
+		{
+			RecipW[j] = 1.0f / TriangleAttribArr[j]->Clip_OutCoord.W;
+		}
+
+		// viewport
+		for (int32 j = 0; j < 3; j++)
+		{
+			Screen_Coord[j] = CurViewport->GetViewportMat() * NDC_Coord[j];
+		}
+
+		// raster
+		BoundingBox TriangleBBox;
+		GetTriangleAABB(Screen_Coord[0], Screen_Coord[1], Screen_Coord[2], TriangleBBox);
+		int32 PixelMinX = std::max((int32)std::floor(TriangleBBox.MinX), 0);
+		int32 PixelMinY = std::max((int32)std::floor(TriangleBBox.MinY), 0);
+		int32 PixelMaxX = std::min((int32)std::ceil(TriangleBBox.MaxX), Width - 1);
+		int32 PixelMaxY = std::min((int32)std::ceil(TriangleBBox.MaxY), Height - 1);
+		for (int32 CurY = PixelMinY; CurY <= PixelMaxY; CurY++)
+		{
+			for (int32 CurX = PixelMinX; CurX <= PixelMaxX; CurX++)
 			{
-				DrawPixel(CurX, CurY, InterpColor);
-				DepthBuffer[Index] = z_interpolated;
+				float Alpha, Beta, Gamma;
+				GetBarycentric2D(		// 计算重心坐标
+					Screen_Coord[0].X, Screen_Coord[0].Y,
+					Screen_Coord[1].X, Screen_Coord[1].Y,
+					Screen_Coord[2].X, Screen_Coord[2].Y,
+					CurX + 0.5f, CurY + 0.5f,
+					Alpha, Beta, Gamma
+				);
+				if (Alpha > -EPSILON_EX && Beta > -EPSILON_EX && Gamma > -EPSILON_EX)		// 判断是否在三角形内
+				{
+					float Depth = Screen_Coord[0].Z * Alpha + Screen_Coord[1].Z * Beta + Screen_Coord[2].Z * Gamma;		// z-buffer
+					int32 Index = CurY * Width + CurX;
+					if (Depth < DepthBuffer[Index])
+					{
+						// perspective correct interpolation @TODO
+						InShaderProgram->HandleInterpAttrib(TriangleAttribArr, Alpha, Beta, Gamma);
+
+						// fragment shader
+						Color OutColor = InShaderProgram->CurShader->FragmentShader();
+
+						DrawPixel(CurX, CurY, OutColor);
+						DepthBuffer[Index] = Depth;
+					}
+				}
 			}
 		}
 	}
 }
 
-void Render::GetTriangleAABB(const Vec3f& A, const Vec3f& B, const Vec3f& C, Vec2f& BoxMin, Vec2f& BoxMax)
+void Render::GetTriangleAABB(const Vec4f& A, const Vec4f& B, const Vec4f& C, BoundingBox& InBoundingBox)
 {
-	BoxMin.X = std::min(A.X, std::min(B.X, C.X));
-	BoxMin.Y = std::min(A.Y, std::min(B.Y, C.Y));
-	BoxMax.X = std::max(A.X, std::max(B.X, C.X));
-	BoxMax.Y = std::max(A.Y, std::max(B.Y, C.Y));
+	InBoundingBox.MinX = std::min(A.X, std::min(B.X, C.X));
+	InBoundingBox.MinY = std::min(A.Y, std::min(B.Y, C.Y));
+	InBoundingBox.MaxX = std::max(A.X, std::max(B.X, C.X));
+	InBoundingBox.MaxY = std::max(A.Y, std::max(B.Y, C.Y));
 }
 
 /**
@@ -347,10 +390,10 @@ Vec3f Render::GetBarycentric2D(const Vec2f& A, const Vec2f& B, const Vec2f& C, c
 	float D20 = Vec2f::DotProduct(V2, V0);
 	float D21 = Vec2f::DotProduct(V2, V1);
 	float Denom = D00 * D11 - D01 * D01;
-	float V = (D11 * D20 - D01 * D21) / Denom;
-	float W = (D00 * D21 - D01 * D20) / Denom;
-	float U = 1.0f - V - W;
-	return Vec3f(U, V, W);
+	float Beta = (D11 * D20 - D01 * D21) / Denom;
+	float Gamma = (D00 * D21 - D01 * D20) / Denom;
+	float Alpha = 1.0f - Beta - Gamma;
+	return Vec3f(Alpha, Beta, Gamma);
 }
 
 void Render::GetBarycentric2D(const float& XA, const float& YA, const float& XB, const float& YB, const float& XC, const float& YC,

@@ -7,8 +7,8 @@
 #include "imgui.h"
 #include "Core/Render.h"
 #include "Core/Camera.h"
-#include "Core/Viewport.h"
 #include "Core/Vertex.h"
+#include "Core/ShaderProgram.h"
 
 class TestView : public BaseView
 {
@@ -20,7 +20,7 @@ private:
 	Render* Render_Try;
 	Vec2i Size_Try = Vec2i(500, 500);
 	Camera* Cam_Try;
-	Viewport* ViewPort_Try;
+	ShaderProgram* ShaderProgram_Try;
 
 	std::vector<Vertex> CubeVertexArr = {
 		Vertex(Vec3f(1.0f, 1.0f, 1.0f), Color::Red),			//1

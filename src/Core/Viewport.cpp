@@ -16,7 +16,7 @@ Height(InHeight)
 	/**
 	 * GAMES101的Viewport矩阵
 	 */
-	//@TODO 为什么这样处理z坐标
+	// @TODO 下面加减0.1f有咩用
 	// float f1 = (100.0f - 0.1f) / 2.0f;
 	// float f2 = (100.0f + 0.1f) / 2.0f;
 	// Matrix4 ScaleMat;

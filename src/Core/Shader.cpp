@@ -14,16 +14,19 @@ Shader(InProgram)
 	
 }
 
-Vec4f BlinnShader::VertexShader(const Vertex& InVertex)
+void BlinnShader::VertexShader(const Vertex& InVertex)
 {
 	BlinnUniform* CurUniform = (BlinnUniform*)Program->CurUniform;
-	BlinnAttribute* CurAttribute = (BlinnAttribute*)(Program->CurAttributeArr[Program->CurAttribNum++]);
+	BlinnAttribute* CurAttribute = (BlinnAttribute*)(Program->CurAttribArr[Program->CurAttribNum++]);
 	Vec4f WorldPos = CurUniform->MatModel * InVertex.Position;
 	CurAttribute->Colour = InVertex.Colour;
-	return CurUniform->MatCameraVP * WorldPos;
+	CurAttribute->Clip_InCoord = CurUniform->MatCameraVP * WorldPos;
+
+	CurAttribute->Clip_OutCoord = CurAttribute->Clip_InCoord;		//@TODO
 }
 
 Color BlinnShader::FragmentShader()
 {
-	return Color::White;
+	BlinnAttribute* InterpAttrib = (BlinnAttribute*)Program->CurInterpAttrib;
+	return InterpAttrib->Colour;
 }

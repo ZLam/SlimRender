@@ -45,10 +45,10 @@ TestView::~TestView()
 		delete Cam_Try;
 		Cam_Try = nullptr;
 	}
-	if (ViewPort_Try)
+	if (ShaderProgram_Try)
 	{
-		delete ViewPort_Try;
-		ViewPort_Try = nullptr;
+		delete ShaderProgram_Try;
+		ShaderProgram_Try = nullptr;
 	}
 }
 
@@ -65,9 +65,11 @@ bool TestView::Init()
 	);
 
 	Render_Try = new Render(Size_Try.X, Size_Try.Y);
+	
     Cam_Try = new Camera(Vec3f(0.0f, 0.0f, 5.0f), Vec3f(0.0f, 0.0f, 0.0f));
 	Cam_Try->SetupProjection(ANGLE_TO_RADIAN(60.0f), (float)(Size_Try.X) / (float)(Size_Try.Y), 0.1f, 10000.0f);
-	ViewPort_Try = new Viewport(Size_Try.X, Size_Try.Y);
+
+	ShaderProgram_Try = new BlinnShaderProgram();
 
 	Tex_Try = SDL_CreateTexture(
 		Renderer,
@@ -252,27 +254,24 @@ void TestView::Draw()
 
 	
 	// std::cout << "===test draw cube begin===" << std::endl;
+	float DeltaTime = App::GetInstance().GetDeltaTime();
 	CubeScaleMat.Scale(1.0f);
-	CubeRotateMat.RotateX(1.0f);
-	CubeRotateMat.RotateY(5.0f);
-	CubeRotateMat.RotateZ(3.0f);
+	CubeRotateMat.RotateX(2.0f * DeltaTime);
+	CubeRotateMat.RotateY(6.0f * DeltaTime);
+	CubeRotateMat.RotateZ(10.0f * DeltaTime);
 	// CubeModelMat.Identity();
 	CubeModelMat = CubeRotateMat * CubeScaleMat;
-	Matrix4 MatMVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat() * CubeModelMat;
+	ShaderProgram_Try->CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
+	ShaderProgram_Try->CurUniform->MatModel = CubeModelMat;
 	int faceNum = CubeVertexArr.size() / 3;
 	for (int i = 0; i < faceNum; i++)
 	{
 		Vertex* CurVertexArr[3];
 		for (int j = 0; j < 3; j++)
 		{
-			auto& CurVertex = CubeVertexArr[i * 3 + j];
-			Vec4f ClipCoord = MatMVP * Vec4f(CurVertex.Position, 1.0f);
-			CurVertex.VSOutputData.Clip_Coord = Vec3f(ClipCoord);
-			CurVertex.VSOutputData.NDC_Coord = CurVertex.VSOutputData.Clip_Coord / ClipCoord.W;
-			CurVertex.VSOutputData.Screen_Coord = ViewPort_Try->GetViewportMat() * Vec4f(CurVertex.VSOutputData.NDC_Coord);
-			CurVertexArr[j] = &CurVertex;
+			CurVertexArr[j] = &CubeVertexArr[i * 3 + j];
 		}
-		Render_Try->DrawTriangle(CurVertexArr);
+		Render_Try->DrawTriangle(CurVertexArr, ShaderProgram_Try);
 	}
 	// std::cout << "===test draw cube end===" << std::endl;
 
@@ -443,13 +442,7 @@ void TestView::Draw()
 	
 	if (ImGui::Begin("Test Soft Render", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
 	{
-		ImGui::Image(
-			Tex_Try,
-			ImVec2(
-				static_cast<float>(Size_Try.X),
-				static_cast<float>(Size_Try.Y)
-			)
-		);
+		ImGui::Image(Tex_Try, ImVec2(Size_Try.X, Size_Try.Y));
 	}
 	ImGui::End();
 

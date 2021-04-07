@@ -6,14 +6,14 @@
 
 struct Color
 {
-	float R = 0.0f;
-	float G = 0.0f;
-	float B = 0.0f;
-	float A = 0.0f;
-	uint8 R8 = 0;
-	uint8 G8 = 0;
-	uint8 B8 = 0;
-	uint8 A8 = 0;
+	float R = 1.0f;
+	float G = 1.0f;
+	float B = 1.0f;
+	float A = 1.0f;
+	uint8 R8 = 255;
+	uint8 G8 = 255;
+	uint8 B8 = 255;
+	uint8 A8 = 255;
 
 	static Color White;
 	static Color Black;
