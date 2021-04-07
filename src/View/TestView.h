@@ -74,6 +74,19 @@ private:
 	Matrix4 CubeModelMat;
 	Matrix4 CubeScaleMat;
 	Matrix4 CubeRotateMat;
+
+	std::vector<Vertex> PlaneVertexArr = {
+		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::Red),			//1
+		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::Green),		//2
+		Vertex(Vec3f(1.0f, -1.0f, 0.0f), Color::Blue),		//3
+
+		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::Red),			//1
+		Vertex(Vec3f(-1.0f, 1.0f, 0.0f), Color::Blue),		//4
+		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::Green),		//2
+	};
+	Matrix4 PlaneModelMat;
+	Matrix4 PlaneScaleMat;
+	Matrix4 PlaneRotateMat;
 	
 public:
 	TestView(const std::string& InName);

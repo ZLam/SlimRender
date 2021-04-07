@@ -314,7 +314,11 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 			NDC_Coord[j] = TriangleAttribArr[j]->Clip_OutCoord / TriangleAttribArr[j]->Clip_OutCoord.W;
 		}
 		
-		// culling @TODO
+		// culling
+		if (IsCull(NDC_Coord))
+		{
+			return;
+		}
 
 		// reciprocals of w
 		for (int32 j = 0; j < 3; j++)
@@ -414,4 +418,17 @@ void Render::GetBarycentric2D(const float& XA, const float& YA, const float& XB,
 	Beta = (D11 * D20 - D01 * D21) / Denom;
 	Gamma = (D00 * D21 - D01 * D20) / Denom;
 	Alpha = 1.0f - Beta - Gamma;
+}
+
+/**
+ * this is the same as (but more efficient than)
+ *     vec3_t ab = vec3_sub(b, a);
+ *     vec3_t ac = vec3_sub(c, a);
+ *     return vec3_cross(ab, ac).z <= 0;
+ */
+bool Render::IsCull(Vec4f InNDC_Coord[3])
+{
+	return InNDC_Coord[0].X * InNDC_Coord[1].Y - InNDC_Coord[0].Y * InNDC_Coord[1].X +
+		InNDC_Coord[1].X * InNDC_Coord[2].Y - InNDC_Coord[1].Y * InNDC_Coord[2].X +
+		InNDC_Coord[2].X * InNDC_Coord[0].Y - InNDC_Coord[2].Y * InNDC_Coord[0].X <= 0;
 }

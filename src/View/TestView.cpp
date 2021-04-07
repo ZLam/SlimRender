@@ -95,6 +95,10 @@ void TestView::Draw()
 	
 	Render_Try->CleanColorBuffer();
 	Render_Try->CleanDepthBuffer();
+
+
+	float DeltaTime = App::GetInstance().GetDeltaTime();
+	
 	
 	// pixels begin
 	// Render_Try->DrawPixel(0, 0, Color::Red);
@@ -254,26 +258,48 @@ void TestView::Draw()
 
 	
 	// std::cout << "===test draw cube begin===" << std::endl;
-	float DeltaTime = App::GetInstance().GetDeltaTime();
-	CubeScaleMat.Scale(1.0f);
-	CubeRotateMat.RotateX(2.0f * DeltaTime);
-	CubeRotateMat.RotateY(6.0f * DeltaTime);
-	CubeRotateMat.RotateZ(10.0f * DeltaTime);
-	// CubeModelMat.Identity();
-	CubeModelMat = CubeRotateMat * CubeScaleMat;
+	// CubeScaleMat.Scale(1.0f);
+	// CubeRotateMat.RotateX(2.0f * DeltaTime);
+	// CubeRotateMat.RotateY(6.0f * DeltaTime);
+	// CubeRotateMat.RotateZ(10.0f * DeltaTime);
+	// // CubeModelMat.Identity();
+	// CubeModelMat = CubeRotateMat * CubeScaleMat;
+	// ShaderProgram_Try->CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
+	// ShaderProgram_Try->CurUniform->MatModel = CubeModelMat;
+	// int faceNum = CubeVertexArr.size() / 3;
+	// for (int i = 0; i < faceNum; i++)
+	// {
+	// 	Vertex* CurVertexArr[3];
+	// 	for (int j = 0; j < 3; j++)
+	// 	{
+	// 		CurVertexArr[j] = &CubeVertexArr[i * 3 + j];
+	// 	}
+	// 	Render_Try->DrawTriangle(CurVertexArr, ShaderProgram_Try);
+	// }
+	// std::cout << "===test draw cube end===" << std::endl;
+
+
+
+
+	// std::cout << "===test draw plane begin===" << std::endl;
+	PlaneScaleMat.Scale(1.0f);
+	PlaneRotateMat.RotateX(30.0f * DeltaTime);
+	PlaneRotateMat.RotateY(30.0f * DeltaTime);
+	// PlaneRotateMat.RotateZ(10.0f * DeltaTime);
+	PlaneModelMat = PlaneRotateMat * PlaneScaleMat;
 	ShaderProgram_Try->CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
-	ShaderProgram_Try->CurUniform->MatModel = CubeModelMat;
-	int faceNum = CubeVertexArr.size() / 3;
-	for (int i = 0; i < faceNum; i++)
+	ShaderProgram_Try->CurUniform->MatModel = PlaneModelMat;
+	int FaceNum = PlaneVertexArr.size() / 3;
+	for (int i = 0; i < FaceNum; i++)
 	{
 		Vertex* CurVertexArr[3];
 		for (int j = 0; j < 3; j++)
 		{
-			CurVertexArr[j] = &CubeVertexArr[i * 3 + j];
+			CurVertexArr[j] = &PlaneVertexArr[i * 3 + j];
 		}
 		Render_Try->DrawTriangle(CurVertexArr, ShaderProgram_Try);
 	}
-	// std::cout << "===test draw cube end===" << std::endl;
+	// std::cout << "===test draw plane end===" << std::endl;
 
 
 

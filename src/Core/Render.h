@@ -41,4 +41,5 @@ public:
 	Vec3f GetBarycentric2D(const Vec2f& A, const Vec2f& B, const Vec2f& C, const Vec2f& P);
 	void GetBarycentric2D(const float& XA, const float& YA, const float& XB, const float& YB, const float& XC, const float& YC,
 		const float& XP, const float& YP, float& Alpha, float& Beta, float& Gamma);
+	bool IsCull(Vec4f InNDC_Coord[3]);
 };
