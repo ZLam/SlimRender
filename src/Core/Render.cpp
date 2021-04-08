@@ -332,6 +332,14 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 			Screen_Coord[j] = CurViewport->GetViewportMat() * NDC_Coord[j];
 		}
 
+#if IS_WIREFRAME_MODE
+		// wireframe
+		for (int32 j = 0; j < 3; j++)
+		{
+			int32 Next = (j + 1) % 3;
+			DrawLine(Screen_Coord[j].X, Screen_Coord[j].Y, Screen_Coord[Next].X, Screen_Coord[Next].Y);
+		}
+#else
 		// raster
 		BoundingBox TriangleBBox;
 		GetTriangleAABB(Screen_Coord[0], Screen_Coord[1], Screen_Coord[2], TriangleBBox);
@@ -369,6 +377,7 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 				}
 			}
 		}
+#endif
 	}
 }
 

@@ -8,6 +8,8 @@
 #include "ShaderProgram.h"
 #include "Viewport.h"
 
+#define IS_WIREFRAME_MODE 0
+
 class Render
 {
 private:
