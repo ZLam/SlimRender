@@ -12,4 +12,5 @@ struct Attribute
 struct BlinnAttribute : Attribute
 {
 	Color Colour;
+	Vec2f UV;
 };

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Matrix.h"
-
-struct Material;
+#include "Material.h"
 
 struct Uniform
 {
@@ -11,11 +10,21 @@ struct Uniform
 	Matrix4 MatCameraVP;
 
 	Uniform() = default;
-	virtual ~Uniform();
+	virtual ~Uniform()
+	{
+		if (CurMaterial)
+		{
+			delete CurMaterial;
+			CurMaterial = nullptr;
+		}
+	}
 };
 
 struct BlinnUniform : Uniform
 {
-	BlinnUniform();
+	BlinnUniform()
+	{
+		CurMaterial = new BlinnMaterial();
+	}
 	virtual ~BlinnUniform() = default;
 };

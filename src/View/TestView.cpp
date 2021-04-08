@@ -25,11 +25,11 @@ BaseView(InName)
 
 TestView::~TestView()
 {
-	if (Tex)
-	{
-		SDL_DestroyTexture(Tex);
-		Tex = nullptr;
-	}
+	// if (Tex)
+	// {
+	// 	SDL_DestroyTexture(Tex);
+	// 	Tex = nullptr;
+	// }
 	if (Tex_Try)
 	{
 		SDL_DestroyTexture(Tex_Try);
@@ -56,13 +56,13 @@ bool TestView::Init()
 {
 	auto Renderer = App::GetInstance().Get_SDL_Renderer();
 	
-	Tex = SDL_CreateTexture(
-		Renderer,
-		SDL_PIXELFORMAT_RGBA32,
-		SDL_TEXTUREACCESS_TARGET,
-		static_cast<int>(TexSize.x),
-		static_cast<int>(TexSize.y)
-	);
+	// Tex = SDL_CreateTexture(
+	// 	Renderer,
+	// 	SDL_PIXELFORMAT_RGBA32,
+	// 	SDL_TEXTUREACCESS_TARGET,
+	// 	static_cast<int>(TexSize.x),
+	// 	static_cast<int>(TexSize.y)
+	// );
 
 	Render_Try = new Render(Size_Try.X, Size_Try.Y);
 	
@@ -70,6 +70,8 @@ bool TestView::Init()
 	Cam_Try->SetupProjection(ANGLE_TO_RADIAN(60.0f), (float)(Size_Try.X) / (float)(Size_Try.Y), 0.1f, 10000.0f);
 
 	ShaderProgram_Try = new BlinnShaderProgram();
+	BlinnMaterial* CurMaterial = (BlinnMaterial*)ShaderProgram_Try->CurUniform->CurMaterial;
+	CurMaterial->Tex_Diffuse = new Texture(ResFullPath("/test2.png"));
 
 	Tex_Try = SDL_CreateTexture(
 		Renderer,
@@ -86,12 +88,12 @@ void TestView::Draw()
 {
 	auto Renderer = App::GetInstance().Get_SDL_Renderer();
 	
-	SDL_SetRenderTarget(Renderer, Tex);
-	SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
-	SDL_RenderClear(Renderer);
-	SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
-	SDL_RenderDrawLine(Renderer, 10, 10, 90, 90);
-	SDL_SetRenderTarget(Renderer, nullptr);
+	// SDL_SetRenderTarget(Renderer, Tex);
+	// SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+	// SDL_RenderClear(Renderer);
+	// SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
+	// SDL_RenderDrawLine(Renderer, 10, 10, 90, 90);
+	// SDL_SetRenderTarget(Renderer, nullptr);
 	
 	Render_Try->CleanColorBuffer();
 	Render_Try->CleanDepthBuffer();
@@ -283,9 +285,12 @@ void TestView::Draw()
 
 	// std::cout << "===test draw plane begin===" << std::endl;
 	PlaneScaleMat.Scale(1.0f);
-	PlaneRotateMat.RotateX(30.0f * DeltaTime);
-	PlaneRotateMat.RotateY(30.0f * DeltaTime);
-	// PlaneRotateMat.RotateZ(10.0f * DeltaTime);
+	// PlaneRotateMat.RotateX(30.0f * DeltaTime);
+	// PlaneRotateMat.RotateY(30.0f * DeltaTime);
+	SumRotateX += 50.0f * DeltaTime;
+	float ToAngle = 60.0f * std::sin(ANGLE_TO_RADIAN(SumRotateX));
+	PlaneRotateMat.Identity();
+	PlaneRotateMat.RotateX(ToAngle);
 	PlaneModelMat = PlaneRotateMat * PlaneScaleMat;
 	ShaderProgram_Try->CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
 	ShaderProgram_Try->CurUniform->MatModel = PlaneModelMat;
@@ -315,7 +320,7 @@ void TestView::Draw()
 	
 	if (ImGui::Begin(Name.c_str()))
 	{
-		ImGui::Image(Tex, TexSize);
+		// ImGui::Image(Tex, TexSize);
 		if (ImGui::Button("Test"))
 		{
 			std::cout << "===test random begin===" << std::endl;

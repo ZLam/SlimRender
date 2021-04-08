@@ -44,11 +44,25 @@ BlinnShaderProgram::BlinnShaderProgram()
 	CurShader = new BlinnShader(this);
 }
 
-void BlinnShaderProgram::HandleInterpAttrib(Attribute* InAttribArr[3], const float& InAlpha, const float& InBeta, const float& InGamma)
+void BlinnShaderProgram::HandleInterpAttrib(Attribute* InAttribArr[3], float RecipW[3], const float& InAlpha, const float& InBeta, const float& InGamma)
 {
 	BlinnAttribute* InterpAttrib = (BlinnAttribute*)CurInterpAttrib;
 	BlinnAttribute* Attrib00 = (BlinnAttribute*)InAttribArr[0];
 	BlinnAttribute* Attrib01 = (BlinnAttribute*)InAttribArr[1];
 	BlinnAttribute* Attrib02 = (BlinnAttribute*)InAttribArr[2];
-	InterpAttrib->Colour = Attrib00->Colour * InAlpha + Attrib01->Colour * InBeta + Attrib02->Colour * InGamma;
+	BlinnUniform* MyUniform = (BlinnUniform*)CurUniform;
+	BlinnMaterial* MyMaterial = (BlinnMaterial*)MyUniform->CurMaterial;
+	float Weight00 = RecipW[0] * InAlpha;
+	float Weight01 = RecipW[1] * InBeta;
+	float Weight02 = RecipW[2] * InGamma;
+	float Normalizer = 1.0f / (Weight00 + Weight01 + Weight02);
+	
+	// InterpAttrib->Colour = (Attrib00->Colour * Weight00 + Attrib01->Colour * Weight01 + Attrib02->Colour * Weight02) * Normalizer;
+	// InterpAttrib->UV = (Attrib00->UV * Weight00 + Attrib01->UV * Weight01 + Attrib02->UV * Weight02) * Normalizer;
+	// InterpAttrib->Colour = MyMaterial->Tex_Diffuse->Sample(InterpAttrib->UV);
+
+
+	// InterpAttrib->Colour = Attrib00->Colour * InAlpha + Attrib01->Colour * InBeta + Attrib02->Colour * InGamma;
+	InterpAttrib->UV = Attrib00->UV * InAlpha + Attrib01->UV * InBeta + Attrib02->UV * InGamma;
+	InterpAttrib->Colour = MyMaterial->Tex_Diffuse->Sample(InterpAttrib->UV);
 }

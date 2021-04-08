@@ -13,8 +13,8 @@
 class TestView : public BaseView
 {
 private:
-	SDL_Texture* Tex;
-	ImVec2 TexSize = ImVec2(100.0f, 100.0f);
+	// SDL_Texture* Tex;
+	// ImVec2 TexSize = ImVec2(100.0f, 100.0f);
 
 	SDL_Texture* Tex_Try;
 	Render* Render_Try;
@@ -76,17 +76,18 @@ private:
 	Matrix4 CubeRotateMat;
 
 	std::vector<Vertex> PlaneVertexArr = {
-		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::Red),			//1
-		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::Green),		//2
-		Vertex(Vec3f(1.0f, -1.0f, 0.0f), Color::Blue),		//3
+		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::Red, Vec2f(1.0f, 1.0f)),			//1
+		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::Green, Vec2f(0.0f, 0.0f)),		//2
+		Vertex(Vec3f(1.0f, -1.0f, 0.0f), Color::Blue, Vec2f(1.0f, 0.0f)),		//3
 
-		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::Red),			//1
-		Vertex(Vec3f(-1.0f, 1.0f, 0.0f), Color::Blue),		//4
-		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::Green),		//2
+		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::Red, Vec2f(1.0f, 1.0f)),			//1
+		Vertex(Vec3f(-1.0f, 1.0f, 0.0f), Color::Blue, Vec2f(0.0f, 1.0f)),		//4
+		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::Green, Vec2f(0.0f, 0.0f)),		//2
 	};
 	Matrix4 PlaneModelMat;
 	Matrix4 PlaneScaleMat;
 	Matrix4 PlaneRotateMat;
+	float SumRotateX = 0.0f;
 	
 public:
 	TestView(const std::string& InName);

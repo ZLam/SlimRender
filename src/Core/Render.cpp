@@ -357,13 +357,13 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 					int32 Index = CurY * Width + CurX;
 					if (Depth < DepthBuffer[Index])
 					{
-						// perspective correct interpolation @TODO
-						InShaderProgram->HandleInterpAttrib(TriangleAttribArr, Alpha, Beta, Gamma);
+						// perspective correct interpolation
+						InShaderProgram->HandleInterpAttrib(TriangleAttribArr, RecipW, Alpha, Beta, Gamma);
 
 						// fragment shader
 						Color OutColor = InShaderProgram->CurShader->FragmentShader();
 
-						DrawPixel(CurX, CurY, OutColor);
+						ColorBuffer[Index] = OutColor.GetRGBA32();
 						DepthBuffer[Index] = Depth;
 					}
 				}

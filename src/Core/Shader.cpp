@@ -20,6 +20,7 @@ void BlinnShader::VertexShader(const Vertex& InVertex)
 	BlinnAttribute* CurAttribute = (BlinnAttribute*)(Program->CurAttribArr[Program->CurAttribNum++]);
 	Vec4f WorldPos = CurUniform->MatModel * InVertex.Position;
 	CurAttribute->Colour = InVertex.Colour;
+	CurAttribute->UV = InVertex.UV;
 	CurAttribute->Clip_InCoord = CurUniform->MatCameraVP * WorldPos;
 
 	CurAttribute->Clip_OutCoord = CurAttribute->Clip_InCoord;		//@TODO
