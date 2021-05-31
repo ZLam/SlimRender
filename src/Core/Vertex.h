@@ -15,6 +15,13 @@ struct Vertex
 	{
 		
 	}
+    
+    Vertex(const Vec3f& InPosition, const Vec2f& InUV) :
+    Position(InPosition),
+    UV(InUV)
+    {
+        
+    }
 
 	Vertex(const Vec3f& InPosition, const Color& InColor):
 	Position(InPosition),

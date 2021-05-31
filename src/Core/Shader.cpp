@@ -28,6 +28,10 @@ void BlinnShader::VertexShader(const Vertex& InVertex)
 
 Color BlinnShader::FragmentShader()
 {
+    BlinnUniform* CurUniform = (BlinnUniform*)Program->CurUniform;
 	BlinnAttribute* InterpAttrib = (BlinnAttribute*)Program->CurInterpAttrib;
-	return InterpAttrib->Colour;
+    BlinnMaterial* MyMaterial = (BlinnMaterial*)CurUniform->CurMaterial;
+    Color OutColor = MyMaterial->Tex_Diffuse->Sample(InterpAttrib->UV) * InterpAttrib->Colour;
+    
+	return OutColor;
 }

@@ -76,13 +76,13 @@ private:
 	Matrix4 CubeRotateMat;
 
 	std::vector<Vertex> PlaneVertexArr = {
-		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::Red, Vec2f(1.0f, 1.0f)),			//1
-		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::Green, Vec2f(0.0f, 0.0f)),		//2
-		Vertex(Vec3f(1.0f, -1.0f, 0.0f), Color::Blue, Vec2f(1.0f, 0.0f)),		//3
+		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::White, Vec2f(1.0f, 1.0f)),			//1
+		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::White, Vec2f(0.0f, 0.0f)),		//2
+		Vertex(Vec3f(1.0f, -1.0f, 0.0f), Color::White, Vec2f(1.0f, 0.0f)),		//3
 
-		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::Red, Vec2f(1.0f, 1.0f)),			//1
-		Vertex(Vec3f(-1.0f, 1.0f, 0.0f), Color::Blue, Vec2f(0.0f, 1.0f)),		//4
-		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::Green, Vec2f(0.0f, 0.0f)),		//2
+		Vertex(Vec3f(1.0f, 1.0f, 0.0f), Color::White, Vec2f(1.0f, 1.0f)),			//1
+		Vertex(Vec3f(-1.0f, 1.0f, 0.0f), Color::White, Vec2f(0.0f, 1.0f)),		//4
+		Vertex(Vec3f(-1.0f, -1.0f, 0.0f), Color::White, Vec2f(0.0f, 0.0f)),		//2
 	};
 	Matrix4 PlaneModelMat;
 	Matrix4 PlaneScaleMat;

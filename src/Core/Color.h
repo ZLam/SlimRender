@@ -112,6 +112,16 @@ struct Color
 			std::min(A * Value, 1.0f)
 		);
 	}
+    
+    Color operator * (const Color& Value) const
+    {
+        return Color(
+            std::min(R * Value.R, 1.0f),
+            std::min(G * Value.G, 1.0f),
+            std::min(B * Value.B, 1.0f),
+            std::min(A * Value.A, 1.0f)
+        );
+    }
 
 	Color& operator *= (const float& Value)
 	{
