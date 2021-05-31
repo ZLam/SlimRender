@@ -338,7 +338,7 @@ void TestView::Draw()
 			std::vector<tinyobj::material_t> ObjMatArr;
 			std::string StrWarn;
 			std::string StrErr;
-			std::string ObjFilePath = "D:/Workspace_HDD/Cpp/SlimRender/res/cube.obj";
+			std::string ObjFilePath = ResFullPath("/cube.obj");
 			bool bLoadObj = tinyobj::LoadObj(&ObjAttrib, &ObjShapeArr, &ObjMatArr, &StrWarn, &StrErr, ObjFilePath.c_str());
 			if (!StrWarn.empty())
 			{
@@ -380,7 +380,7 @@ void TestView::Draw()
 
 
 			std::cout << "===test load img begin===" << std::endl;
-			std::string ImgFilePath = "D:/Workspace_HDD/Cpp/SlimRender/res/test.png";
+			std::string ImgFilePath = ResFullPath("/test.png");
 			int ImgWidth = 0;
 			int ImgHeight = 0;
 			int NumChannels = 0;

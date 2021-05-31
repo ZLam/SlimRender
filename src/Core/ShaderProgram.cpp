@@ -57,12 +57,13 @@ void BlinnShaderProgram::HandleInterpAttrib(Attribute* InAttribArr[3], float Rec
 	float Weight02 = RecipW[2] * InGamma;
 	float Normalizer = 1.0f / (Weight00 + Weight01 + Weight02);
 	
-	// InterpAttrib->Colour = (Attrib00->Colour * Weight00 + Attrib01->Colour * Weight01 + Attrib02->Colour * Weight02) * Normalizer;
-	// InterpAttrib->UV = (Attrib00->UV * Weight00 + Attrib01->UV * Weight01 + Attrib02->UV * Weight02) * Normalizer;
-	// InterpAttrib->Colour = MyMaterial->Tex_Diffuse->Sample(InterpAttrib->UV);
+    // 透视正确
+    InterpAttrib->Colour = (Attrib00->Colour * Weight00 + Attrib01->Colour * Weight01 + Attrib02->Colour * Weight02) * Normalizer;
+    InterpAttrib->UV = (Attrib00->UV * Weight00 + Attrib01->UV * Weight01 + Attrib02->UV * Weight02) * Normalizer;
+    InterpAttrib->Colour = MyMaterial->Tex_Diffuse->Sample(InterpAttrib->UV);
 
-
-	// InterpAttrib->Colour = Attrib00->Colour * InAlpha + Attrib01->Colour * InBeta + Attrib02->Colour * InGamma;
-	InterpAttrib->UV = Attrib00->UV * InAlpha + Attrib01->UV * InBeta + Attrib02->UV * InGamma;
-	InterpAttrib->Colour = MyMaterial->Tex_Diffuse->Sample(InterpAttrib->UV);
+    // 透视错误
+    //InterpAttrib->Colour = Attrib00->Colour * InAlpha + Attrib01->Colour * InBeta + Attrib02->Colour * InGamma;
+	//InterpAttrib->UV = Attrib00->UV * InAlpha + Attrib01->UV * InBeta + Attrib02->UV * InGamma;
+	//InterpAttrib->Colour = MyMaterial->Tex_Diffuse->Sample(InterpAttrib->UV);
 }

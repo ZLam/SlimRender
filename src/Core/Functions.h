@@ -25,15 +25,15 @@ static std::string GetProjectDir()
 #ifdef __WIN32__
 	Ret = CurPath.parent_path().parent_path().parent_path().generic_string();
 #elif __APPLE__
+    Ret = CurPath.generic_string();
 #endif
 	return Ret;
 }
 
 static std::string GetResDir()
 {
-	std::filesystem::path Ret(GetProjectDir());
-	Ret.append("res");
-	return Ret.generic_string();
+	auto ProjectDir = GetProjectDir();
+	return ProjectDir.append("/res");
 }
 
 static std::string ResFullPath(const std::string& InFilePath)

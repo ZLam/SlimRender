@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E3E14352664CAF600792C7B /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E142A2664CAF600792C7B /* Material.cpp */; };
+		7E3E14362664CAF600792C7B /* Attribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E142C2664CAF600792C7B /* Attribute.cpp */; };
+		7E3E14372664CAF600792C7B /* BoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E142D2664CAF600792C7B /* BoundingBox.cpp */; };
+		7E3E14382664CAF600792C7B /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E142E2664CAF600792C7B /* Shader.cpp */; };
+		7E3E14392664CAF600792C7B /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E14302664CAF600792C7B /* ShaderProgram.cpp */; };
+		7E3E143A2664CAF600792C7B /* Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E14312664CAF600792C7B /* Uniform.cpp */; };
+		7E3E14452664D29900792C7B /* african_head.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3E143C2664D0B300792C7B /* african_head.obj */; };
+		7E3E14462664D29900792C7B /* cube.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3E143D2664D0B300792C7B /* cube.obj */; };
+		7E3E14472664D29900792C7B /* test2.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3E143E2664D0B300792C7B /* test2.png */; };
+		7E3E14482664D29900792C7B /* test.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7E3E143F2664D0B300792C7B /* test.png */; };
 		7E56871026079CB80058C5B2 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56870726079CB80058C5B2 /* Camera.cpp */; };
 		7E56871126079CB80058C5B2 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56870926079CB80058C5B2 /* Color.cpp */; };
 		7E56871226079CB80058C5B2 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E56870A26079CB80058C5B2 /* Viewport.cpp */; };
@@ -36,10 +46,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7E3E14442664D26E00792C7B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = res;
+			dstSubfolderSpec = 7;
+			files = (
+				7E3E14452664D29900792C7B /* african_head.obj in CopyFiles */,
+				7E3E14462664D29900792C7B /* cube.obj in CopyFiles */,
+				7E3E14472664D29900792C7B /* test2.png in CopyFiles */,
+				7E3E14482664D29900792C7B /* test.png in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7EA4DCEF25B9D22800D1440E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			dstPath = /usr/share/man/man1;
 			dstSubfolderSpec = 0;
 			files = (
 			);
@@ -48,6 +71,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7E3E14292664CAF500792C7B /* Uniform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uniform.h; sourceTree = "<group>"; };
+		7E3E142A2664CAF600792C7B /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
+		7E3E142B2664CAF600792C7B /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
+		7E3E142C2664CAF600792C7B /* Attribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Attribute.cpp; sourceTree = "<group>"; };
+		7E3E142D2664CAF600792C7B /* BoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundingBox.cpp; sourceTree = "<group>"; };
+		7E3E142E2664CAF600792C7B /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		7E3E142F2664CAF600792C7B /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
+		7E3E14302664CAF600792C7B /* ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
+		7E3E14312664CAF600792C7B /* Uniform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Uniform.cpp; sourceTree = "<group>"; };
+		7E3E14322664CAF600792C7B /* BoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBox.h; sourceTree = "<group>"; };
+		7E3E14332664CAF600792C7B /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		7E3E14342664CAF600792C7B /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
+		7E3E143C2664D0B300792C7B /* african_head.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = african_head.obj; sourceTree = "<group>"; };
+		7E3E143D2664D0B300792C7B /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		7E3E143E2664D0B300792C7B /* test2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test2.png; sourceTree = "<group>"; };
+		7E3E143F2664D0B300792C7B /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
 		7E56870426079CB80058C5B2 /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Viewport.h; sourceTree = "<group>"; };
 		7E56870526079CB80058C5B2 /* RandomHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomHelper.h; sourceTree = "<group>"; };
 		7E56870626079CB80058C5B2 /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
@@ -119,9 +158,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7E3E143B2664D0B300792C7B /* res */ = {
+			isa = PBXGroup;
+			children = (
+				7E3E143C2664D0B300792C7B /* african_head.obj */,
+				7E3E143D2664D0B300792C7B /* cube.obj */,
+				7E3E143E2664D0B300792C7B /* test2.png */,
+				7E3E143F2664D0B300792C7B /* test.png */,
+			);
+			name = res;
+			path = ../../../res;
+			sourceTree = "<group>";
+		};
 		7EA4DCE825B9D22800D1440E = {
 			isa = PBXGroup;
 			children = (
+				7E3E143B2664D0B300792C7B /* res */,
 				7EA4DCFB25B9D25700D1440E /* src */,
 				7EA4DCF225B9D22800D1440E /* Products */,
 				7EA4DD3725B9D29200D1440E /* Frameworks */,
@@ -153,6 +205,18 @@
 		7EA4DCFC25B9D25700D1440E /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7E3E142C2664CAF600792C7B /* Attribute.cpp */,
+				7E3E14342664CAF600792C7B /* Attribute.h */,
+				7E3E142D2664CAF600792C7B /* BoundingBox.cpp */,
+				7E3E14322664CAF600792C7B /* BoundingBox.h */,
+				7E3E142A2664CAF600792C7B /* Material.cpp */,
+				7E3E142B2664CAF600792C7B /* Material.h */,
+				7E3E142E2664CAF600792C7B /* Shader.cpp */,
+				7E3E14332664CAF600792C7B /* Shader.h */,
+				7E3E14302664CAF600792C7B /* ShaderProgram.cpp */,
+				7E3E142F2664CAF600792C7B /* ShaderProgram.h */,
+				7E3E14312664CAF600792C7B /* Uniform.cpp */,
+				7E3E14292664CAF500792C7B /* Uniform.h */,
 				7EF51C022610C77D00444D63 /* Texture.cpp */,
 				7EF51C032610C77D00444D63 /* Texture.h */,
 				7EF51C042610C77D00444D63 /* Vertex.h */,
@@ -273,6 +337,7 @@
 				7EA4DCED25B9D22800D1440E /* Sources */,
 				7EA4DCEE25B9D22800D1440E /* Frameworks */,
 				7EA4DCEF25B9D22800D1440E /* CopyFiles */,
+				7E3E14442664D26E00792C7B /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -332,17 +397,23 @@
 				7EA4DD3625B9D25700D1440E /* main.cpp in Sources */,
 				7EA4DD2D25B9D25700D1440E /* imgui_impl_opengl3.cpp in Sources */,
 				7E56871326079CB80058C5B2 /* RandomHelper.cpp in Sources */,
+				7E3E143A2664CAF600792C7B /* Uniform.cpp in Sources */,
 				7EA4DD2625B9D25700D1440E /* Render.cpp in Sources */,
 				7EA4DD3125B9D25700D1440E /* imgui_impl_sdl.cpp in Sources */,
+				7E3E14352664CAF600792C7B /* Material.cpp in Sources */,
+				7E3E14382664CAF600792C7B /* Shader.cpp in Sources */,
+				7E3E14372664CAF600792C7B /* BoundingBox.cpp in Sources */,
 				7E5687192607A0C00058C5B2 /* Vector.cpp in Sources */,
 				7EF51C052610C77D00444D63 /* Texture.cpp in Sources */,
 				7EA4DD3525B9D25700D1440E /* TestView.cpp in Sources */,
 				7EA4DD3025B9D25700D1440E /* imgui_demo.cpp in Sources */,
+				7E3E14392664CAF600792C7B /* ShaderProgram.cpp in Sources */,
 				7EA4DD2E25B9D25700D1440E /* imgui_tables.cpp in Sources */,
 				7EA4DD2725B9D25700D1440E /* Types.cpp in Sources */,
 				7EA4DD2925B9D25700D1440E /* BaseView.cpp in Sources */,
 				7EA4DD2C25B9D25700D1440E /* imgui.cpp in Sources */,
 				7EA4DD2A25B9D25700D1440E /* App.cpp in Sources */,
+				7E3E14362664CAF600792C7B /* Attribute.cpp in Sources */,
 				7EA4DD3325B9D25700D1440E /* glad.c in Sources */,
 				7E56871126079CB80058C5B2 /* Color.cpp in Sources */,
 			);
