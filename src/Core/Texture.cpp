@@ -20,7 +20,8 @@ bool Texture::LoadFromFile(const std::string& InFilePath)
 		return false;
 	}
     Data.reserve(Width * Height);
-	for (int Row = 0; Row < Height; Row++)
+    //for (int Row = 0; Row < Height; Row++)
+    for (int Row = Height - 1; Row >= 0; Row--)     // (0, 0) start in left down
 	{
 		for (int Col = 0; Col < Width; Col++)
 		{

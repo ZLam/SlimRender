@@ -9,6 +9,7 @@
 #include "Core/Camera.h"
 #include "Core/Vertex.h"
 #include "Core/ShaderProgram.h"
+#include "Core/Mesh.h"
 
 class TestView : public BaseView
 {
@@ -87,7 +88,15 @@ private:
 	Matrix4 PlaneModelMat;
 	Matrix4 PlaneScaleMat;
 	Matrix4 PlaneRotateMat;
-	float SumRotateX = 0.0f;
+	float SumRotateX_Plane = 0.0f;
+    
+
+    Mesh* TestMesh;
+    Matrix4 TestMeshModelMat;
+    Matrix4 TestMeshScaleMat;
+    Matrix4 TestMeshRotateMat;
+    float SumRotateX_TestMesh = 0.0f;
+    
 	
 public:
 	TestView(const std::string& InName);

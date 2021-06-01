@@ -331,53 +331,56 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 		{
 			Screen_Coord[j] = CurViewport->GetViewportMat() * NDC_Coord[j];
 		}
+        
+        if (bWireframeMode)
+        {
+            // wireframe
+            for (int32 j = 0; j < 3; j++)
+            {
+                int32 Next = (j + 1) % 3;
+                DrawLine(Screen_Coord[j].X, Screen_Coord[j].Y, Screen_Coord[Next].X, Screen_Coord[Next].Y);
+            }
+        }
+        else
+        {
+            // raster
+            BoundingBox TriangleBBox;
+            GetTriangleAABB(Screen_Coord[0], Screen_Coord[1], Screen_Coord[2], TriangleBBox);
+            int32 PixelMinX = std::max((int32)std::floor(TriangleBBox.MinX), 0);
+            int32 PixelMinY = std::max((int32)std::floor(TriangleBBox.MinY), 0);
+            int32 PixelMaxX = std::min((int32)std::ceil(TriangleBBox.MaxX), Width - 1);
+            int32 PixelMaxY = std::min((int32)std::ceil(TriangleBBox.MaxY), Height - 1);
+            for (int32 CurY = PixelMinY; CurY <= PixelMaxY; CurY++)
+            {
+                for (int32 CurX = PixelMinX; CurX <= PixelMaxX; CurX++)
+                {
+                    float Alpha, Beta, Gamma;
+                    GetBarycentric2D(		// 计算重心坐标
+                        Screen_Coord[0].X, Screen_Coord[0].Y,
+                        Screen_Coord[1].X, Screen_Coord[1].Y,
+                        Screen_Coord[2].X, Screen_Coord[2].Y,
+                        CurX + 0.5f, CurY + 0.5f,
+                        Alpha, Beta, Gamma
+                    );
+                    if (Alpha > -EPSILON_EX && Beta > -EPSILON_EX && Gamma > -EPSILON_EX)		// 判断是否在三角形内
+                    {
+                        float Depth = Screen_Coord[0].Z * Alpha + Screen_Coord[1].Z * Beta + Screen_Coord[2].Z * Gamma;		// z-buffer
+                        int32 Index = CurY * Width + CurX;
+                        if (Depth < DepthBuffer[Index])
+                        {
+                            // perspective correct interpolation
+                            InShaderProgram->HandleInterpAttrib(TriangleAttribArr, RecipW, Alpha, Beta, Gamma);
 
-#if IS_WIREFRAME_MODE
-		// wireframe
-		for (int32 j = 0; j < 3; j++)
-		{
-			int32 Next = (j + 1) % 3;
-			DrawLine(Screen_Coord[j].X, Screen_Coord[j].Y, Screen_Coord[Next].X, Screen_Coord[Next].Y);
-		}
-#else
-		// raster
-		BoundingBox TriangleBBox;
-		GetTriangleAABB(Screen_Coord[0], Screen_Coord[1], Screen_Coord[2], TriangleBBox);
-		int32 PixelMinX = std::max((int32)std::floor(TriangleBBox.MinX), 0);
-		int32 PixelMinY = std::max((int32)std::floor(TriangleBBox.MinY), 0);
-		int32 PixelMaxX = std::min((int32)std::ceil(TriangleBBox.MaxX), Width - 1);
-		int32 PixelMaxY = std::min((int32)std::ceil(TriangleBBox.MaxY), Height - 1);
-		for (int32 CurY = PixelMinY; CurY <= PixelMaxY; CurY++)
-		{
-			for (int32 CurX = PixelMinX; CurX <= PixelMaxX; CurX++)
-			{
-				float Alpha, Beta, Gamma;
-				GetBarycentric2D(		// 计算重心坐标
-					Screen_Coord[0].X, Screen_Coord[0].Y,
-					Screen_Coord[1].X, Screen_Coord[1].Y,
-					Screen_Coord[2].X, Screen_Coord[2].Y,
-					CurX + 0.5f, CurY + 0.5f,
-					Alpha, Beta, Gamma
-				);
-				if (Alpha > -EPSILON_EX && Beta > -EPSILON_EX && Gamma > -EPSILON_EX)		// 判断是否在三角形内
-				{
-					float Depth = Screen_Coord[0].Z * Alpha + Screen_Coord[1].Z * Beta + Screen_Coord[2].Z * Gamma;		// z-buffer
-					int32 Index = CurY * Width + CurX;
-					if (Depth < DepthBuffer[Index])
-					{
-						// perspective correct interpolation
-						InShaderProgram->HandleInterpAttrib(TriangleAttribArr, RecipW, Alpha, Beta, Gamma);
+                            // fragment shader
+                            Color OutColor = InShaderProgram->CurShader->FragmentShader();
 
-						// fragment shader
-						Color OutColor = InShaderProgram->CurShader->FragmentShader();
-
-						ColorBuffer[Index] = OutColor.GetRGBA32();
-						DepthBuffer[Index] = Depth;
-					}
-				}
-			}
-		}
-#endif
+                            ColorBuffer[Index] = OutColor.GetRGBA32();
+                            DepthBuffer[Index] = Depth;
+                        }
+                    }
+                }
+            }
+        }
 	}
 }
 

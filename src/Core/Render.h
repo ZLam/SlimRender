@@ -8,8 +8,6 @@
 #include "ShaderProgram.h"
 #include "Viewport.h"
 
-#define IS_WIREFRAME_MODE 0
-
 class Render
 {
 private:
@@ -19,6 +17,7 @@ private:
 	int32 ColorBufferSize;
 	float* DepthBuffer;
 	Viewport* CurViewport;
+    bool bWireframeMode = false;
 
 public:
 	Render(const int32& InWidth, const int32& InHeight);
@@ -30,6 +29,9 @@ public:
 	int32 GetHeight() const { return Height; }
 	uint32* GetColorBuffer() const { return ColorBuffer; }
 	int32 GetColorBufferSize() const { return ColorBufferSize; }
+    
+    bool IsWireframeMode() const { return bWireframeMode; }
+    void EnableWireframeMode(bool Value) { bWireframeMode = Value; }
 
 	void CleanColorBuffer();
 	void CleanDepthBuffer();

@@ -499,4 +499,5 @@ DerivedData/
 # Custom Begin
 imgui.ini
 !/res/*
+/res/**/.DS_Store
 # Custom End

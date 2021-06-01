@@ -14,7 +14,7 @@
 // #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
-#define TINYOBJLOADER_IMPLEMENTATION
+//#define TINYOBJLOADER_IMPLEMENTATION
 #include "tinyobjloader/tiny_obj_loader.h"
 
 TestView::TestView(const std::string& InName) :
@@ -50,6 +50,11 @@ TestView::~TestView()
 		delete ShaderProgram_Try;
 		ShaderProgram_Try = nullptr;
 	}
+    if (TestMesh)
+    {
+        delete TestMesh;
+        TestMesh = nullptr;
+    }
 }
 
 bool TestView::Init()
@@ -71,7 +76,12 @@ bool TestView::Init()
 
 	ShaderProgram_Try = new BlinnShaderProgram();
 	BlinnMaterial* CurMaterial = (BlinnMaterial*)ShaderProgram_Try->CurUniform->CurMaterial;
-	CurMaterial->Tex_Diffuse = new Texture(ResFullPath("/test2.png"));
+    //
+	//CurMaterial->Tex_Diffuse = new Texture(ResFullPath("/test2.png"));
+    //
+    //
+    CurMaterial->Tex_Diffuse = new Texture(ResFullPath("/spot_texture.png"));
+    //
 
 	Tex_Try = SDL_CreateTexture(
 		Renderer,
@@ -80,6 +90,10 @@ bool TestView::Init()
 		Size_Try.X,
 		Size_Try.Y
 	);
+    
+    
+    TestMesh = new Mesh(ResFullPath("/spot_triangulated.obj"));
+    
 
 	return true;
 }
@@ -284,29 +298,55 @@ void TestView::Draw()
 
 
 	// std::cout << "===test draw plane begin===" << std::endl;
-	PlaneScaleMat.Scale(1.0f);
-	// PlaneRotateMat.RotateX(30.0f * DeltaTime);
-	// PlaneRotateMat.RotateY(30.0f * DeltaTime);
-	SumRotateX += 50.0f * DeltaTime;
-	float ToAngle = 60.0f * std::sin(ANGLE_TO_RADIAN(SumRotateX));
-	PlaneRotateMat.Identity();
-	PlaneRotateMat.RotateX(ToAngle);
-	PlaneModelMat = PlaneRotateMat * PlaneScaleMat;
-	ShaderProgram_Try->CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
-	ShaderProgram_Try->CurUniform->MatModel = PlaneModelMat;
-	int FaceNum = PlaneVertexArr.size() / 3;
-	for (int i = 0; i < FaceNum; i++)
-	{
-		Vertex* CurVertexArr[3];
-		for (int j = 0; j < 3; j++)
-		{
-			CurVertexArr[j] = &PlaneVertexArr[i * 3 + j];
-		}
-		Render_Try->DrawTriangle(CurVertexArr, ShaderProgram_Try);
-	}
+//	PlaneScaleMat.Scale(1.0f);
+//	SumRotateX_Plane += 50.0f * DeltaTime;
+//	float ToAngle = 60.0f * std::sin(ANGLE_TO_RADIAN(SumRotateX_Plane));
+//	PlaneRotateMat.Identity();
+//    PlaneRotateMat.RotateX(ToAngle);
+//	PlaneModelMat = PlaneRotateMat * PlaneScaleMat;
+//	ShaderProgram_Try->CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
+//	ShaderProgram_Try->CurUniform->MatModel = PlaneModelMat;
+//	int FaceNum = PlaneVertexArr.size() / 3;
+//	for (int i = 0; i < FaceNum; i++)
+//	{
+//		Vertex* CurVertexArr[3];
+//		for (int j = 0; j < 3; j++)
+//		{
+//			CurVertexArr[j] = &PlaneVertexArr[i * 3 + j];
+//		}
+//		Render_Try->DrawTriangle(CurVertexArr, ShaderProgram_Try);
+//	}
 	// std::cout << "===test draw plane end===" << std::endl;
 
 
+    
+    // std::cout << "===test draw mesh begin===" << std::endl;
+    TestMeshScaleMat.Identity();
+    TestMeshScaleMat.Scale(1.5f);
+    SumRotateX_TestMesh += 50.0f * DeltaTime;
+    float ToAngle = 120.0f * std::sin(ANGLE_TO_RADIAN(SumRotateX_TestMesh));
+    TestMeshRotateMat.Identity();
+    TestMeshRotateMat.RotateX(180);
+    TestMeshRotateMat.RotateY(ToAngle);
+    TestMeshModelMat = TestMeshRotateMat * TestMeshScaleMat;
+    ShaderProgram_Try->CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
+    ShaderProgram_Try->CurUniform->MatModel = TestMeshModelMat;
+    auto& VertexArr = TestMesh->GetVertex();
+    int FaceNum = VertexArr.size() / 3;
+    for (int i = 0; i < FaceNum; i++)
+    {
+        Vertex* CurVertexArr[3];
+        for (int j = 0; j < 3; j++)
+        {
+            CurVertexArr[j] = &VertexArr[i * 3 + j];
+        }
+        Render_Try->DrawTriangle(CurVertexArr, ShaderProgram_Try);
+    }
+    // std::cout << "===test draw mesh end===" << std::endl;
+    
+    
+    
+    
 
 	
 	void* Pixels = nullptr;
@@ -441,6 +481,12 @@ void TestView::Draw()
 			std::cout << C5 << std::endl;
 			std::cout << "===test texture end===" << std::endl;
 			
+            
+            
+            std::cout << "===test mesh begin===" << std::endl;
+            Mesh testMesh(ResFullPath("/cube.obj"));
+            std::cout << "===test mesh end===" << std::endl;
+            
 
 			
 			std::cout << "===test misc begin===" << std::endl;
@@ -468,6 +514,11 @@ void TestView::Draw()
 			std::cout << std::tan(45) << std::endl;
 			std::cout << "===test misc end===" << std::endl;
 		}
+        
+        if (ImGui::Button("toggle wireframe"))
+        {
+            Render_Try->EnableWireframeMode(!Render_Try->IsWireframeMode());
+        }
 	}
 	ImGui::End();
 	
