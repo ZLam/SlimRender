@@ -47,12 +47,15 @@ bool Mesh::LoadMesh(const std::string& InFilePath)
                 tinyobj::real_t vz = ObjAttrib.vertices[3 * IndexInfo.vertex_index + 2];
                 Vertex v(Vec3f(vx, vy, vz));
                 
-//                if (IndexInfo.normal_index >= 0)
-//                {
-//                    tinyobj::real_t nx = ObjAttrib.normals[3 * IndexInfo.normal_index + 0];
-//                    tinyobj::real_t ny = ObjAttrib.normals[3 * IndexInfo.normal_index + 1];
-//                    tinyobj::real_t nz = ObjAttrib.normals[3 * IndexInfo.normal_index + 2];
-//                }
+                if (IndexInfo.normal_index >= 0)
+                {
+                    tinyobj::real_t nx = ObjAttrib.normals[3 * IndexInfo.normal_index + 0];
+                    tinyobj::real_t ny = ObjAttrib.normals[3 * IndexInfo.normal_index + 1];
+                    tinyobj::real_t nz = ObjAttrib.normals[3 * IndexInfo.normal_index + 2];
+                    v.Normal.X = nx;
+                    v.Normal.Y = ny;
+                    v.Normal.Z = nz;
+                }
                 
                 if (IndexInfo.texcoord_index >= 0)
                 {

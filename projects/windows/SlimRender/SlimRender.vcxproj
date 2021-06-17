@@ -22,14 +22,14 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{7C3C9B32-5FA5-4A11-9A9A-D1D75E6F6E8F}</ProjectGuid>
     <RootNamespace>SlimRender</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -73,6 +73,10 @@
     <IncludePath>..\..\..\3rdParty;..\..\..\3rdParty\SDL2\include;..\..\..\src;..\..\..\src\glad;..\..\..\src\imgui;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\3rdParty;..\..\..\3rdParty\SDL2\lib\windows\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>..\..\..\3rdParty;..\..\..\3rdParty\SDL2\include;..\..\..\src;..\..\..\src\glad;..\..\..\src\imgui;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\..\3rdParty;..\..\..\3rdParty\SDL2\lib\windows\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -92,9 +96,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,13 +135,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\App.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Attribute.cpp" />
     <ClCompile Include="..\..\..\src\Core\BaseView.cpp" />
-    <ClCompile Include="..\..\..\src\Core\BoundingBox.cpp" />
     <ClCompile Include="..\..\..\src\Core\Camera.cpp" />
     <ClCompile Include="..\..\..\src\Core\Color.cpp" />
     <ClCompile Include="..\..\..\src\Core\Material.cpp" />
     <ClCompile Include="..\..\..\src\Core\Matrix.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Mesh.cpp" />
     <ClCompile Include="..\..\..\src\Core\RandomHelper.cpp" />
     <ClCompile Include="..\..\..\src\Core\Render.cpp" />
     <ClCompile Include="..\..\..\src\Core\Shader.cpp" />
@@ -168,9 +173,11 @@
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
     <ClInclude Include="..\..\..\src\Core\Color.h" />
     <ClInclude Include="..\..\..\src\Core\Functions.h" />
+    <ClInclude Include="..\..\..\src\Core\Light.h" />
     <ClInclude Include="..\..\..\src\Core\Material.h" />
     <ClInclude Include="..\..\..\src\Core\Math.h" />
     <ClInclude Include="..\..\..\src\Core\Matrix.h" />
+    <ClInclude Include="..\..\..\src\Core\Mesh.h" />
     <ClInclude Include="..\..\..\src\Core\RandomHelper.h" />
     <ClInclude Include="..\..\..\src\Core\Render.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />

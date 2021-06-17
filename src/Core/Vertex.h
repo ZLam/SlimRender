@@ -9,6 +9,7 @@ struct Vertex
 	Vec3f Position;
 	Color Colour;
 	Vec2f UV;
+	Vec3f Normal;
 
 	Vertex(const Vec3f& InPosition) :
 	Position(InPosition)
@@ -30,10 +31,26 @@ struct Vertex
 		
 	}
 
+	Vertex(const Vec3f& InPosition, const Vec3f& InNormal) :
+	Position(InPosition),
+	Normal(InNormal)
+	{
+
+	}
+
 	Vertex(const Vec3f& InPosition, const Color& InColor, const Vec2f& InUV) :
 	Position(InPosition),
 	Colour(InColor),
 	UV(InUV)
+	{
+
+	}
+
+	Vertex(const Vec3f& InPosition, const Color& InColor, const Vec2f& InUV, const Vec3f& InNormal) :
+	Position(InPosition),
+	Colour(InColor),
+	UV(InUV),
+	Normal(InNormal)
 	{
 		
 	}

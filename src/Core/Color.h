@@ -27,10 +27,10 @@ struct Color
 	}
 
 	Color(const float& InR, const float& InG, const float& InB, const float& InA = 1.0f) :
-	R(InR),
-	G(InG),
-	B(InB),
-	A(InA)
+	R(std::min(InR, 1.0f)),
+	G(std::min(InG, 1.0f)),
+	B(std::min(InB, 1.0f)),
+	A(std::min(InA, 1.0f))
 	{
 		_setupR8G8B8A8();
 	}
@@ -116,10 +116,10 @@ struct Color
     Color operator * (const Color& Value) const
     {
         return Color(
-            std::min(R * Value.R, 1.0f),
-            std::min(G * Value.G, 1.0f),
-            std::min(B * Value.B, 1.0f),
-            std::min(A * Value.A, 1.0f)
+			R * Value.R,
+			G * Value.G,
+			B * Value.B,
+			A * Value.A
         );
     }
 

@@ -75,13 +75,27 @@ bool TestView::Init()
 	Cam_Try->SetupProjection(ANGLE_TO_RADIAN(60.0f), (float)(Size_Try.X) / (float)(Size_Try.Y), 0.1f, 10000.0f);
 
 	ShaderProgram_Try = new BlinnShaderProgram();
-	BlinnMaterial* CurMaterial = (BlinnMaterial*)ShaderProgram_Try->CurUniform->CurMaterial;
+	BlinnUniform* CurUniform = (BlinnUniform*)ShaderProgram_Try->CurUniform;
+	BlinnMaterial* CurMaterial = (BlinnMaterial*)CurUniform->CurMaterial;
+	
     //
 	//CurMaterial->Tex_Diffuse = new Texture(ResFullPath("/test2.png"));
     //
     //
     CurMaterial->Tex_Diffuse = new Texture(ResFullPath("/spot_texture.png"));
     //
+
+	CurUniform->LightArr.emplace_back(
+		Vec3f(10.0f, 10.0f, 10.0f),
+		Vec3f(0.1f, 0.1f, 0.1f),
+		Vec3f(1.0f, 1.0f, 1.0f),
+		Vec3f(1.0f, 1.0f, 1.0f)
+	);
+
+	CurUniform->CameraPos = Cam_Try->GetPosition();
+
+	// TestMesh = new Mesh(ResFullPath("/spot_triangulated.obj"));
+	TestMesh = new Mesh(ResFullPath("/spot_triangulated_good.obj"));
 
 	Tex_Try = SDL_CreateTexture(
 		Renderer,
@@ -90,11 +104,7 @@ bool TestView::Init()
 		Size_Try.X,
 		Size_Try.Y
 	);
-    
-    
-    TestMesh = new Mesh(ResFullPath("/spot_triangulated.obj"));
-    
-
+	
 	return true;
 }
 
@@ -319,32 +329,35 @@ void TestView::Draw()
 	// std::cout << "===test draw plane end===" << std::endl;
 
 
-    
+
+
+
+
+
     // std::cout << "===test draw mesh begin===" << std::endl;
-    TestMeshScaleMat.Identity();
-    TestMeshScaleMat.Scale(1.5f);
-    SumRotateX_TestMesh += 50.0f * DeltaTime;
-    float ToAngle = 120.0f * std::sin(ANGLE_TO_RADIAN(SumRotateX_TestMesh));
-    TestMeshRotateMat.Identity();
-    TestMeshRotateMat.RotateX(180);
-    TestMeshRotateMat.RotateY(ToAngle);
-    TestMeshModelMat = TestMeshRotateMat * TestMeshScaleMat;
-    ShaderProgram_Try->CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
-    ShaderProgram_Try->CurUniform->MatModel = TestMeshModelMat;
-    auto& VertexArr = TestMesh->GetVertex();
-    int FaceNum = VertexArr.size() / 3;
-    for (int i = 0; i < FaceNum; i++)
-    {
-        Vertex* CurVertexArr[3];
-        for (int j = 0; j < 3; j++)
-        {
-            CurVertexArr[j] = &VertexArr[i * 3 + j];
-        }
-        Render_Try->DrawTriangle(CurVertexArr, ShaderProgram_Try);
-    }
+	TestMeshScaleMat.Identity();
+	TestMeshScaleMat.Scale(1.5f);
+	SumRotateX_TestMesh += 50.0f * DeltaTime;
+	float ToAngle = 120.0f * std::sin(ANGLE_TO_RADIAN(SumRotateX_TestMesh));
+	TestMeshRotateMat.Identity();
+	// TestMeshRotateMat.RotateX(180);
+	TestMeshRotateMat.RotateY(180.0f);
+	TestMeshRotateMat.RotateY(ToAngle);
+	TestMeshModelMat = TestMeshRotateMat * TestMeshScaleMat;
+	BlinnUniform* CurUniform = (BlinnUniform*)ShaderProgram_Try->CurUniform;
+	CurUniform->MatCameraVP = Cam_Try->GetProjMat() * Cam_Try->GetViewMat();
+	CurUniform->MatModel = TestMeshModelMat;
+	Matrix3 MatNormal = TestMeshModelMat;
+	CurUniform->MatNormal = MatNormal.Invert().Transpose();
+	Render_Try->DrawMesh(TestMesh, ShaderProgram_Try);
     // std::cout << "===test draw mesh end===" << std::endl;
     
-    
+
+
+
+
+
+	
     
     
 

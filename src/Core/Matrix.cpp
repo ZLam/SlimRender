@@ -92,6 +92,15 @@ float Matrix2::GetAngle() const
 
 
 
+Matrix3::Matrix3(const Matrix4& InMat4)
+{
+	Set(
+		InMat4.m[0], InMat4.m[1], InMat4[2],
+		InMat4.m[4], InMat4.m[5], InMat4[6],
+		InMat4.m[8], InMat4.m[9], InMat4[10]
+	);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // transpose 3x3 matrix
 ///////////////////////////////////////////////////////////////////////////////
@@ -103,8 +112,6 @@ Matrix3& Matrix3::Transpose()
 
 	return *this;
 }
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // return determinant of 3x3 matrix

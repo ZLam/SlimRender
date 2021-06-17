@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Vector.h"
 #include "Vertex.h"
 #include "Color.h"
 

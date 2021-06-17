@@ -25,7 +25,7 @@ public:
 	
 	Shader* CurShader = nullptr;
 	Uniform* CurUniform = nullptr;
-	std::vector<Attribute*> CurAttribArr{ MAX_ATTRIBUTE_NUM, nullptr };		// 暂时默认10 @TODO
+	std::vector<Attribute*> CurAttribArr{ MAX_ATTRIBUTE_NUM, nullptr };		// 暂时默认10 @TODO handle clip
 	int32 CurAttribNum = 0;
 	Attribute* CurInterpAttrib = nullptr;
 };

@@ -37,4 +37,9 @@ public:
     void LookAt(const Vec3f& InSelfPos, const Vec3f& InTargetPos, const Vec3f& InWorldUp = Vec3f::Up);
 
 	void SetupProjection(const float& InFovY, const float& InAspect, const float& InNear, const float& InFar);
+
+	Vec3f GetPosition() const
+	{
+		return SelfPos;
+	}
 };

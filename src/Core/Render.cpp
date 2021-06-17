@@ -293,7 +293,7 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 		InShaderProgram->CurShader->VertexShader((*VertexArr)[i]);
 	}
 	
-	// clipping @TODO
+	// clipping @TODO handle clip
 
 	// assembly
 	int32 CurAttribNum = InShaderProgram->CurAttribNum;
@@ -304,7 +304,8 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 		Vec4f NDC_Coord[3];
 		Vec4f Screen_Coord[3];
 		float RecipW[3];
-		TriangleAttribArr[0] = CurAttribArr[i];
+		
+		TriangleAttribArr[0] = CurAttribArr[0];
 		TriangleAttribArr[1] = CurAttribArr[i + 1];
 		TriangleAttribArr[2] = CurAttribArr[i + 2];
 
@@ -365,7 +366,8 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
                     if (Alpha > -EPSILON_EX && Beta > -EPSILON_EX && Gamma > -EPSILON_EX)		// 判断是否在三角形内
                     {
                         float Depth = Screen_Coord[0].Z * Alpha + Screen_Coord[1].Z * Beta + Screen_Coord[2].Z * Gamma;		// z-buffer
-                        int32 Index = CurY * Width + CurX;
+                        // int32 Index = CurY * Width + CurX;
+						int32 Index = (Height - 1 - CurY) * Width + CurX;			// 上下反转一下，就是从左下画到右上
                         if (Depth < DepthBuffer[Index])
                         {
                             // perspective correct interpolation
@@ -373,7 +375,7 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
 
                             // fragment shader
                             Color OutColor = InShaderProgram->CurShader->FragmentShader();
-
+                        	
                             ColorBuffer[Index] = OutColor.GetRGBA32();
                             DepthBuffer[Index] = Depth;
                         }
@@ -381,6 +383,21 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
                 }
             }
         }
+	}
+}
+
+void Render::DrawMesh(Mesh* InMesh, ShaderProgram* InShaderProgram)
+{
+	auto& VertexArr = InMesh->GetVertex();
+	int FaceNum = VertexArr.size() / 3;
+	Vertex* CurVertexArr[3];
+	for (int i = 0; i < FaceNum; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			CurVertexArr[j] = &VertexArr[i * 3 + j];
+		}
+		DrawTriangle(CurVertexArr, InShaderProgram);
 	}
 }
 

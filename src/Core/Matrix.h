@@ -93,6 +93,7 @@ struct Matrix3
 	Matrix3(float m0, float m1, float m2,           // 1st column
 			float m3, float m4, float m5,           // 2nd column
 			float m6, float m7, float m8);          // 3rd column
+	Matrix3(const struct Matrix4& InMat4);
 
 	void        Set(const float src[9]);
 	void        Set(float m0, float m1, float m2,   // 1st column

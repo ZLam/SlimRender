@@ -7,6 +7,7 @@
 #include "BoundingBox.h"
 #include "ShaderProgram.h"
 #include "Viewport.h"
+#include "Mesh.h"
 
 class Render
 {
@@ -40,6 +41,7 @@ public:
 	void DrawLine(int32 InX1, int32 InY1, int32 InX2, int32 InY2, const Color& InColor = Color::White);
 	void DrawTriangle_OldSchool(Vec2i V1, Vec2i V2, Vec2i V3, const Color& InColor = Color::White);
 	void DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram);
+	void DrawMesh(Mesh* InMesh, ShaderProgram* InShaderProgram);
 
 	void GetTriangleAABB(const Vec4f& A, const Vec4f& B, const Vec4f& C, BoundingBox& InBoundingBox);
 	Vec3f GetBarycentric2D(const Vec2f& A, const Vec2f& B, const Vec2f& C, const Vec2f& P);

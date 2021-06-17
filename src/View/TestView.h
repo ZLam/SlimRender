@@ -96,6 +96,7 @@ private:
     Matrix4 TestMeshScaleMat;
     Matrix4 TestMeshRotateMat;
     float SumRotateX_TestMesh = 0.0f;
+	
     
 	
 public:

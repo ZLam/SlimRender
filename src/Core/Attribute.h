@@ -13,4 +13,6 @@ struct BlinnAttribute : Attribute
 {
 	Color Colour;
 	Vec2f UV;
+	Vec3f Normal;
+	Vec3f WorldPos;
 };
