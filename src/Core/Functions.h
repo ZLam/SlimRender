@@ -2,6 +2,16 @@
 
 #include <bitset>
 #include <filesystem>
+
+#ifdef __WIN32__
+#include <windows.h>
+#elif __linux__
+#include <sstream>
+#include <unistd.h>
+#elif __APPLE__
+#include <mach-o/dyld.h>
+#endif
+
 #include "Types.h"
 
 static std::string Float2BinStr(float Value)
@@ -18,22 +28,45 @@ static std::string Double2BinStr(double Value)
 	return std::bitset<sizeof(double) * 8>(t).to_string();
 }
 
-static std::string GetProjectDir()
+static std::string GetExecDir()
 {
-	std::string Ret = "";
-	auto CurPath = std::filesystem::current_path();
+	unsigned int bufferSize = 512;
+	std::vector<char> buffer(bufferSize + 1);
+	
 #ifdef __WIN32__
-	Ret = CurPath.parent_path().parent_path().parent_path().generic_string();
+	::GetModuleFileName(NULL, &buffer[0], bufferSize);
+#elif __linux__
+	// Get the process ID.
+	int pid = getpid();
+
+	// Construct a path to the symbolic link pointing to the process executable.
+	// This is at /proc/<pid>/exe on Linux systems (we hope).
+	std::ostringstream oss;
+	oss << "/proc/" << pid << "/exe";
+	std::string link = oss.str();
+
+	// Read the contents of the link.
+	int count = readlink(link.c_str(), &buffer[0], bufferSize);
+	if (count == -1) throw std::runtime_error("Could not read symbolic link");
+	buffer[count] = '\0';
 #elif __APPLE__
-    Ret = CurPath.generic_string();
+	if (_NSGetExecutablePath(&buffer[0], &bufferSize))
+	{
+		buffer.resize(bufferSize);
+		_NSGetExecutablePath(&buffer[0], &bufferSize);
+	}
 #endif
-	return Ret;
+	
+	std::filesystem::path p = &buffer[0];
+	p.remove_filename();
+	
+	return p.generic_string();
 }
 
 static std::string GetResDir()
 {
-	auto ProjectDir = GetProjectDir();
-	return ProjectDir.append("/res");
+	auto ProjectDir = GetExecDir();
+	return ProjectDir.append("res/");
 }
 
 static std::string ResFullPath(const std::string& InFilePath)

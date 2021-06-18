@@ -82,7 +82,7 @@ bool TestView::Init()
 	//CurMaterial->Tex_Diffuse = new Texture(ResFullPath("/test2.png"));
     //
     //
-    CurMaterial->Tex_Diffuse = new Texture(ResFullPath("/spot_texture.png"));
+    CurMaterial->Tex_Diffuse = new Texture(ResFullPath("spot_texture.png"));
     //
 
 	CurUniform->LightArr.emplace_back(
@@ -95,7 +95,7 @@ bool TestView::Init()
 	CurUniform->CameraPos = Cam_Try->GetPosition();
 
 	// TestMesh = new Mesh(ResFullPath("/spot_triangulated.obj"));
-	TestMesh = new Mesh(ResFullPath("/spot_triangulated_good.obj"));
+	TestMesh = new Mesh(ResFullPath("spot_triangulated_good.obj"));
 
 	Tex_Try = SDL_CreateTexture(
 		Renderer,
@@ -391,7 +391,7 @@ void TestView::Draw()
 			std::vector<tinyobj::material_t> ObjMatArr;
 			std::string StrWarn;
 			std::string StrErr;
-			std::string ObjFilePath = ResFullPath("/cube.obj");
+			std::string ObjFilePath = ResFullPath("cube.obj");
 			bool bLoadObj = tinyobj::LoadObj(&ObjAttrib, &ObjShapeArr, &ObjMatArr, &StrWarn, &StrErr, ObjFilePath.c_str());
 			if (!StrWarn.empty())
 			{
@@ -433,7 +433,7 @@ void TestView::Draw()
 
 
 			std::cout << "===test load img begin===" << std::endl;
-			std::string ImgFilePath = ResFullPath("/test.png");
+			std::string ImgFilePath = ResFullPath("test.png");
 			int ImgWidth = 0;
 			int ImgHeight = 0;
 			int NumChannels = 0;
@@ -472,15 +472,15 @@ void TestView::Draw()
             std::cout << p3 << std::endl;
 			std::cout << p.string() << std::endl;
 			std::cout << p.generic_string() << std::endl;
-			std::cout << GetProjectDir() << std::endl;
+			std::cout << GetExecDir() << std::endl;
 			std::cout << GetResDir() << std::endl;
-			std::cout << ResFullPath("/test.png") << std::endl;
+			std::cout << ResFullPath("test.png") << std::endl;
 			std::cout << "===test filesystem end===" << std::endl;
 
 
 
 			std::cout << "===test texture begin===" << std::endl;
-			std::string TexFilePath = ResFullPath("/test.png");
+			std::string TexFilePath = ResFullPath("test.png");
 			auto Tex01 = Texture(TexFilePath);
 			auto C1 = Tex01.Sample(Vec2f(0.0f, 0.0f));
 			auto C2 = Tex01.Sample(Vec2f(0.51f, 0.0f));
@@ -497,7 +497,7 @@ void TestView::Draw()
             
             
             std::cout << "===test mesh begin===" << std::endl;
-            Mesh testMesh(ResFullPath("/cube.obj"));
+            Mesh testMesh(ResFullPath("cube.obj"));
             std::cout << "===test mesh end===" << std::endl;
             
 
