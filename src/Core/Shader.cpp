@@ -47,7 +47,9 @@ Color BlinnShader::FragmentShader()
 
 	// 显示光照
 	Vec3f Result;
-	Vec3f TexDiffuse(1.0f, 0.5f, 0.0f);
+//	Vec3f TexDiffuse(1.0f, 0.5f, 0.0f);
+    Color TexDiffuseColor = MyMaterial->Tex_Diffuse->Sample(InterpAttrib->UV);
+    Vec3f TexDiffuse(TexDiffuseColor.R, TexDiffuseColor.G, TexDiffuseColor.B);
 	Vec3f CameraDir = (CurUniform->CameraPos - InterpAttrib->WorldPos).GetNormal();
 	for (auto& CurLight : CurUniform->LightArr)
 	{

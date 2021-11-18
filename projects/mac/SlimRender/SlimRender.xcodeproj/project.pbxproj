@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7E3E14352664CAF600792C7B /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E142A2664CAF600792C7B /* Material.cpp */; };
-		7E3E14362664CAF600792C7B /* Attribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E142C2664CAF600792C7B /* Attribute.cpp */; };
-		7E3E14372664CAF600792C7B /* BoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E142D2664CAF600792C7B /* BoundingBox.cpp */; };
 		7E3E14382664CAF600792C7B /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E142E2664CAF600792C7B /* Shader.cpp */; };
 		7E3E14392664CAF600792C7B /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E14302664CAF600792C7B /* ShaderProgram.cpp */; };
 		7E3E143A2664CAF600792C7B /* Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E14312664CAF600792C7B /* Uniform.cpp */; };
@@ -83,8 +81,6 @@
 		7E3E14292664CAF500792C7B /* Uniform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uniform.h; sourceTree = "<group>"; };
 		7E3E142A2664CAF600792C7B /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		7E3E142B2664CAF600792C7B /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
-		7E3E142C2664CAF600792C7B /* Attribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Attribute.cpp; sourceTree = "<group>"; };
-		7E3E142D2664CAF600792C7B /* BoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundingBox.cpp; sourceTree = "<group>"; };
 		7E3E142E2664CAF600792C7B /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		7E3E142F2664CAF600792C7B /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		7E3E14302664CAF600792C7B /* ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
@@ -117,6 +113,7 @@
 		7E56871526079CC30058C5B2 /* DrawLinesView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawLinesView.cpp; sourceTree = "<group>"; };
 		7E56871626079CC30058C5B2 /* DrawLinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawLinesView.h; sourceTree = "<group>"; };
 		7E5687182607A0C00058C5B2 /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
+		7E99B7AF26861D2900EAFAB0 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		7EA4DCF125B9D22800D1440E /* SlimRender */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SlimRender; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA4DCFD25B9D25700D1440E /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
 		7EA4DCFE25B9D25700D1440E /* Types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Types.cpp; sourceTree = "<group>"; };
@@ -224,11 +221,10 @@
 		7EA4DCFC25B9D25700D1440E /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7E99B7AF26861D2900EAFAB0 /* Light.h */,
 				7E3E144A26650C4300792C7B /* Mesh.cpp */,
 				7E3E144926650C4300792C7B /* Mesh.h */,
-				7E3E142C2664CAF600792C7B /* Attribute.cpp */,
 				7E3E14342664CAF600792C7B /* Attribute.h */,
-				7E3E142D2664CAF600792C7B /* BoundingBox.cpp */,
 				7E3E14322664CAF600792C7B /* BoundingBox.h */,
 				7E3E142A2664CAF600792C7B /* Material.cpp */,
 				7E3E142B2664CAF600792C7B /* Material.h */,
@@ -424,7 +420,6 @@
 				7EA4DD3125B9D25700D1440E /* imgui_impl_sdl.cpp in Sources */,
 				7E3E14352664CAF600792C7B /* Material.cpp in Sources */,
 				7E3E14382664CAF600792C7B /* Shader.cpp in Sources */,
-				7E3E14372664CAF600792C7B /* BoundingBox.cpp in Sources */,
 				7E5687192607A0C00058C5B2 /* Vector.cpp in Sources */,
 				7EF51C052610C77D00444D63 /* Texture.cpp in Sources */,
 				7EA4DD3525B9D25700D1440E /* TestView.cpp in Sources */,
@@ -435,7 +430,6 @@
 				7EA4DD2925B9D25700D1440E /* BaseView.cpp in Sources */,
 				7EA4DD2C25B9D25700D1440E /* imgui.cpp in Sources */,
 				7EA4DD2A25B9D25700D1440E /* App.cpp in Sources */,
-				7E3E14362664CAF600792C7B /* Attribute.cpp in Sources */,
 				7EA4DD3325B9D25700D1440E /* glad.c in Sources */,
 				7E56871126079CB80058C5B2 /* Color.cpp in Sources */,
 			);

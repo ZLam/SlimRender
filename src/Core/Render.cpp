@@ -339,7 +339,7 @@ void Render::DrawTriangle(Vertex** VertexArr, ShaderProgram* InShaderProgram)
             for (int32 j = 0; j < 3; j++)
             {
                 int32 Next = (j + 1) % 3;
-                DrawLine(Screen_Coord[j].X, Screen_Coord[j].Y, Screen_Coord[Next].X, Screen_Coord[Next].Y);
+                DrawLine(Screen_Coord[j].X, Height - 1 - Screen_Coord[j].Y, Screen_Coord[Next].X, Height - 1 -  Screen_Coord[Next].Y);
             }
         }
         else
