@@ -113,6 +113,7 @@
 		7E56871526079CC30058C5B2 /* DrawLinesView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawLinesView.cpp; sourceTree = "<group>"; };
 		7E56871626079CC30058C5B2 /* DrawLinesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawLinesView.h; sourceTree = "<group>"; };
 		7E5687182607A0C00058C5B2 /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
+		7E6509E027469A7000BDCA09 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../README.md; sourceTree = "<group>"; };
 		7E99B7AF26861D2900EAFAB0 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		7EA4DCF125B9D22800D1440E /* SlimRender */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SlimRender; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA4DCFD25B9D25700D1440E /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
@@ -189,6 +190,7 @@
 		7EA4DCE825B9D22800D1440E = {
 			isa = PBXGroup;
 			children = (
+				7E6509E027469A7000BDCA09 /* README.md */,
 				7E3E143B2664D0B300792C7B /* res */,
 				7EA4DCFB25B9D25700D1440E /* src */,
 				7EA4DCF225B9D22800D1440E /* Products */,
